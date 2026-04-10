@@ -9,11 +9,7 @@ import org.json.JSONArray;
 
 public class AiService {
 
-<<<<<<< HEAD
     private static final String API_KEY = System.getenv("OPENROUTER_API_KEY");
-=======
-    private static final String API_KEY = "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";
->>>>>>> main
     private static final String API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     private final HttpClient client;
