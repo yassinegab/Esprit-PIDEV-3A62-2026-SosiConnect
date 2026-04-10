@@ -72,7 +72,7 @@
                         <Label style="-fx-font-size: 12; -fx-text-fill: #64748b;" text="System Online" />
                      </children>
                   </HBox>
-                  <Button onAction="#handleLogout" prefMaxWidth="Infinity" style="-fx-background-color: #fee2e2; -fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-background-radius: 5;" text="Logout" />
+                  <Button onAction="#handleLogout" maxWidth="Infinity" style="-fx-background-color: #fee2e2; -fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-background-radius: 5;" text="Logout" />
                </children>
             </VBox>
          </children>
