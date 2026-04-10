@@ -31,6 +31,7 @@ public class WellbeingAdminController {
     @FXML private TableColumn<UserWellBeingData, Integer> colIrritable;
     @FXML private TableColumn<UserWellBeingData, Integer> colSubject;
     @FXML private TableColumn<UserWellBeingData, String> colCreated;
+    @FXML private TableColumn<UserWellBeingData, Void> colActions;
 
     private WellbeingService wellbeingService = new WellbeingService();
 
@@ -53,6 +54,31 @@ public class WellbeingAdminController {
         colIrritable.setCellValueFactory(new PropertyValueFactory<>("irritability"));
         colSubject.setCellValueFactory(new PropertyValueFactory<>("subjectConfidence"));
         colCreated.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        
+        setupActionsColumn();
+    }
+
+    private void setupActionsColumn() {
+        colActions.setCellFactory(column -> new TableCell<>() {
+            private final Button btnView = new Button("👁");
+            private final Button btnEdit = new Button("✏");
+            private final HBox container = new HBox(5, btnView, btnEdit);
+
+            {
+                btnView.setStyle("-fx-background-color: transparent; -fx-text-fill: #6366f1; -fx-cursor: hand;");
+                btnEdit.setStyle("-fx-background-color: transparent; -fx-text-fill: #10b981; -fx-cursor: hand;");
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(container);
+                }
+            }
+        });
     }
 
     private void loadData() {

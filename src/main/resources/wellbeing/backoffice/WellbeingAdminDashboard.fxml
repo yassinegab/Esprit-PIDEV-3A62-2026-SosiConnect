@@ -106,6 +106,7 @@
                       <TableColumn fx:id="colIrritable" prefWidth="70.0" text="Irritable" />
                       <TableColumn fx:id="colSubject" prefWidth="70.0" text="Subject" />
                       <TableColumn fx:id="colCreated" prefWidth="150.0" text="CreatedAt" />
+                      <TableColumn fx:id="colActions" prefWidth="100.0" text="Actions" />
                     </columns>
                   </TableView>
                </children>
