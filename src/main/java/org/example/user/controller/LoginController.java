@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import org.example.user.service.ServiceUser;
 import org.example.user.model.User;
 import org.example.home.controller.HomeController;
+import org.example.backoffice.controller.AdminBaseController;
 
 public class LoginController {
 
@@ -71,9 +72,8 @@ public class LoginController {
                 HomeController homeController = loader.getController();
                 homeController.setUser(user);
             } else {
-                // AdminBaseController could also have a setUser if needed
-                org.example.backoffice.controller.AdminBaseController adminController = loader.getController();
-                // adminController.setUser(user); // Optional: if you add this method
+                AdminBaseController adminController = loader.getController();
+                // adminController.setUser(user);
             }
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
