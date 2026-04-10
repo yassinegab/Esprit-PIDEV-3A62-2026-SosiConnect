@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.wellbeing.frontoffice.controller.WellbeingCardController"
+      spacing="10.0"
+      style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);"
+      prefWidth="320.0" maxWidth="320.0">
+
+    <HBox alignment="CENTER_LEFT" spacing="10.0">
+        <Label text="Date" style="-fx-text-fill: #94a3b8; -fx-font-weight: 700;" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="lblDate" text="2026-04-10 11:08" style="-fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+    </HBox>
+
+    <VBox spacing="5.0">
+        <ProgressBar fx:id="stressProgressBar" progress="0.6" prefWidth="Infinity" minHeight="20.0" 
+                     style="-fx-accent: #f59e0b; -fx-background-radius: 10; -fx-padding: 0;" />
+        <Label fx:id="lblStressLevel" text="Stress Level: Moderate" style="-fx-font-size: 13px; -fx-font-weight: 700; -fx-text-fill: #475569;" />
+    </VBox>
+
+    <HBox spacing="15.0" alignment="CENTER_LEFT">
+        <Button onAction="#handleEdit" style="-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 5;">
+            <graphic>
+                <HBox spacing="5" alignment="CENTER">
+                    <Label text="✎" style="-fx-font-size: 14px; -fx-text-fill: #3b82f6;" />
+                    <Label text="Edit" style="-fx-text-fill: #3b82f6; -fx-font-weight: 700;" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button onAction="#handleViewAI" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 8 15; -fx-background-radius: 8; -fx-cursor: hand;">
+            <graphic>
+                <HBox spacing="5" alignment="CENTER">
+                    <Label text="🤖" />
+                    <Label text="View AI" style="-fx-text-fill: white;" />
+                </HBox>
+            </graphic>
+        </Button>
+        <Button onAction="#handleDelete" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8; -fx-cursor: hand;">
+            <graphic>
+                <Label text="🗑" style="-fx-text-fill: white;" />
+            </graphic>
+        </Button>
+    </HBox>
+</VBox>

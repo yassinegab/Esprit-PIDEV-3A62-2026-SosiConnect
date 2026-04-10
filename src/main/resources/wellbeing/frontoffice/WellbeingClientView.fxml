@@ -9,9 +9,170 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.wellbeing.frontoffice.controller.WellbeingControllerClientController"
-            prefHeight="400.0" prefWidth="600.0">
-    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Label text="Bien-être Mental" style="-fx-font-size: 32px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
-        <Label text="Contenu du module de bien-être mental bientôt disponible." style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
-    </VBox>
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: #f4f7fa;">
+
+    <StackPane fx:id="mainContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        
+        <!-- Dashboard / List View -->
+        <VBox fx:id="dashboardView" spacing="20.0" style="-fx-padding: 30;">
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+                <Label text="Mes Données de Bien-être" style="-fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="+ Évaluer mon bien-être" onAction="#showForm" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 10 20; -fx-background-radius: 10; -fx-cursor: hand;" />
+            </HBox>
+            
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                <FlowPane fx:id="cardsContainer" hgap="20.0" vgap="20.0" style="-fx-padding: 10;" />
+            </ScrollPane>
+        </VBox>
+
+        <!-- Evaluation Form View (Initially Hidden) -->
+        <ScrollPane fx:id="formView" fitToWidth="true" visible="false" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <content>
+                <VBox alignment="TOP_CENTER" spacing="30.0" style="-fx-padding: 40;">
+                    
+                    <HBox alignment="CENTER_LEFT">
+                        <Button text="← Retour" onAction="#showDashboard" style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-padding: 8 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+                    </HBox>
+
+                    <!-- Header Section -->
+                    <VBox alignment="CENTER" spacing="10.0">
+                        <Label text="Évaluation du Bien-être" style="-fx-font-size: 36px; -fx-font-weight: 900; -fx-text-fill: #0f172a; -fx-letter-spacing: -1px;" />
+                        <Label text="Glissez les curseurs selon votre ressenti actuel. Plus vous allez vers la droite, plus le niveau est élevé." style="-fx-font-size: 16px; -fx-text-fill: #64748b;" textAlignment="CENTER" wrapText="true" maxWidth="600" />
+                    </VBox>
+
+                    <!-- Form Card -->
+                    <VBox spacing="25.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 30, 0, 0, 15);" maxWidth="700">
+                        
+                        <Label text="Indicateurs de Vie" style="-fx-font-size: 20px; -fx-font-weight: 800; -fx-text-fill: #dc3545;" />
+
+                        <GridPane hgap="30.0" vgap="35.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                            </columnConstraints>
+                            
+                            <!-- Helper Macro for Slider with Guides -->
+                            <!-- Environment Work -->
+                            <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="Environnement de travail" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldWorkEnvironment" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Calme" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Stressant" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Sleep Problems -->
+                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="Problèmes de sommeil" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldSleepProblems" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Aucun" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Sévères" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Headaches -->
+                            <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label text="Maux de tête" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldHeadaches" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Jamais" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Fréquents" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Restlessness -->
+                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label text="Agitation / Nervosité" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldRestlessness" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Zen" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Agité" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                             <!-- Heartbeat Palpitations -->
+                             <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <Label text="Palpitations cardiaques" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldHeartbeatPalpitations" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Normal" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Palpitations" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Low Academic Confidence -->
+                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Label text="Confiance académique" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldLowAcademicConfidence" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Confiant" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Incertain" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Class Attendance -->
+                            <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                <Label text="Assiduité aux cours" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldClassAttendance" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Présent" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Absentéisme" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Anxiety Tension -->
+                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                <Label text="Tension anxieuse" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldAnxietyTension" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Relâché" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Tendu" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Irritability -->
+                            <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                <Label text="Irritabilité" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldIrritability" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Patient" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Irritable" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Subject Confidence -->
+                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                <Label text="Confiance dans les sujets" style="-fx-font-weight: 700; -fx-text-fill: #1e293b;" />
+                                <Slider fx:id="sldSubjectConfidence" min="1" max="5" value="3" majorTickUnit="1" minorTickCount="0" snapToTicks="true" />
+                                <HBox spacing="10">
+                                    <Label text="Maîtrise" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Difficulté" style="-fx-font-size: 10px; -fx-text-fill: #94a3b8;" />
+                                </HBox>
+                            </VBox>
+                        </GridPane>
+
+                        <HBox alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+                            <Button text="Enregistrer mes données" onAction="#handleSubmit" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: 800; -fx-font-size: 16px; -fx-padding: 15 40; -fx-background-radius: 20; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(40, 167, 69, 0.3), 15, 0, 0, 8);" />
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+    </StackPane>
 </AnchorPane>
