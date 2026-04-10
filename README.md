@@ -1,6 +1,14 @@
-# SosiProject - Health & Wellbeing Management System
+<p align="center">
+  <img width="452" alt="Wellness Connect Logo" src="https://github.com/user-attachments/assets/d61ed0dc-07ff-477d-acfd-060616a6a601" />
+</p>
 
-SosiProject is a premium JavaFX application designed to help users manage their health and wellbeing through various specialized modules.
+# 🌿 SosI Connect - Wellbeing Ecosystem
+
+## Overview
+
+This project was developed as part of the PIDEV – 3rd Year Engineering Program at **Esprit School of Engineering** (Academic Year 2025–2026).
+
+SOSI Connect is a comprehensive personal wellbeing tracking solution. This project demonstrates the integration between a high-performance desktop application and a robust web infrastructure.
 
 ## 🚀 Key Features
 
