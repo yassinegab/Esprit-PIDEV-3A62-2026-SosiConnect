@@ -7,114 +7,71 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #f1f5f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.wellbeing.backoffice.controller.WellbeingAdminController">
-   <left>
-      <VBox prefWidth="240.0" spacing="10.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.wellbeing.backoffice.controller.WellbeingAdminController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="20.0">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Bien-être Mental" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;" text="+ Nouveau Rapport" />
+         </children>
+      </HBox>
+      
+      <HBox spacing="15.0">
+         <children>
+            <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 5, 0, 0, 0);">
                <children>
-                  <Circle fill="#6366f1" radius="15.0" />
-                  <VBox>
-                     <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="Sosi" />
-                        <Label style="-fx-font-size: 10; -fx-text-fill: #94a3b8;" text="Admin Panel" />
-                     </children>
-                  </VBox>
+                  <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Total Évaluations" />
+                  <Label fx:id="lblTotalUsers" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="1,284" />
+                  <Label style="-fx-text-fill: #10b981; -fx-font-size: 11;" text="↑ 12% vs mois dernier" />
                </children>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" top="20.0" />
-               </padding>
-            </HBox>
-            
-            <VBox spacing="5.0">
+            </VBox>
+            <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 5, 0, 0, 0);">
                <children>
-                  <Button alignment="BASELINE_LEFT" prefMaxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: #475569; -fx-padding: 10 20;" text="📊 Dashboard" />
-                  <Button alignment="BASELINE_LEFT" prefMaxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: #475569; -fx-padding: 10 20;" text="👥 Gestion Utilisateurs" />
-                  <Button alignment="BASELINE_LEFT" prefMaxWidth="Infinity" style="-fx-background-color: #f1f5f9; -fx-text-fill: #6366f1; -fx-font-weight: bold; -fx-padding: 10 20;" text="🧠 Gestion Bien-être" />
-                  <Button alignment="BASELINE_LEFT" prefMaxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: #475569; -fx-padding: 10 20;" text="📈 Analytiques" />
-                  <Button alignment="BASELINE_LEFT" prefMaxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: #475569; -fx-padding: 10 20;" text="⚙️ Paramètres" />
+                  <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Stress Critique" />
+                  <Label fx:id="lblHighAnxiety" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #ef4444;" text="42" />
+                  <Label style="-fx-text-fill: #ef4444; -fx-font-size: 11;" text="↑ 5% Action requise" />
+               </children>
+            </VBox>
+            <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 5, 0, 0, 0);">
+               <children>
+                  <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Moyenne Bien-être" />
+                  <Label fx:id="lblAvgSleep" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #6366f1;" text="3.8/5" />
+                  <Label style="-fx-text-fill: #6366f1; -fx-font-size: 11;" text="Stable" />
+               </children>
+            </VBox>
+            <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 5, 0, 0, 0);">
+               <children>
+                  <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Analyses IA" />
+                  <Label fx:id="lblAvgHeartbeat" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" text="98%" />
+                  <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11;" text="Précision modèle" />
                </children>
             </VBox>
          </children>
-      </VBox>
-   </left>
-   <center>
-      <VBox spacing="20.0" BorderPane.alignment="CENTER">
+      </HBox>
+      
+      <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 5, 0, 0, 0);" VBox.vgrow="ALWAYS">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="20.0">
+            <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-padding: 20;">
                <children>
-                  <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Admin Dashboard - User Well-Being Data" />
+                  <Label style="-fx-font-weight: bold; -fx-font-size: 16;" text="Historique des évaluations" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <TextField promptText="Search..." style="-fx-background-color: #f1f5f9; -fx-background-radius: 5; -fx-padding: 8 15;" />
+                  <Button onAction="#handleApplyFilter" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold;" text="Filtrer" />
                </children>
             </HBox>
-            
-            <HBox spacing="15.0">
-               <children>
-                  <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
-                     <children>
-                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Total Users" />
-                        <Label fx:id="lblTotalUsers" style="-fx-font-size: 24; -fx-font-weight: bold;" text="0" />
-                     </children>
-                  </VBox>
-                  <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
-                     <children>
-                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="High Anxiety Users" />
-                        <Label fx:id="lblHighAnxiety" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #ef4444;" text="0" />
-                     </children>
-                  </VBox>
-                  <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
-                     <children>
-                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Average Sleep Problems" />
-                        <Label fx:id="lblAvgSleep" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #6366f1;" text="0.00" />
-                     </children>
-                  </VBox>
-                  <VBox prefWidth="240.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
-                     <children>
-                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Average Heartbeat Palp." />
-                        <Label fx:id="lblAvgHeartbeat" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" text="0.00" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            
-            <VBox style="-fx-background-color: white; -fx-background-radius: 10;" VBox.vgrow="ALWAYS">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-padding: 15;">
-                     <children>
-                        <TextField promptText="Search..." style="-fx-background-color: #f1f5f9; -fx-background-radius: 5;" />
-                        <ComboBox prefWidth="150.0" promptText="Created At" style="-fx-background-color: #f1f5f9;" />
-                        <ComboBox prefWidth="150.0" promptText="Descending" style="-fx-background-color: #f1f5f9;" />
-                        <Button onAction="#handleApplyFilter" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: bold;" text="Apply" />
-                     </children>
-                  </HBox>
-                  <TableView fx:id="tblData" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
-                    <columns>
-                      <TableColumn fx:id="colId" prefWidth="50.0" text="Id" />
-                      <TableColumn fx:id="colWork" prefWidth="70.0" text="WorkEnv" />
-                      <TableColumn fx:id="colSleep" prefWidth="70.0" text="Sleep" />
-                      <TableColumn fx:id="colHeadaches" prefWidth="70.0" text="Headaches" />
-                      <TableColumn fx:id="colRestless" prefWidth="70.0" text="Restless" />
-                      <TableColumn fx:id="colHeart" prefWidth="70.0" text="Heart" />
-                      <TableColumn fx:id="colAcademic" prefWidth="70.0" text="Academic" />
-                      <TableColumn fx:id="colAttendance" prefWidth="70.0" text="Attendance" />
-                      <TableColumn fx:id="colAnxiety" prefWidth="70.0" text="Anxiety" />
-                      <TableColumn fx:id="colIrritable" prefWidth="70.0" text="Irritable" />
-                      <TableColumn fx:id="colSubject" prefWidth="70.0" text="Subject" />
-                      <TableColumn fx:id="colCreated" prefWidth="150.0" text="CreatedAt" />
-                      <TableColumn fx:id="colActions" prefWidth="100.0" text="Actions" />
-                    </columns>
-                  </TableView>
-               </children>
-            </VBox>
+            <TableView fx:id="tblData" style="-fx-background-color: transparent; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="colId" prefWidth="60.0" text="ID" />
+                <TableColumn fx:id="colWork" prefWidth="150.0" text="Champ 1" />
+                <TableColumn fx:id="colAnxiety" prefWidth="150.0" text="Champ 2" />
+                <TableColumn fx:id="colCreated" prefWidth="180.0" text="Date Session" />
+                <TableColumn fx:id="colActions" prefWidth="120.0" text="Actions" />
+              </columns>
+            </TableView>
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
       </VBox>
-   </center>
-</BorderPane>
+   </children>
+</VBox>
