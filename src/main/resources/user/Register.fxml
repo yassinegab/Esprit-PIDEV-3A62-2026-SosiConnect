@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.user.controller.RegisterController"
+           styleClass="root-container">
+
+    <stylesheets>
+        <URL value="@login_style.css" />
+    </stylesheets>
+
+    <!-- Background Image -->
+    <ImageView fx:id="backgroundImage" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../assets/images/login_background.png" />
+    </ImageView>
+
+    <!-- Overlay -->
+    <AnchorPane styleClass="overlay">
+
+        <!-- Register Card -->
+        <VBox alignment="CENTER" spacing="15.0" styleClass="login-card"
+              AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0" 
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              maxWidth="600.0" maxHeight="850.0"
+              StackPane.alignment="CENTER">
+            
+            <padding>
+                <Insets top="30" right="40" bottom="30" left="40"/>
+            </padding>
+
+            <!-- Logo -->
+            <ImageView fx:id="logoImage" fitWidth="80" preserveRatio="true">
+                <Image url="@../assets/images/sosi_logo.png" />
+            </ImageView>
+
+            <VBox alignment="CENTER" spacing="2.0">
+                <Label text="Créer un compte" styleClass="title-label" style="-fx-font-size: 24px;"/>
+                <Label text="Rejoignez la communauté SOSI+" styleClass="subtitle-label"/>
+            </VBox>
+
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" focusTraversable="false">
+                <GridPane hgap="20.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+
+                    <!-- Row 0 -->
+                    <VBox spacing="5.0" GridPane.columnIndex="0">
+                        <Label text="Nom" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <TextField fx:id="nomField" promptText="Votre nom" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="5.0" GridPane.columnIndex="1">
+                        <Label text="Prénom" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <TextField fx:id="prenomField" promptText="Votre prénom" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Row 1 -->
+                    <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        <Label text="Email" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <Label styleClass="icon-label" text="✉"/>
+                            <TextField fx:id="emailField" promptText="exemple@email.com" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Row 2 -->
+                    <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label text="Mot de passe" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <Label styleClass="icon-label" text="🔒"/>
+                            <PasswordField fx:id="passwordField" promptText="••••••••" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label text="Téléphone" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <Label styleClass="icon-label" text="📞"/>
+                            <TextField fx:id="telephoneField" promptText="+216 ..." HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Row 3 -->
+                    <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <Label text="Age" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <TextField fx:id="ageField" promptText="Ex: 25" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label text="Sexe" styleClass="input-label"/>
+                        <ChoiceBox fx:id="sexeBox" maxWidth="Infinity" styleClass="input-container">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Homme" />
+                                    <String fx:value="Femme" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                    </VBox>
+
+                    <!-- Row 4 -->
+                    <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                        <Label text="Taille (cm)" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <TextField fx:id="tailleField" promptText="175" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+                    <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <Label text="Poids (kg)" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <TextField fx:id="poidsField" promptText="70" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Row 5 -->
+                    <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                        <Label text="Rôle" styleClass="input-label"/>
+                        <ChoiceBox fx:id="roleBox" maxWidth="Infinity" styleClass="input-container">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Client" />
+                                    <String fx:value="Professionnel" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                    </VBox>
+                    <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <Label text="Handicap" styleClass="input-label"/>
+                        <CheckBox fx:id="handicapBox" text="Oui, j'ai un handicap" styleClass="remember-me" style="-fx-padding: 10 0 0 0;"/>
+                    </VBox>
+
+                    <!-- Specialité (Visible conditional) -->
+                    <VBox fx:id="specialiteContainer" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="6" visible="false" managed="false">
+                        <Label text="Spécialité" styleClass="input-label"/>
+                        <HBox styleClass="input-container">
+                            <TextField fx:id="specialiteField" promptText="Ex: Kinésithérapeute" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                        </HBox>
+                    </VBox>
+
+                </GridPane>
+            </ScrollPane>
+
+            <Button fx:id="registerButton" text="S'inscrire" onAction="#handleRegister" maxWidth="Infinity" styleClass="login-button">
+                <graphic>
+                    <Label text="✓" style="-fx-text-fill: white; -fx-padding: 0 10 0 0;"/>
+                </graphic>
+            </Button>
+
+            <HBox alignment="CENTER" spacing="5.0">
+                <Label text="Déjà un compte ?" styleClass="no-account-label"/>
+                <Hyperlink text="Se connecter" onAction="#navigateToLogin" styleClass="create-account-link"/>
+            </HBox>
+
+        </VBox>
+    </AnchorPane>
+
+</StackPane>

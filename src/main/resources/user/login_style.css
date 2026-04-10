@@ -1,0 +1,152 @@
+.root-container {
+    background-color: #f0f2f5;
+    -fx-background-color: #f0f2f5;
+}
+
+.overlay {
+    background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.login-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+    -fx-background-radius: 30;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 20, 0, 0, 10);
+    border-color: white;
+    -fx-border-color: white;
+    border-radius: 30;
+    -fx-border-radius: 30;
+    border-width: 1;
+    -fx-border-width: 1;
+}
+
+.title-label {
+    font-size: 28px;
+    -fx-font-size: 28px;
+    font-weight: bold;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a1a1a;
+}
+
+.subtitle-label {
+    font-size: 14px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #707070;
+}
+
+.input-label {
+    font-size: 14px;
+    -fx-font-size: 14px;
+    font-weight: bold;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a4a4a;
+}
+
+.input-container {
+    background-color: #f8f9fa;
+    -fx-background-color: #f8f9fa;
+    border-color: #e0e0e0;
+    -fx-border-color: #e0e0e0;
+    border-radius: 12;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    padding: 10 15;
+    -fx-padding: 10 15;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.input-container:focused-within {
+    border-color: #dc3545;
+    -fx-border-color: #dc3545;
+    -fx-effect: dropshadow(three-pass-box, rgba(220, 53, 69, 0.1), 5, 0, 0, 0);
+}
+
+.icon-label {
+    font-size: 18px;
+    -fx-font-size: 18px;
+    -fx-text-fill: #dc3545;
+    padding: 0 10 0 0;
+    -fx-padding: 0 10 0 0;
+}
+
+.transparent-input {
+    background-color: transparent;
+    -fx-background-color: transparent;
+    border-width: 0;
+    -fx-border-width: 0;
+    padding: 0;
+    -fx-padding: 0;
+    font-size: 14px;
+    -fx-font-size: 14px;
+}
+
+.forgot-password {
+    -fx-text-fill: #007bff;
+    font-size: 13px;
+    -fx-font-size: 13px;
+    -fx-underline: false;
+}
+
+.remember-me {
+    font-size: 13px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #4a4a4a;
+}
+
+.login-button {
+    background-color: #dc3545;
+    -fx-background-color: #dc3545;
+    -fx-background-radius: 12;
+    -fx-text-fill: white;
+    font-size: 16px;
+    -fx-font-size: 16px;
+    font-weight: bold;
+    -fx-font-weight: bold;
+    padding: 12 20;
+    -fx-padding: 12 20;
+    cursor: hand;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    background-color: #c82333;
+    -fx-background-color: #c82333;
+}
+
+.no-account-label {
+    font-size: 14px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #707070;
+}
+
+.create-account-link {
+    -fx-text-fill: #007bff;
+    font-size: 14px;
+    -fx-font-size: 14px;
+    font-weight: bold;
+    -fx-font-weight: bold;
+    -fx-underline: false;
+}
+
+.social-button {
+    background-color: white;
+    -fx-background-color: white;
+    border-color: #e0e0e0;
+    -fx-border-color: #e0e0e0;
+    border-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    padding: 8 20;
+    -fx-padding: 8 20;
+    font-size: 13px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #4a4a4a;
+    cursor: hand;
+    -fx-cursor: hand;
+}
+
+.social-button:hover {
+    background-color: #f8f9fa;
+    -fx-background-color: #f8f9fa;
+}

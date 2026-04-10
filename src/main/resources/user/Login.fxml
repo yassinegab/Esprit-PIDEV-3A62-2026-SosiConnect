@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.user.controller.LoginController"
+           styleClass="root-container">
+
+    <stylesheets>
+        <URL value="@login_style.css" />
+    </stylesheets>
+
+    <!-- Background Image -->
+    <ImageView fx:id="backgroundImage" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../assets/images/login_background.png" />
+    </ImageView>
+
+    <!-- Overlay/Blur effect could be done via CSS or another pane -->
+    <AnchorPane styleClass="overlay">
+
+        <!-- Login Card -->
+        <VBox alignment="CENTER" spacing="20.0" styleClass="login-card" 
+              AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" 
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              maxWidth="450.0" maxHeight="700.0"
+              StackPane.alignment="CENTER">
+            
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <!-- Logo -->
+            <ImageView fx:id="logoImage" fitWidth="120" preserveRatio="true">
+                <Image url="@../assets/images/sosi_logo.png" />
+            </ImageView>
+
+            <VBox alignment="CENTER" spacing="5.0">
+                <Label text="Bon retour" styleClass="title-label"/>
+                <Label text="Gérez votre santé en toute simplicité" styleClass="subtitle-label"/>
+            </VBox>
+
+            <VBox spacing="15.0" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                <VBox spacing="5.0">
+                    <Label text="Email" styleClass="input-label"/>
+                    <HBox styleClass="input-container">
+                        <Label styleClass="icon-label" text="✉"/>
+                        <TextField fx:id="emailField" promptText="exemple@email.com" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                    </HBox>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Mot de passe" styleClass="input-label"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Hyperlink text="Oublié ?" styleClass="forgot-password"/>
+                    </HBox>
+                    <HBox styleClass="input-container">
+                        <Label styleClass="icon-label" text="🔒"/>
+                        <PasswordField fx:id="passwordField" promptText="••••••••" HBox.hgrow="ALWAYS" styleClass="transparent-input"/>
+                    </HBox>
+                </VBox>
+
+                <CheckBox text="Se souvenir de moi" styleClass="remember-me"/>
+            </VBox>
+
+            <Button fx:id="loginButton" text="Se connecter" onAction="#handleLogin" maxWidth="Infinity" styleClass="login-button">
+                <graphic>
+                    <Label text="➜" style="-fx-text-fill: white; -fx-padding: 0 10 0 0;"/>
+                </graphic>
+            </Button>
+
+            <HBox alignment="CENTER" spacing="5.0">
+                <Label text="Pas encore de compte ?" styleClass="no-account-label"/>
+                <Hyperlink text="Créer un compte" onAction="#navigateToRegister" styleClass="create-account-link"/>
+            </HBox>
+
+            <Separator maxWidth="200"/>
+
+            <HBox spacing="10.0" alignment="CENTER">
+                <Button text="Google" styleClass="social-button">
+                    <graphic>
+                        <Label text="G" style="-fx-text-fill: #DB4437; -fx-font-weight: bold;"/>
+                    </graphic>
+                </Button>
+                <Button text="Facebook" styleClass="social-button">
+                    <graphic>
+                        <Label text="F" style="-fx-text-fill: #4267B2; -fx-font-weight: bold;"/>
+                    </graphic>
+                </Button>
+            </HBox>
+
+        </VBox>
+    </AnchorPane>
+
+</StackPane>
