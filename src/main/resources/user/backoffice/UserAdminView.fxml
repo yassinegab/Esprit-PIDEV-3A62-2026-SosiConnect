@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.user.backoffice.UserControllerAdmin"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.user.backoffice.UserControllerAdmin">
+   <children>
+      <Label style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Gestion des Utilisateurs" />
+      <Label style="-fx-text-fill: #64748b;" text="Ici vous pouvez gérer les comptes, les rôles et les permissions." />
+      <!-- Dashboard content goes here -->
+   </children>
+</VBox>
