@@ -46,7 +46,7 @@ public class LoginController {
             if (user != null) {
                 System.out.println("Login Successful: " + user.getNom());
                 org.example.utils.SessionManager.setCurrentUser(user);
-                navigateToHome(user);
+                navigateAfterLogin(user);
             } else {
                 System.out.println("Invalid email or password.");
             }
@@ -55,18 +55,32 @@ public class LoginController {
         }
     }
 
-    private void navigateToHome(User user) {
+    private void navigateAfterLogin(User user) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/home/Home.fxml"));
+            String fxmlPath = "/home/Home.fxml";
+            boolean isAdmin = "ROLE_ADMIN".equals(user.getUser_role());
+            
+            if (isAdmin) {
+                fxmlPath = "/backoffice/AdminLayout.fxml";
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             
-            HomeController homeController = loader.getController();
-            homeController.setUser(user);
+            if (!isAdmin) {
+                HomeController homeController = loader.getController();
+                homeController.setUser(user);
+            } else {
+                // AdminBaseController could also have a setUser if needed
+                org.example.backoffice.controller.AdminBaseController adminController = loader.getController();
+                // adminController.setUser(user); // Optional: if you add this method
+            }
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Error navigating after login: " + e.getMessage());
         }
     }
 

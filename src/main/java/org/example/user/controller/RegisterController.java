@@ -53,6 +53,8 @@ public class RegisterController {
             String dbUserRole = "ROLE_PATIENT"; 
             if ("Professionnel".equals(selectedRole)) {
                 dbUserRole = "ROLE_MEDECIN"; 
+            } else if ("Administrateur".equals(selectedRole)) {
+                dbUserRole = "ROLE_ADMIN";
             }
 
             User user = new User(

@@ -133,6 +133,7 @@
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Client" />
                                     <String fx:value="Professionnel" />
+                                    <String fx:value="Administrateur" />
                                 </FXCollections>
                             </items>
                         </ChoiceBox>
