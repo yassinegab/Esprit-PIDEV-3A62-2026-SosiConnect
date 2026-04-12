@@ -41,7 +41,8 @@ public class CycleService {
     }
 
     // READ
-    /*public List<Cycle> getAllCycles() {
+    public List<Cycle> getAllCycles() {
+
         List<Cycle> list = new ArrayList<>();
 
         try {
@@ -50,12 +51,15 @@ public class CycleService {
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                list.add(new Cycle(
-                        rs.getInt("id"),
-                        rs.getString("start_date"),
-                        rs.getString("end_date"),
-                        rs.getInt("user_id")
-                ));
+
+                Cycle c = new Cycle();
+
+                c.setCycle_id(rs.getInt("id_cycle"));
+                c.setDate_debut_m(rs.getDate("date_debut_m"));
+                c.setDate_fin_m(rs.getDate("date_fin_m"));
+                c.setUser_id(rs.getInt("user_id"));
+
+                list.add(c);
             }
 
         } catch (Exception e) {
@@ -76,5 +80,5 @@ public class CycleService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }

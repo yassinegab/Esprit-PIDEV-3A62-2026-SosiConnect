@@ -5,17 +5,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.example.cycle.model.Cycle;
 import org.example.cycle.service.CycleService;
-
+import javafx.scene.control.DatePicker;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class ClientCycleController {
 
 
-    @FXML
-    private TextField TFdate_debut;
+
 
     @FXML
-    private TextField TF_date_fin;
+    private DatePicker DP_datadebut;
+
+
+    @FXML
+    private DatePicker DP_datefin;
 
     @FXML
     private Button BT_ajouter_menstruation;
@@ -27,11 +31,11 @@ public class ClientCycleController {
     public void ajouterCycle() {
 
         // 1. get values from UI
-        String debut = TFdate_debut.getText();
-        String fin = TF_date_fin.getText();
+        LocalDate localDebut = DP_datadebut.getValue();
+        LocalDate localFin = DP_datefin.getValue();
 
-        Date dateDebut = Date.valueOf(debut);
-        Date dateFin = Date.valueOf(fin);
+        Date dateDebut = Date.valueOf(localDebut);
+        Date dateFin = Date.valueOf(localFin);
 
         // ⚠️ IMPORTANT: you don't have user_id in UI yet
         // so we put a fixed value for now (example: 1)
@@ -47,7 +51,7 @@ public class ClientCycleController {
         System.out.println("Cycle added successfully!");
 
         // 5. clear fields (nice UX)
-        TFdate_debut.clear();
-        TF_date_fin.clear();
+        DP_datadebut.setValue(null);
+        DP_datefin.setValue(null);
     }
 }
