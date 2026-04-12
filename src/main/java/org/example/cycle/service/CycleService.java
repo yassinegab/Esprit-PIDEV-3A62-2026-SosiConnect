@@ -71,12 +71,17 @@ public class CycleService {
 
     // DELETE
     public void deleteCycle(int id) {
+
         try {
             String sql = "DELETE FROM cycle WHERE id_cycle=?";
             PreparedStatement ps = conn.prepareStatement(sql);
+
             ps.setInt(1, id);
+
             ps.executeUpdate();
-            System.out.println("Cycle deleted!");
+
+            System.out.println("Cycle deleted ✅");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

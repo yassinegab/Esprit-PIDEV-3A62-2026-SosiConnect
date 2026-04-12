@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.example.cycle.model.Cycle;
 import org.example.cycle.service.CycleService;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 
     public class DisplayCycleController {
 
@@ -29,23 +31,39 @@ import org.example.cycle.service.CycleService;
                 VBox card = new VBox();
                 card.setSpacing(5);
 
-                // STYLE CARD
                 card.setStyle("""
-                -fx-background-color: white;
-                -fx-padding: 15;
-                -fx-border-color: #ccc;
-                -fx-border-radius: 10;
-                -fx-background-radius: 10;
-            """);
+        -fx-background-color: white;
+        -fx-padding: 15;
+        -fx-border-color: #ccc;
+        -fx-border-radius: 10;
+        -fx-background-radius: 10;
+    """);
 
-                // CREATE LABELS
                 Label start = new Label("Start: " + c.getDate_debut_m());
                 Label end = new Label("End: " + c.getDate_fin_m());
                 Label user = new Label("User ID: " + c.getUser_id());
 
-                card.getChildren().addAll(start, end, user);
+                // 🟢 DELETE BUTTON
+                Button deleteBtn = new Button("Delete");
 
-                // ADD CARD TO SCREEN
+                deleteBtn.setStyle("""
+        -fx-background-color: red;
+        -fx-text-fill: white;
+    """);
+
+                deleteBtn.setOnAction(e -> {
+
+                    CycleService deleteService = new CycleService();
+
+                    // 1. delete from database
+                    deleteService.deleteCycle(c.getCycle_id());
+
+                    // 2. remove from UI
+                    cycleContainer.getChildren().remove(card);
+                });
+
+                card.getChildren().addAll(start, end, user, deleteBtn);
+
                 cycleContainer.getChildren().add(card);
             }
         }
