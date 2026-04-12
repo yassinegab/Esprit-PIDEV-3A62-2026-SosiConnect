@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.cycle.frontoffice.controller.CycleControllerClientController"
-            prefHeight="400.0" prefWidth="600.0">
-    <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Label text="Cycle Menstruel" style="-fx-font-size: 32px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
-        <Label text="Suivi de cycle et calendrier bientôt disponibles." style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
-    </VBox>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.ClientCycleController">
+   <children>
+      <TextField fx:id="TFdate_debut" layoutX="146.0" layoutY="112.0" prefHeight="26.0" prefWidth="182.0" />
+      <TextField fx:id="TF_date_fin" layoutX="146.0" layoutY="173.0" prefHeight="26.0" prefWidth="182.0" />
+      <Button fx:id="BT_ajouter_menstruation" layoutX="237.0" layoutY="264.0" mnemonicParsing="false" onAction="#ajouterCycle" text="ajouter" />
+   </children>
 </AnchorPane>

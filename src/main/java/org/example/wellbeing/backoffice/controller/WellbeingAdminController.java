@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.wellbeing.model.UserWellBeingData;
 import org.example.wellbeing.service.WellbeingService;
+import javafx.scene.layout.HBox;
 
 import java.sql.SQLException;
 import java.util.List;
