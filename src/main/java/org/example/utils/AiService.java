@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.time.Duration;
 
 public class AiService {
 
@@ -20,7 +21,9 @@ public class AiService {
     private final HttpClient client;
 
     public AiService() {
-        this.client = HttpClient.newHttpClient();
+        this.client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
     }
 
     public String analyzeText(String prompt) {
@@ -36,6 +39,9 @@ public class AiService {
             
             body.put("messages", messages);
 
+            System.out.println("[AI Service] Sending request to: " + API_URL);
+            System.out.println("[AI Service] API Key present: " + (API_KEY != null && !API_KEY.isEmpty()));
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_URL))
                     .header("Authorization", "Bearer " + API_KEY)
@@ -43,9 +49,13 @@ public class AiService {
                     .header("X-Title", "SosiApp")
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+                    .timeout(Duration.ofSeconds(30))
                     .build();
 
+            System.out.println("[AI Service] Request Body: " + body.toString());
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("[AI Service] Response Code: " + response.statusCode());
+            System.out.println("[AI Service] Response Body: " + response.body());
 
             if (response.statusCode() == 200) {
                 JSONObject jsonResponse = new JSONObject(response.body());
@@ -117,6 +127,7 @@ public class AiService {
                     .header("X-Title", "SosiApp")
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+                    .timeout(Duration.ofSeconds(60))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

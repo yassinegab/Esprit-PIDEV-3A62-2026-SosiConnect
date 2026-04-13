@@ -92,6 +92,18 @@ public class WellbeingMealController {
 
     @FXML
     private void handleAnalyze() {
+        // Validation
+        if (selectedImageFile == null && editingMeal == null) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez d'abord sélectionner une image de votre repas.");
+            return;
+        }
+
+        if (descriptionField.getText() == null || descriptionField.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez ajouter une courte description pour aider l'IA.");
+            descriptionField.requestFocus();
+            return;
+        }
+
         analyzeBtn.setDisable(true);
         analyzeBtn.setText("Analyse en cours...");
 
@@ -174,5 +186,13 @@ public class WellbeingMealController {
                 });
             }
         }).start();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.show();
     }
 }

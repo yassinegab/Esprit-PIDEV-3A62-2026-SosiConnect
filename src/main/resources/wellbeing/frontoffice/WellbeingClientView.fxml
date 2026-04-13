@@ -7,6 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -45,10 +48,14 @@
 
                     <!-- Meals Section -->
                     <VBox spacing="15.0">
-                        <HBox alignment="CENTER_LEFT">
+                        <HBox alignment="CENTER_LEFT" spacing="15">
                             <Label text="My Meals" style="-fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
                             <Region HBox.hgrow="ALWAYS" />
-                            <Button text="🍽 Add Meal" onAction="#showMealAnalysis" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 8 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                <TextField fx:id="searchField" promptText="🔍 Rechercher un repas..." style="-fx-background-radius: 10; -fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 8 12; -fx-pref-width: 200;" />
+                                <ComboBox fx:id="filterCombo" promptText="Filtrer par calories" style="-fx-background-radius: 10; -fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 5;" />
+                                <Button text="🍽 Add Meal" onAction="#showMealAnalysis" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 8 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+                            </HBox>
                         </HBox>
                         <FlowPane fx:id="mealsContainer" hgap="20.0" vgap="20.0" style="-fx-padding: 5;" />
                     </VBox>
@@ -304,5 +311,35 @@
             <StackPane fx:id="mealContentArea" VBox.vgrow="ALWAYS" />
         </VBox>
 
+    </StackPane>
+
+    <!-- Chatbot Window -->
+    <VBox fx:id="chatbotContainer" visible="false" managed="true" 
+          AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="30.0" 
+          prefWidth="400.0" prefHeight="600.0" maxWidth="400" maxHeight="600"
+          style="-fx-background-color: transparent;">
+    </VBox>
+    
+    <!-- Chatbot Floating Action Area -->
+    <StackPane AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+        <children>
+            <!-- Floating Bubble Button -->
+            <Button fx:id="chatbotButton" onAction="#toggleChatbot" styleClass="floating-chat-bubble">
+                <graphic>
+                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../assets/images/chatboticon.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            
+            <!-- Notification Badge -->
+            <Circle fx:id="chatbotBadge" fill="#ff4757" radius="8.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" visible="false" StackPane.alignment="TOP_RIGHT">
+                <StackPane.margin>
+                    <Insets right="5.0" top="5.0" />
+                </StackPane.margin>
+            </Circle>
+        </children>
     </StackPane>
 </AnchorPane>

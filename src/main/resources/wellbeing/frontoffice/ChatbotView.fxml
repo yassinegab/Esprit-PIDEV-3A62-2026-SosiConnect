@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.wellbeing.frontoffice.controller.ChatbotController"
+      spacing="0"
+      style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 20, 0, 0, 10);"
+      prefWidth="400.0" prefHeight="600.0" minWidth="400.0" minHeight="600.0">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: linear-gradient(to right, #6366f1, #8b5cf6); -fx-padding: 20; -fx-background-radius: 20 20 0 0;">
+        <StackPane>
+            <Circle radius="20" fill="white" opacity="0.2"/>
+            <ImageView fitHeight="25.0" fitWidth="25.0" preserveRatio="true">
+                <image>
+                    <Image url="@/assets/images/chatboticon.png" />
+                </image>
+            </ImageView>
+        </StackPane>
+        <VBox>
+            <Label text="Assistant IA Sosi" style="-fx-text-fill: white; -fx-font-weight: 800; -fx-font-size: 16px;"/>
+            <Label text="En ligne • Prêt à vous aider" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 11px;"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnHistory" text="🗑" onAction="#handleClearHistory" styleClass="transparent-button" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+        <Button fx:id="btnClose" text="✕" onAction="#handleClose" styleClass="transparent-button" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+    </HBox>
+
+    <!-- Message Area -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+        <VBox fx:id="messageContainer" spacing="15" style="-fx-padding: 20; -fx-background-color: #f8fafc;" VBox.vgrow="ALWAYS" minHeight="400.0">
+            <!-- Messages will be added here dynamically -->
+        </VBox>
+    </ScrollPane>
+
+    <!-- Typing Indicator (Hidden by default) -->
+    <HBox fx:id="typingIndicator" visible="false" managed="false" alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 20 10 20; -fx-background-color: #f8fafc;">
+        <Label text="L'assistant réfléchit..." style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-style: italic;"/>
+    </HBox>
+
+    <!-- Input Area -->
+    <VBox style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 0 0 20 20; -fx-border-color: #f1f5f9; -fx-border-width: 1 0 0 0;">
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="inputField" onAction="#handleSend" promptText="Posez votre question ici..." HBox.hgrow="ALWAYS" 
+                       style="-fx-background-color: #f1f5f9; -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: transparent;"/>
+            <Button fx:id="btnSend" onAction="#handleSend" style="-fx-background-color: #6366f1; -fx-background-radius: 12; -fx-padding: 12; -fx-cursor: hand;">
+                <graphic>
+                    <Label text="➔" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</VBox>
