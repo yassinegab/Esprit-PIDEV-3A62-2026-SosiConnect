@@ -1,0 +1,220 @@
+/* Meal Analysis Styles */
+.meal-container {
+    -fx-background-color: #f8fafc;
+}
+
+.meal-header-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: 800;
+    -fx-fill: #0f172a;
+}
+
+.meal-header-subtitle {
+    -fx-font-size: 16px;
+    -fx-fill: #64748b;
+}
+
+.image-preview-container {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-style: dashed;
+    -fx-min-width: 300;
+    -fx-min-height: 250;
+    -fx-overflow: hidden;
+}
+
+.upload-icon {
+    -fx-font-family: "Material Design Icons";
+    -fx-font-size: 48px;
+    -fx-text-fill: #94a3b8;
+}
+
+.upload-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #94a3b8;
+}
+
+.transparent-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.meal-input {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12;
+    -fx-padding: 12;
+    -fx-font-size: 14px;
+    -fx-pref-width: 300;
+}
+
+.analyze-button {
+    -fx-background-color: #6366f1;
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-font-size: 16px;
+    -fx-padding: 12 30;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-pref-width: 300;
+}
+
+.analyze-button:hover {
+    -fx-background-color: #4f46e5;
+}
+
+.analyze-button:disabled {
+    -fx-background-color: #94a3b8;
+}
+
+/* Results Section */
+.results-section {
+    -fx-background-color: white;
+    -fx-background-radius: 24;
+    -fx-padding: 30;
+    -fx-min-width: 450;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 20, 0, 0, 10);
+}
+
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-fill: #1e293b;
+}
+
+.stat-card {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 16;
+    -fx-padding: 15;
+    -fx-min-width: 120;
+    -fx-alignment: CENTER;
+}
+
+.stat-label {
+    -fx-font-size: 10px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #64748b;
+    -fx-letter-spacing: 1px;
+}
+
+.stat-value {
+    -fx-font-size: 20px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #0f172a;
+}
+
+.analysis-box {
+    -fx-background-color: #ecfdf5;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-border-color: #10b981;
+    -fx-border-width: 0 0 0 5;
+}
+
+.sub-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #065f46;
+}
+
+.analysis-content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #064e3b;
+    -fx-line-spacing: 4;
+}
+
+.stress-box {
+    -fx-background-color: #fff7ed;
+    -fx-background-radius: 16;
+    -fx-padding: 20;
+    -fx-border-color: #f97316;
+    -fx-border-width: 0 0 0 5;
+}
+
+.sub-title-stress {
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #9a3412;
+}
+
+.stress-content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7c2d12;
+    -fx-line-spacing: 4;
+}
+
+/* Meal Card Progress Bars */
+.meal-progress-calories .bar {
+    -fx-background-color: #f59e0b;
+    -fx-background-radius: 10;
+}
+.meal-progress-protein .bar {
+    -fx-background-color: #10b981;
+    -fx-background-radius: 10;
+}
+.meal-progress-sugar .bar {
+    -fx-background-color: #ef4444;
+    -fx-background-radius: 10;
+}
+
+.meal-progress-calories .track, .meal-progress-protein .track, .meal-progress-sugar .track {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 10;
+}
+
+/* Premium Charts Styling */
+.premium-chart, .small-premium-chart {
+    -fx-background-color: transparent;
+    -fx-legend-visible: false;
+}
+
+.premium-chart .chart-plot-background, .small-premium-chart .chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.premium-chart .chart-vertical-grid-lines, .premium-chart .chart-horizontal-grid-lines,
+.small-premium-chart .chart-vertical-grid-lines, .small-premium-chart .chart-horizontal-grid-lines {
+    -fx-stroke: #f1f5f9;
+}
+
+.premium-chart .axis, .small-premium-chart .axis {
+    -fx-tick-label-fill: #94a3b8;
+    -fx-font-size: 10px;
+    -fx-font-weight: 700;
+}
+
+/* Stress Score Trend (AreaChart) */
+.premium-chart .default-color0.chart-area-symbol { 
+    -fx-background-color: #6366f1, white; 
+    -fx-padding: 5px;
+}
+.premium-chart .default-color0.chart-series-area-line { 
+    -fx-stroke: #6366f1; 
+    -fx-stroke-width: 3px; 
+}
+.premium-chart .default-color0.chart-series-area-fill { 
+    -fx-fill: linear-gradient(to bottom, rgba(99,102,241, 0.15), transparent); 
+}
+
+/* Mood Trends (LineChart) */
+.small-premium-chart .default-color0.chart-line-symbol { -fx-background-color: #3b82f6, white; }
+.small-premium-chart .default-color0.chart-series-line { -fx-stroke: #3b82f6; -fx-stroke-width: 2px; }
+.small-premium-chart .default-color1.chart-line-symbol { -fx-background-color: #f59e0b, white; }
+.small-premium-chart .default-color1.chart-series-line { -fx-stroke: #f59e0b; -fx-stroke-width: 2px; }
+
+/* Calorie History (BarChart) */
+.small-premium-chart .default-color0.chart-bar { 
+    -fx-bar-fill: #10b981; 
+    -fx-background-radius: 5 5 0 0;
+}
+
+/* Frequency Chart (BarChart) */
+.small-premium-chart .chart-bar:hover {
+    -fx-opacity: 0.8;
+}
+
+

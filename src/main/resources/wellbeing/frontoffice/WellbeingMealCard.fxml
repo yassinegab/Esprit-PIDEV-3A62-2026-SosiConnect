@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.wellbeing.frontoffice.controller.WellbeingMealCardController"
+      spacing="12.0"
+      style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 0; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 15, 0, 0, 10);"
+      prefWidth="320.0" maxWidth="320.0">
+
+    <!-- Card Image at top with rounded corners -->
+    <StackPane>
+        <ImageView fx:id="mealImageView" fitWidth="320.0" fitHeight="180.0" preserveRatio="false" style="-fx-background-radius: 20 20 0 0;">
+             <clip>
+                <Rectangle arcWidth="40" arcHeight="40" width="320" height="180"/>
+            </clip>
+        </ImageView>
+        <VBox alignment="TOP_RIGHT" style="-fx-padding: 10;">
+            <Label fx:id="lblDate" text="Date" style="-fx-background-color: rgba(255,255,255,0.9); -fx-padding: 5 10; -fx-background-radius: 10; -fx-font-size: 11px; -fx-font-weight: 700; -fx-text-fill: #64748b;" />
+        </VBox>
+    </StackPane>
+
+    <!-- Content Padding -->
+    <VBox spacing="12.0" style="-fx-padding: 0 18 18 18;">
+        
+        <Label fx:id="lblDescription" text="Description du repas" style="-fx-font-size: 16px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" wrapText="true" maxHeight="45" />
+
+        <!-- Metrics Section (Resembling Stress Progress Bar) -->
+        <VBox spacing="8.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 12; -fx-padding: 12;">
+            
+            <!-- Calories Bar -->
+            <VBox spacing="3.0">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Calories" style="-fx-font-size: 11px; -fx-font-weight: 700; -fx-text-fill: #64748b;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblCalories" text="0 kcal" style="-fx-font-size: 11px; -fx-font-weight: 800; -fx-text-fill: #334155;" />
+                </HBox>
+                <ProgressBar fx:id="caloriesProgress" progress="0.4" prefWidth="Infinity" minHeight="6.0" styleClass="meal-progress-calories" />
+            </VBox>
+
+            <!-- Protein Bar -->
+            <VBox spacing="3.0">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Protéines" style="-fx-font-size: 11px; -fx-font-weight: 700; -fx-text-fill: #64748b;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblProtein" text="0 g" style="-fx-font-size: 11px; -fx-font-weight: 800; -fx-text-fill: #334155;" />
+                </HBox>
+                <ProgressBar fx:id="proteinProgress" progress="0.2" prefWidth="Infinity" minHeight="6.0" styleClass="meal-progress-protein" />
+            </VBox>
+
+            <!-- Sugar Bar -->
+            <VBox spacing="3.0">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Sucre" style="-fx-font-size: 11px; -fx-font-weight: 700; -fx-text-fill: #64748b;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lblSugar" text="0 g" style="-fx-font-size: 11px; -fx-font-weight: 800; -fx-text-fill: #334155;" />
+                </HBox>
+                <ProgressBar fx:id="sugarProgress" progress="0.1" prefWidth="Infinity" minHeight="6.0" styleClass="meal-progress-sugar" />
+            </VBox>
+
+        </VBox>
+
+        <!-- Actions -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Button onAction="#handleViewAI" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-size: 12px;">
+                <graphic>
+                    <HBox spacing="4" alignment="CENTER">
+                        <Label text="🤖" />
+                        <Label text="AI View" style="-fx-text-fill: white;" />
+                    </HBox>
+                </graphic>
+            </Button>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleEdit" style="-fx-background-color: #f1f5f9; -fx-cursor: hand; -fx-padding: 8; -fx-background-radius: 8;">
+                <graphic>
+                    <Label text="✎" style="-fx-font-size: 14px; -fx-text-fill: #64748b;" />
+                </graphic>
+            </Button>
+            <Button onAction="#handleDelete" style="-fx-background-color: #fef2f2; -fx-padding: 8; -fx-background-radius: 8; -fx-cursor: hand;">
+                <graphic>
+                    <Label text="🗑" style="-fx-text-fill: #ef4444;" />
+                </graphic>
+            </Button>
+        </HBox>
+    </VBox>
+</VBox>

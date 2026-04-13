@@ -18,12 +18,6 @@ import java.util.List;
 public class HomeController {
 
     @FXML
-    private Label userNameLabel;
-
-    @FXML
-    private Label userRoleLabel;
-
-    @FXML
     private Label avatarLabel;
 
     @FXML
@@ -55,9 +49,6 @@ public class HomeController {
     }
 
     public void setUser(User user) {
-        userNameLabel.setText(user.getNom() + " " + user.getPrenom());
-        userRoleLabel.setText(user.getUser_role());
-        
         // Dynamic Initials
         String initials = "";
         if (user.getNom() != null && !user.getNom().isEmpty()) initials += user.getNom().substring(0, 1).toUpperCase();
@@ -70,7 +61,7 @@ public class HomeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/user/Login.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) userNameLabel.getScene().getWindow();
+            Stage stage = (Stage) avatarLabel.getScene().getWindow();
             stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();

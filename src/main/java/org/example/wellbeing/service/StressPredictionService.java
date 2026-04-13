@@ -6,7 +6,9 @@ import org.example.utils.MyConnection;
 import org.example.utils.AiService;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StressPredictionService {
@@ -132,4 +134,37 @@ public class StressPredictionService {
             ps.executeUpdate();
         }
     }
+
+    public List<StressPrediction> getByUserId(int userId) throws SQLException {
+        List<StressPrediction> list = new ArrayList<>();
+        String req = "SELECT sp.* FROM stress_prediction sp " +
+                     "JOIN user_well_being_data uwd ON sp.user_well_being_data_id = uwd.id " +
+                     "WHERE uwd.user_id = ? " +
+                     "ORDER BY sp.created_at ASC";
+        
+        try (PreparedStatement ps = connection.prepareStatement(req)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    StressPrediction sp = new StressPrediction();
+                    sp.setId(rs.getInt("id"));
+                    sp.setPredictedStressType(rs.getString("predicted_stress_type"));
+                    sp.setPredictedLabel(rs.getString("predicted_label"));
+                    sp.setConfidenceScore(rs.getDouble("confidence_score"));
+                    sp.setRecommendation(rs.getString("recommendation"));
+                    sp.setModelVersion(rs.getString("model_version"));
+                    sp.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                    
+                    // Light linking to data (at least for id)
+                    UserWellBeingData data = new UserWellBeingData();
+                    data.setId(rs.getInt("user_well_being_data_id"));
+                    sp.setUserWellBeingData(data);
+                    
+                    list.add(sp);
+                }
+            }
+        }
+        return list;
+    }
 }
+

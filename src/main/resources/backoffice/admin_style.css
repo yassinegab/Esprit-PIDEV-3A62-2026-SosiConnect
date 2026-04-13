@@ -1,0 +1,224 @@
+/* ═══════════════════════════════════════════════════════
+   SOSI ADMIN — Premium Design System
+   Primary: Indigo #6366f1  ·  Surface: White  ·  BG: #f1f5f9
+   ═══════════════════════════════════════════════════════ */
+
+.admin-root {
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -fx-background-color: #f1f5f9;
+}
+
+/* ──────────────────────────────────────────────────────
+   ICON-ONLY SIDEBAR  (64 px wide)
+   ────────────────────────────────────────────────────── */
+.sidebar {
+    -fx-background-color: #1e1b4b;       /* deep indigo */
+    -fx-pref-width: 64;
+    -fx-min-width: 64;
+    -fx-padding: 16 0 16 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.20), 12, 0, 0, 0);
+}
+
+/* Logo container (top of sidebar) */
+.sidebar-logo-container {
+    -fx-background-color: rgba(255,255,255,0.05);
+    -fx-background-radius: 12;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-pref-width: 44;
+    -fx-pref-height: 44;
+    -fx-alignment: CENTER;
+    -fx-padding: 6;
+    -fx-border-color: rgba(255,255,255,0.1);
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 0, 2);
+}
+
+/* Thin horizontal separator line */
+.sidebar-separator {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-pref-height: 1;
+    -fx-min-height: 1;
+    -fx-max-height: 1;
+    -fx-min-width: 40;
+    -fx-pref-width: 40;
+    -fx-padding: 0;
+}
+
+/* Dot-divider between groups */
+.icon-nav-divider {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-pref-height: 1;
+    -fx-min-height: 1;
+    -fx-max-height: 1;
+    -fx-min-width: 32;
+    -fx-pref-width: 32;
+    -fx-max-width: 32;
+}
+
+/* ── Icon nav buttons ── */
+.icon-nav-btn {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-pref-width: 44;
+    -fx-pref-height: 44;
+}
+
+.icon-nav-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.10);
+}
+
+.icon-nav-btn.active {
+    -fx-background-color: rgba(129,140,248,0.20);
+    -fx-border-color: #818cf8;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 0 12 12 0;
+    -fx-background-radius: 0 12 12 0;
+}
+
+.icon-nav-glyph {
+    -fx-font-size: 20px;
+    -fx-text-fill: rgba(255,255,255,0.60);
+}
+
+.icon-nav-btn:hover .icon-nav-glyph {
+    -fx-text-fill: white;
+}
+
+.icon-nav-btn.active .icon-nav-glyph {
+    -fx-text-fill: #c7d2fe;
+}
+
+/* Logout button (bottom of sidebar) */
+.logout-icon-btn {
+    -fx-background-color: transparent;
+}
+
+.logout-icon-btn:hover {
+    -fx-background-color: rgba(239,68,68,0.18);
+}
+
+.logout-icon-btn:hover .icon-nav-glyph {
+    -fx-text-fill: #fca5a5;
+}
+
+/* ──────────────────────────────────────────────────────
+   TOP BAR
+   ────────────────────────────────────────────────────── */
+.admin-topbar {
+    -fx-background-color: #1e1b4b;      /* same deep indigo as sidebar */
+    -fx-pref-height: 66;
+    -fx-min-height: 66;
+    -fx-border-color: rgba(255,255,255,0.06);
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.18), 10, 0, 0, 5);
+}
+
+/* Search pill */
+.admin-search-pill {
+    -fx-background-color: rgba(255,255,255,0.09);
+    -fx-background-radius: 22;
+    -fx-padding: 8 14;
+    -fx-border-color: rgba(255,255,255,0.14);
+    -fx-border-radius: 22;
+    -fx-border-width: 1;
+    -fx-max-width: 360;
+}
+
+.admin-search-icon {
+    -fx-font-size: 14px;
+    -fx-text-fill: rgba(255,255,255,0.50);
+}
+
+.admin-search-field {
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,0.40);
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+/* Icon buttons in top bar */
+.admin-icon-btn {
+    -fx-background-color: rgba(255,255,255,0.09);
+    -fx-text-fill: rgba(255,255,255,0.70);
+    -fx-font-size: 16px;
+    -fx-padding: 10;
+    -fx-background-radius: 50;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+}
+
+.admin-icon-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.16);
+    -fx-text-fill: white;
+}
+
+/* Vertical divider */
+.admin-v-divider {
+    -fx-background-color: rgba(255,255,255,0.15);
+    -fx-min-width: 1;
+    -fx-pref-width: 1;
+    -fx-min-height: 30;
+    -fx-pref-height: 30;
+}
+
+/* Admin profile chip */
+.admin-profile-chip {
+    -fx-background-color: rgba(255,255,255,0.09);
+    -fx-background-radius: 24;
+    -fx-border-color: rgba(255,255,255,0.14);
+    -fx-border-radius: 24;
+    -fx-border-width: 1;
+    -fx-padding: 6 14 6 6;
+    -fx-cursor: hand;
+}
+
+.admin-profile-chip:hover {
+    -fx-background-color: rgba(255,255,255,0.15);
+    -fx-border-color: rgba(255,255,255,0.25);
+}
+
+.admin-avatar-circle {
+    -fx-background-color: linear-gradient(to bottom right, #818cf8, #6366f1);
+    -fx-background-radius: 18;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-pref-width: 36;
+    -fx-pref-height: 36;
+    -fx-effect: dropshadow(three-pass-box, rgba(99,102,241,0.45), 8, 0, 0, 3);
+}
+
+.admin-avatar-letters {
+    -fx-text-fill: white;
+    -fx-font-weight: 900;
+    -fx-font-size: 13px;
+}
+
+.admin-profile-name {
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+}
+
+.admin-profile-role {
+    -fx-font-size: 10px;
+    -fx-font-weight: 600;
+    -fx-text-fill: rgba(255,255,255,0.45);
+}
+
+/* ──────────────────────────────────────────────────────
+   CONTENT AREA
+   ────────────────────────────────────────────────────── */
+.admin-content-area {
+    -fx-background-color: #f1f5f9;
+    -fx-padding: 28;
+}

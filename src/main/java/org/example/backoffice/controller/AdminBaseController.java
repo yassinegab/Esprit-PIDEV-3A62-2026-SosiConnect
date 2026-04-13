@@ -77,11 +77,11 @@ public class AdminBaseController {
     private void updateActiveButton(Button activeBtn) {
         for (Button btn : navButtons) {
             btn.getStyleClass().remove("active");
-            btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #475569;");
         }
         if (activeBtn != null) {
-            activeBtn.getStyleClass().add("active");
-            activeBtn.setStyle("-fx-background-color: #f1f5f9; -fx-text-fill: #6366f1; -fx-font-weight: bold;");
+            if (!activeBtn.getStyleClass().contains("active")) {
+                activeBtn.getStyleClass().add("active");
+            }
         }
     }
 

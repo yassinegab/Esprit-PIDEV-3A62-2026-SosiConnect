@@ -5,6 +5,8 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.chart.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -19,12 +21,132 @@
             <HBox alignment="CENTER_LEFT" spacing="20.0">
                 <Label text="Mes Données de Bien-être" style="-fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button text="+ Évaluer mon bien-être" onAction="#showForm" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 10 20; -fx-background-radius: 10; -fx-cursor: hand;" />
+                <HBox spacing="10">
+                    <Button text="🥗 Analyse de Repas" onAction="#showMealAnalysis" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 10 20; -fx-background-radius: 10; -fx-cursor: hand;" />
+                    <Button text="+ Évaluer mon bien-être" onAction="#showForm" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 10 20; -fx-background-radius: 10; -fx-cursor: hand;" />
+                </HBox>
             </HBox>
             
             <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
-                <FlowPane fx:id="cardsContainer" hgap="20.0" vgap="20.0" style="-fx-padding: 10;" />
+                <VBox spacing="30.0">
+                    <!-- Stress Evaluations Section -->
+                    <VBox spacing="15.0">
+                        <FlowPane fx:id="cardsContainer" hgap="20.0" vgap="20.0" style="-fx-padding: 5;" />
+                    </VBox>
+
+                    <!-- Banner Section -->
+                    <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: linear-gradient(to right, #6366f1, #8b5cf6); -fx-background-radius: 15; -fx-padding: 20;">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Detailed Analysis Available" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: 800;" />
+                            <Label text="Visualize your well-being trends over time." style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 13px;" />
+                        </VBox>
+                        <Button text="View Stress Statistics ›" style="-fx-background-color: white; -fx-text-fill: #6366f1; -fx-font-weight: 700; -fx-padding: 10 20; -fx-background-radius: 10; -fx-cursor: hand;" />
+                    </HBox>
+
+                    <!-- Meals Section -->
+                    <VBox spacing="15.0">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="My Meals" style="-fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button text="🍽 Add Meal" onAction="#showMealAnalysis" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: 700; -fx-padding: 8 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+                        </HBox>
+                        <FlowPane fx:id="mealsContainer" hgap="20.0" vgap="20.0" style="-fx-padding: 5;" />
+                    </VBox>
+
+                    <!-- Statistics Section -->
+                    <VBox spacing="20.0">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Mes Statistiques" style="-fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                        </HBox>
+                        
+                        <!-- Large Stress Trend -->
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 10);">
+                            <VBox spacing="4">
+                                <HBox alignment="CENTER_LEFT">
+                                    <Label text="📈 Stress Score Trend" style="-fx-font-size: 16px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <VBox alignment="CENTER_RIGHT" spacing="2">
+                                        <Label fx:id="lblCurrentStress" text="--" style="-fx-font-size: 18px; -fx-font-weight: 900; -fx-text-fill: #6366f1;" />
+                                        <Label text="Dernier Score" style="-fx-font-size: 9px; -fx-text-fill: #94a3b8; -fx-text-transform: uppercase;" />
+                                    </VBox>
+                                    <Region prefWidth="20" />
+                                    <HBox spacing="15">
+                                        <HBox alignment="CENTER" spacing="5">
+                                            <Circle radius="4" fill="#10b981" />
+                                            <Label text="Low" style="-fx-font-size: 11px; -fx-text-fill: #64748b;" />
+                                        </HBox>
+                                        <HBox alignment="CENTER" spacing="5">
+                                            <Circle radius="4" fill="#f59e0b" />
+                                            <Label text="Moderate" style="-fx-font-size: 11px; -fx-text-fill: #64748b;" />
+                                        </HBox>
+                                        <HBox alignment="CENTER" spacing="5">
+                                            <Circle radius="4" fill="#ef4444" />
+                                            <Label text="High" style="-fx-font-size: 11px; -fx-text-fill: #64748b;" />
+                                        </HBox>
+                                    </HBox>
+                                </HBox>
+                                <Label text="Évolution de votre niveau de stress global basé sur vos évaluations quotidiennes." style="-fx-font-size: 11px; -fx-text-fill: #64748b;" />
+                            </VBox>
+                            <AreaChart fx:id="stressTrendChart" prefHeight="300" legendSide="TOP" legendVisible="false" styleClass="premium-chart">
+                                <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                                <yAxis><NumberAxis side="LEFT" lowerBound="0" upperBound="100" tickUnit="20" /></yAxis>
+                            </AreaChart>
+                        </VBox>
+
+                        <!-- Smaller Charts Grid -->
+                        <HBox spacing="20">
+                            <!-- Mood Trends -->
+                            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 10);">
+                                <VBox spacing="4">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label text="📉 Mood Trends" style="-fx-font-size: 14px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblMoodStatus" text="--" style="-fx-font-size: 12px; -fx-font-weight: 800; -fx-text-fill: #3b82f6;" />
+                                    </HBox>
+                                    <Label text="Suivi de l'anxiété et irritabilité." style="-fx-font-size: 10px; -fx-text-fill: #64748b;" wrapText="true" />
+                                </VBox>
+                                <LineChart fx:id="moodTrendChart" prefHeight="200" legendVisible="false" styleClass="small-premium-chart">
+                                    <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                                    <yAxis><NumberAxis side="LEFT" lowerBound="0" upperBound="5" tickUnit="1" /></yAxis>
+                                </LineChart>
+                            </VBox>
+                            
+                            <!-- Calorie History -->
+                            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 10);">
+                                <VBox spacing="4">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label text="🔥 Calorie History" style="-fx-font-size: 14px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblTodayCalories" text="0 kcal" style="-fx-font-size: 12px; -fx-font-weight: 800; -fx-text-fill: #10b981;" />
+                                    </HBox>
+                                    <Label text="Apport calorique journalier." style="-fx-font-size: 10px; -fx-text-fill: #64748b;" wrapText="true" />
+                                </VBox>
+                                <BarChart fx:id="calorieChart" prefHeight="200" legendVisible="false" styleClass="small-premium-chart">
+                                    <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                                    <yAxis><NumberAxis side="LEFT" label="kcal" /></yAxis>
+                                </BarChart>
+                            </VBox>
+
+                            <!-- Log Frequency -->
+                            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 10);">
+                                <VBox spacing="4">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label text="📅 Log Frequency" style="-fx-font-size: 14px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblTotalLogs" text="-- logs" style="-fx-font-size: 12px; -fx-font-weight: 800; -fx-text-fill: #8b5cf6;" />
+                                    </HBox>
+                                    <Label text="Assiduité (Évaluations + Repas)." style="-fx-font-size: 10px; -fx-text-fill: #64748b;" wrapText="true" />
+                                </VBox>
+                                <BarChart fx:id="frequencyChart" prefHeight="200" legendVisible="false" styleClass="small-premium-chart">
+                                    <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+                                    <yAxis><NumberAxis side="LEFT" label="Entries" /></yAxis>
+                                </BarChart>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
             </ScrollPane>
+
         </VBox>
 
         <!-- Evaluation Form View (Initially Hidden) -->
@@ -173,6 +295,14 @@
                 </VBox>
             </content>
         </ScrollPane>
+
+        <!-- Meal Analysis View (Initially Hidden) -->
+        <VBox fx:id="mealViewContainer" visible="false" style="-fx-background-color: #f8fafc;">
+            <HBox alignment="CENTER_LEFT" style="-fx-padding: 20 40 0 40;">
+                <Button text="← Retour" onAction="#showDashboard" style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-padding: 8 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </HBox>
+            <StackPane fx:id="mealContentArea" VBox.vgrow="ALWAYS" />
+        </VBox>
 
     </StackPane>
 </AnchorPane>

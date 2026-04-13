@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox alignment="TOP_CENTER" spacing="15" style="-fx-background-color: transparent; -fx-padding: 0 40 40 40;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.wellbeing.frontoffice.controller.WellbeingMealDetailsController">
+    
+    <!-- Top Bar -->
+    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 0;">
+        <Button onAction="#handleBack" text="← Back to Dashboard" style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-font-weight: 700; -fx-cursor: hand;" />
+    </HBox>
+
+    <!-- Main Card Container -->
+    <HBox spacing="0" alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 24; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 30, 0, 0, 15); -fx-overflow: hidden;" maxWidth="1000">
+        
+        <!-- Left Section: Image and Date overlay -->
+        <StackPane minWidth="450" maxWidth="450">
+            <ImageView fx:id="mealImageView" fitWidth="450" fitHeight="550" preserveRatio="false" />
+            <VBox alignment="BOTTOM_LEFT" style="-fx-padding: 30; -fx-background-color: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                <Label text="Recorded on" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 13px; -fx-font-weight: 700;" />
+                <Label fx:id="lblFullDate" text="March 4, 2026, 8:47 am" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: 900;" />
+            </VBox>
+        </StackPane>
+
+        <!-- Right Section: Details Scrollable -->
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" HBox.hgrow="ALWAYS" minHeight="550" maxHeight="550">
+            <content>
+                <VBox spacing="25" style="-fx-padding: 40;">
+                    
+                    <!-- Description -->
+                    <VBox spacing="8">
+                        <Label text="DESCRIPTION" style="-fx-text-fill: #94a3b8; -fx-font-size: 11px; -fx-font-weight: 800; -fx-letter-spacing: 1px;" />
+                        <Label fx:id="lblDescription" text="bla bla bla" style="-fx-text-fill: #1e293b; -fx-font-size: 22px; -fx-font-weight: 900;" wrapText="true" />
+                    </VBox>
+
+                    <!-- Header -->
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🤖" style="-fx-font-size: 18px;" />
+                        <Label text="AI NUTRITION ANALYSIS" style="-fx-text-fill: #6366f1; -fx-font-size: 13px; -fx-font-weight: 800; -fx-letter-spacing: 0.5px;" />
+                    </HBox>
+
+                    <!-- Metric Cards -->
+                    <HBox spacing="15">
+                        <!-- Calories -->
+                        <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0f7ff; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: #bfdbfe; -fx-border-radius: 12;">
+                            <Label text="CALORIES" style="-fx-text-fill: #3b82f6; -fx-font-size: 9px; -fx-font-weight: 800;" />
+                            <Label fx:id="valCalories" text="850" style="-fx-text-fill: #1e3a8a; -fx-font-size: 24px; -fx-font-weight: 900;" />
+                            <Label text="kcal" style="-fx-text-fill: #60a5fa; -fx-font-size: 10px; -fx-font-weight: 700;" />
+                        </VBox>
+                        <!-- Sugar -->
+                        <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS" style="-fx-background-color: #fef2f2; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: #fecaca; -fx-border-radius: 12;">
+                            <Label text="SUGAR" style="-fx-text-fill: #ef4444; -fx-font-size: 9px; -fx-font-weight: 800;" />
+                            <Label fx:id="valSugar" text="20" style="-fx-text-fill: #7f1d1d; -fx-font-size: 24px; -fx-font-weight: 900;" />
+                            <Label text="grams" style="-fx-text-fill: #f87171; -fx-font-size: 10px; -fx-font-weight: 700;" />
+                        </VBox>
+                        <!-- Protein -->
+                        <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS" style="-fx-background-color: #f0fdf4; -fx-background-radius: 12; -fx-padding: 15; -fx-border-color: #bbf7d0; -fx-border-radius: 12;">
+                            <Label text="PROTEIN" style="-fx-text-fill: #22c55e; -fx-font-size: 9px; -fx-font-weight: 800;" />
+                            <Label fx:id="valProtein" text="25" style="-fx-text-fill: #064e3b; -fx-font-size: 24px; -fx-font-weight: 900;" />
+                            <Label text="grams" style="-fx-text-fill: #4ade80; -fx-font-size: 10px; -fx-font-weight: 700;" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- AI Analysis Box -->
+                    <VBox style="-fx-background-color: #eff6ff; -fx-background-radius: 15; -fx-padding: 20; -fx-border-color: #dbeafe; -fx-border-radius: 15;">
+                        <Label fx:id="txtAnalysis" text="..." wrapText="true" style="-fx-text-fill: #1e40af; -fx-font-size: 14px; -fx-line-spacing: 4;" />
+                    </VBox>
+
+                    <!-- Stress Insight Box -->
+                    <HBox spacing="15" style="-fx-background-color: #fffbeb; -fx-background-radius: 15; -fx-padding: 20; -fx-border-color: #fef3c7; -fx-border-radius: 15;">
+                        <Label text="🔗" style="-fx-font-size: 18px;" />
+                        <Label fx:id="txtStressInsight" text="..." wrapText="true" style="-fx-text-fill: #92400e; -fx-font-size: 13px; -fx-line-spacing: 4;" HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <!-- Bottom Buttons -->
+                    <HBox spacing="20" alignment="CENTER">
+                        <Button onAction="#handleEdit" text="Edit Meal" style="-fx-background-color: white; -fx-text-fill: #64748b; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 12 40; -fx-font-weight: 800; -fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        <Button onAction="#handleDelete" text="Delete" style="-fx-background-color: #fef2f2; -fx-text-fill: #ef4444; -fx-background-radius: 10; -fx-padding: 12 40; -fx-font-weight: 800; -fx-cursor: hand;" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                    </HBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+    </HBox>
+</VBox>

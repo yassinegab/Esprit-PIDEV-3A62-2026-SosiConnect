@@ -4,125 +4,123 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.control.Separator?>
+<?import java.net.URL?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #f1f5f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.backoffice.controller.AdminBaseController">
-   
-   <!-- Sidebar (Left) -->
-   <left>
-      <VBox prefWidth="260.0" spacing="10.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="12.0" style="-fx-padding: 30 20;">
-               <children>
-                  <StackPane style="-fx-background-color: #6366f1; -fx-background-radius: 8; -fx-padding: 8;">
-                     <children>
-                        <Label style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14;" text="S" />
-                     </children>
-                  </StackPane>
-                  <VBox>
-                     <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 18; -fx-text-fill: #1e293b;" text="Sosi Admin" />
-                        <Label style="-fx-font-size: 11; -fx-text-fill: #94a3b8;" text="Management Portal" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            
-            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label style="-fx-text-fill: #94a3b8; -fx-font-weight: bold; -fx-font-size: 10; -fx-padding: 10 20;" text="MAIN MENU" />
-                  
-                  <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" onAction="#showDashboard" maxWidth="Infinity" styleClass="admin-nav-item" text="📊 Dashboard Overview">
-                     <graphic><Label text=" " /></graphic>
-                  </Button>
-                  
-                  <Button fx:id="btnUsers" alignment="BASELINE_LEFT" onAction="#showUserAdmin" maxWidth="Infinity" styleClass="admin-nav-item" text="👥 User Management">
-                     <graphic><Label text=" " /></graphic>
-                  </Button>
-                  
-                  <Label style="-fx-text-fill: #94a3b8; -fx-font-weight: bold; -fx-font-size: 10; -fx-padding: 20 20 10 20;" text="MODULES" />
-                  
-                  <Button fx:id="btnWellbeing" alignment="BASELINE_LEFT" onAction="#showWellbeingAdmin" maxWidth="Infinity" styleClass="admin-nav-item, active" text="🧠 Mental Wellbeing">
-                     <graphic><Label text=" " /></graphic>
-                  </Button>
-                  
-                  <Button fx:id="btnMedical" alignment="BASELINE_LEFT" onAction="#showMedicalAdmin" maxWidth="Infinity" styleClass="admin-nav-item" text="⚕️ Medical Services">
-                     <graphic><Label text=" " /></graphic>
-                  </Button>
-                  
-                  <Button fx:id="btnAide" alignment="BASELINE_LEFT" onAction="#showAideAdmin" maxWidth="Infinity" styleClass="admin-nav-item" text="🤝 Aide &amp; Donation">
-                     <graphic><Label text=" " /></graphic>
-                  </Button>
-                  
-                  <Button fx:id="btnCycle" alignment="BASELINE_LEFT" onAction="#showCycleAdmin" maxWidth="Infinity" styleClass="admin-nav-item" text="📅 Cycle Track">
-                     <graphic><Label text=" " /></graphic>
-                  </Button>
-               </children>
-            </VBox>
-            
-            <!-- Bottom Sidebar Info -->
-            <VBox spacing="10.0" style="-fx-padding: 20; -fx-background-color: #f8fafc;">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0">
-                     <children>
-                        <Circle fill="#10b981" radius="4.0" />
-                        <Label style="-fx-font-size: 12; -fx-text-fill: #64748b;" text="System Online" />
-                     </children>
-                  </HBox>
-                  <Button onAction="#handleLogout" maxWidth="Infinity" style="-fx-background-color: #fee2e2; -fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-background-radius: 5;" text="Logout" />
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-   </left>
-   
-   <!-- Header (Top) and Content (Center) -->
-   <center>
-      <VBox spacing="0.0">
-         <children>
-            <!-- Top Bar -->
-            <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="20.0" style="-fx-background-color: white; -fx-padding: 0 30; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0;">
-               <children>
-                  <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f1f5f9; -fx-background-radius: 20; -fx-padding: 8 15; -fx-max-width: 400;">
-                           <children>
-                              <Label text="🔍" style="-fx-text-fill: #94a3b8;" />
-                              <TextField promptText="Search everything..." style="-fx-background-color: transparent; -fx-prompt-text-fill: #94a3b8; -fx-pref-width: 300;" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-                  
-                  <HBox alignment="CENTER_RIGHT" spacing="15.0">
-                     <children>
-                        <Button style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-font-size: 18;" text="🔔" />
-                        <Button style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-font-size: 18;" text="⚙️" />
-                        <Separator orientation="VERTICAL" prefHeight="30.0" />
-                        <VBox alignment="CENTER_RIGHT">
-                           <children>
-                              <Label style="-fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Admin User" />
-                              <Label style="-fx-font-size: 10; -fx-text-fill: #94a3b8;" text="Super Administrator" />
-                           </children>
-                        </VBox>
-                        <Circle fill="#6366f1" radius="18.0" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            
-            <!-- Dynamic Content Area -->
-            <StackPane fx:id="adminContentArea" VBox.vgrow="ALWAYS">
-               <padding>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-               </padding>
-               <!-- Initial view will be loaded here -->
+<BorderPane prefHeight="820.0" prefWidth="1280.0"
+            styleClass="admin-root"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.backoffice.controller.AdminBaseController">
+
+    <stylesheets>
+        <URL value="@admin_style.css"/>
+    </stylesheets>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--  ICON-ONLY SIDEBAR (left, 64px)         -->
+    <!-- ═══════════════════════════════════════ -->
+    <left>
+        <VBox styleClass="sidebar" alignment="CENTER" BorderPane.alignment="CENTER">
+
+            <!-- Logo Section -->
+            <StackPane styleClass="sidebar-logo-container">
+                <ImageView fitWidth="32" preserveRatio="true">
+                    <Image url="@../assets/images/sosi_logo.png" />
+                </ImageView>
             </StackPane>
-         </children>
-      </VBox>
-   </center>
+
+            <!-- Thin separator -->
+            <Region styleClass="sidebar-separator"/>
+
+            <!-- Nav icons (fills remaining vertical space) -->
+            <VBox VBox.vgrow="ALWAYS" alignment="TOP_CENTER" spacing="6" style="-fx-padding: 8 0;">
+                <Button fx:id="btnDashboard" styleClass="icon-nav-btn,active" onAction="#showDashboard">
+                    <tooltip><Tooltip text="Dashboard"/></tooltip>
+                    <graphic><Label text="📊" styleClass="icon-nav-glyph"/></graphic>
+                </Button>
+                <Button fx:id="btnUsers" styleClass="icon-nav-btn" onAction="#showUserAdmin">
+                    <tooltip><Tooltip text="Utilisateurs"/></tooltip>
+                    <graphic><Label text="👥" styleClass="icon-nav-glyph"/></graphic>
+                </Button>
+
+                <!-- divider dot -->
+                <Region styleClass="icon-nav-divider"/>
+
+                <Button fx:id="btnWellbeing" styleClass="icon-nav-btn" onAction="#showWellbeingAdmin">
+                    <tooltip><Tooltip text="Bien-être Mental"/></tooltip>
+                    <graphic><Label text="🧠" styleClass="icon-nav-glyph"/></graphic>
+                </Button>
+                <Button fx:id="btnMedical" styleClass="icon-nav-btn" onAction="#showMedicalAdmin">
+                    <tooltip><Tooltip text="Services Médicaux"/></tooltip>
+                    <graphic><Label text="⚕" styleClass="icon-nav-glyph"/></graphic>
+                </Button>
+                <Button fx:id="btnAide" styleClass="icon-nav-btn" onAction="#showAideAdmin">
+                    <tooltip><Tooltip text="Aide &amp; Don"/></tooltip>
+                    <graphic><Label text="🤝" styleClass="icon-nav-glyph"/></graphic>
+                </Button>
+                <Button fx:id="btnCycle" styleClass="icon-nav-btn" onAction="#showCycleAdmin">
+                    <tooltip><Tooltip text="Suivi Cycle"/></tooltip>
+                    <graphic><Label text="🌸" styleClass="icon-nav-glyph"/></graphic>
+                </Button>
+            </VBox>
+
+            <!-- Bottom: logout -->
+            <Region styleClass="sidebar-separator"/>
+            <Button styleClass="icon-nav-btn,logout-icon-btn" onAction="#handleLogout">
+                <tooltip><Tooltip text="Déconnexion"/></tooltip>
+                <graphic><Label text="⏻" styleClass="icon-nav-glyph"/></graphic>
+            </Button>
+            <VBox.margin>
+                <Insets bottom="12"/>
+            </VBox.margin>
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--  RIGHT SIDE: top bar + content          -->
+    <!-- ═══════════════════════════════════════ -->
+    <center>
+        <VBox spacing="0">
+
+            <!-- Top Bar -->
+            <HBox styleClass="admin-topbar" alignment="CENTER_LEFT" spacing="16">
+                <padding><Insets left="28" right="28"/></padding>
+
+                <!-- Search pill (grows) -->
+                <HBox styleClass="admin-search-pill" alignment="CENTER_LEFT" spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="🔍" styleClass="admin-search-icon"/>
+                    <TextField promptText="Rechercher dans le système…"
+                               styleClass="admin-search-field"
+                               maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button styleClass="admin-icon-btn" text="🔔"/>
+                <Button styleClass="admin-icon-btn" text="⚙"/>
+
+                <Region styleClass="admin-v-divider"/>
+
+                <!-- Admin profile chip -->
+                <HBox styleClass="admin-profile-chip" alignment="CENTER" spacing="10">
+                    <StackPane styleClass="admin-avatar-circle">
+                        <Label text="AD" styleClass="admin-avatar-letters"/>
+                    </StackPane>
+                    <VBox alignment="CENTER_LEFT" spacing="0">
+                        <Label text="Admin User"           styleClass="admin-profile-name"/>
+                        <Label text="Super Administrateur" styleClass="admin-profile-role"/>
+                    </VBox>
+                </HBox>
+            </HBox>
+
+            <!-- Dynamic Content Area -->
+            <StackPane fx:id="adminContentArea" VBox.vgrow="ALWAYS" styleClass="admin-content-area"/>
+        </VBox>
+    </center>
+
 </BorderPane>

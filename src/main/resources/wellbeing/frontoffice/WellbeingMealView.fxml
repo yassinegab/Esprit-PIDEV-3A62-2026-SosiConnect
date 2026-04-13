@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+
+<VBox spacing="20" styleClass="meal-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.wellbeing.frontoffice.controller.WellbeingMealController" alignment="TOP_CENTER">
+    <padding>
+        <Insets top="30" right="40" bottom="30" left="40"/>
+    </padding>
+
+    <VBox alignment="CENTER" spacing="10">
+        <Text text="Analyse de Repas par IA" styleClass="meal-header-title"/>
+        <Text text="Prenez une photo de votre repas pour obtenir des conseils nutritionnels et d'équilibre." styleClass="meal-header-subtitle"/>
+    </VBox>
+
+    <HBox spacing="30" alignment="CENTER">
+        <!-- Image Selection Section -->
+        <VBox spacing="15" alignment="CENTER" styleClass="upload-section">
+            <StackPane styleClass="image-preview-container">
+                <ImageView fx:id="mealImageView" fitWidth="300" fitHeight="250" preserveRatio="true"/>
+                <VBox fx:id="placeholderBox" alignment="CENTER" spacing="10">
+                    <Label text="" styleClass="upload-icon"/>
+                    <Label text="Cliquez pour uploader une photo" styleClass="upload-text"/>
+                </VBox>
+                <Button fx:id="uploadBtn" onAction="#handleUploadImage" styleClass="transparent-button" prefWidth="300" prefHeight="250"/>
+            </StackPane>
+            
+            <TextField fx:id="descriptionField" promptText="Décrivez votre repas (ex: Poulet grillé avec salade)..." styleClass="meal-input"/>
+            
+            <Button fx:id="analyzeBtn" text="Lancer l'Analyse AI" onAction="#handleAnalyze" styleClass="analyze-button" disable="true"/>
+        </VBox>
+
+        <!-- Results Section -->
+        <VBox spacing="15" fx:id="resultsBox" visible="false" styleClass="results-section">
+            <Text text="Résultats de l'Analyse" styleClass="section-title"/>
+            
+            <GridPane hgap="20" vgap="10">
+                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="stat-card">
+                    <Label text="CALORIES" styleClass="stat-label"/>
+                    <Label fx:id="caloriesLabel" text="--" styleClass="stat-value"/>
+                </VBox>
+                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="stat-card">
+                    <Label text="SUCRE" styleClass="stat-label"/>
+                    <Label fx:id="sugarLabel" text="-- g" styleClass="stat-value"/>
+                </VBox>
+                <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="stat-card">
+                    <Label text="PROTÉINES" styleClass="stat-label"/>
+                    <Label fx:id="proteinLabel" text="-- g" styleClass="stat-value"/>
+                </VBox>
+            </GridPane>
+
+            <VBox spacing="8" styleClass="analysis-box">
+                <Label text="Conseil Nutritionnel :" styleClass="sub-title"/>
+                <Label fx:id="analysisText" wrapText="true" styleClass="analysis-content"/>
+            </VBox>
+
+            <VBox spacing="8" styleClass="stress-box">
+                <Label text="Impact sur le Stress :" styleClass="sub-title-stress"/>
+                <Label fx:id="stressInsightText" wrapText="true" styleClass="stress-content"/>
+            </VBox>
+        </VBox>
+    </HBox>
+
+    <stylesheets>
+        <URL value="@wellbeing_style.css"/>
+    </stylesheets>
+</VBox>
