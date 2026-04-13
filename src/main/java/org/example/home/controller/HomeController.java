@@ -100,7 +100,7 @@ public class HomeController {
 
     @FXML
     private void showCycle() {
-        loadView("/cycle/frontoffice/CycleClientView.fxml", btnCycle);
+        loadView("/cycle/frontoffice/DisplayCycle.fxml", btnCycle);
     }
 
     private void loadView(String fxmlPath, Button activeBtn) {

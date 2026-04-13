@@ -7,7 +7,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/cycle/frontoffice/DisplayCycle.fxml"));
+        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/home/Home.fxml"));
         javafx.scene.Parent root = loader.load();
         javafx.scene.Scene scene = new javafx.scene.Scene(root);
         stage.setScene(scene);

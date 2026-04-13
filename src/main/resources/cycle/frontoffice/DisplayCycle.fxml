@@ -8,14 +8,10 @@
 
     <children>
 
-        <ScrollPane fitToWidth="true"
-                    prefHeight="400"
-                    prefWidth="600">
+        <ScrollPane fitToWidth="true" prefHeight="400.0" prefWidth="645.0">
 
             <content>
-                <VBox fx:id="cycleContainer"
-                      spacing="10"
-                      style="-fx-padding: 10;" />
+                <VBox fx:id="cycleContainer" styleClass="cycle-container"/>
             </content>
 
         </ScrollPane>

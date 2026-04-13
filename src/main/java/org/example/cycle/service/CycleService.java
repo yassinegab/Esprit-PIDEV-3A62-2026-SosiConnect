@@ -80,10 +80,31 @@ public class CycleService {
 
             ps.executeUpdate();
 
-            System.out.println("Cycle deleted ✅");
+            System.out.println("Cycle deleted ^_^");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+//update
+public void updateCycle(Cycle c) {
+
+    try {
+        String sql = "UPDATE cycle SET date_debut_m=?, date_fin_m=? WHERE id_cycle=?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setDate(1, c.getDate_debut_m());
+        ps.setDate(2, c.getDate_fin_m());
+        ps.setInt(3, c.getCycle_id()); // ✅ IMPORTANT
+
+        ps.executeUpdate();
+
+        System.out.println("Cycle updated ✔");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

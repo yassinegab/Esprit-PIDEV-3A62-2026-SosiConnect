@@ -1,0 +1,78 @@
+/* =========================
+   CYCLE MODULE - PREMIUM UI
+========================= */
+
+.cycle-container {
+    -fx-padding: 30;
+    -fx-background-color: transparent;
+}
+
+/* Card principale */
+.cycle-card {
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-padding: 20 25;
+    -fx-spacing: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 8);
+    -fx-border-color: rgba(220, 53, 69, 0.08);
+    -fx-border-radius: 22;
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.cycle-card:hover {
+    -fx-translate-y: -4;
+    -fx-effect: dropshadow(three-pass-box, rgba(220,0,0,0.12), 25, 0, 0, 12);
+}
+
+/* Labels */
+.cycle-label-title {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: 600;
+}
+
+.cycle-label-value {
+    -fx-font-size: 16px;
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: 800;
+}
+
+/* Buttons container */
+.cycle-buttons {
+    -fx-spacing: 10;
+    -fx-padding: 10 0 0 0;
+}
+
+/* Edit Button */
+.btn-edit {
+    -fx-background-color: linear-gradient(to right, #ff9800, #ff6d00);
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.btn-edit:hover {
+    -fx-opacity: 0.85;
+}
+
+/* Delete Button */
+.btn-delete {
+    -fx-background-color: linear-gradient(to right, #dc3545, #b02a37);
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.btn-delete:hover {
+    -fx-opacity: 0.85;
+}
+
+/* Empty state */
+.cycle-empty {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 16px;
+}
