@@ -4,17 +4,45 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.DisplayCycleController">
+<?import java.net.URL?>
+<?import javafx.scene.layout.StackPane?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.cycle.frontoffice.controller.DisplayCycleController">
+
+    <stylesheets>
+        <URL value="@DisplayCss.css" />
+    </stylesheets>
 
     <children>
 
-        <ScrollPane fitToWidth="true" prefHeight="400.0" prefWidth="645.0">
+        <StackPane style="-fx-background-color: #f4f7fa;"
+                   AnchorPane.topAnchor="0"
+                   AnchorPane.bottomAnchor="0"
+                   AnchorPane.leftAnchor="0"
+                   AnchorPane.rightAnchor="0">
 
-            <content>
-                <VBox fx:id="cycleContainer" styleClass="cycle-container"/>
-            </content>
+            <ScrollPane fx:id="scrollPane"
+                        fitToWidth="true"
+                        hbarPolicy="NEVER"
+                        vbarPolicy="AS_NEEDED"
+                        pannable="true"
+                        styleClass="custom-scroll"
+                        prefWidth="Infinity"
+                        prefHeight="Infinity">
 
-        </ScrollPane>
+                <content>
+                    <VBox fx:id="cycleContainer"
+                          alignment="TOP_CENTER"
+                          spacing="20"
+                          fillWidth="true"
+                          styleClass="cycle-container"/>
+                </content>
+
+            </ScrollPane>
+
+        </StackPane>
 
     </children>
 

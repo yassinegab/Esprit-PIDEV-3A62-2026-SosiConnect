@@ -7,14 +7,13 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.EditCycleController">
-    <VBox>
+    <VBox />
 
-        <Label style="-fx-font-size: 18px;" text="Edit Cycle" />
+     <Button fx:id="editCbutton" layoutX="204.0" layoutY="246.0" onAction="#handleSave" text="Save" />
+     <DatePicker fx:id="endPicker" layoutX="136.0" layoutY="159.0" />
 
-        <DatePicker fx:id="startPicker" />
-        <DatePicker fx:id="endPicker" />
-    </VBox>
+     <DatePicker fx:id="startPicker" layoutX="136.0" layoutY="114.0" />
 
-     <Button fx:id="editCbutton" layoutX="204.0" layoutY="108.0" onAction="#handleSave" text="Save" />
+     <Label layoutX="185.0" layoutY="58.0" style="-fx-font-size: 18px;" text="Edit Cycle" />
 
 </AnchorPane>

@@ -23,6 +23,7 @@ public class DisplayCycleController {
 
     @FXML
     public void initialize() {
+        cycleContainer.setFillWidth(true);
         loadCycles();
     }
 
@@ -38,23 +39,42 @@ public class DisplayCycleController {
         for (Cycle c : cycles) {
 
             VBox card = new VBox();
-            card.setSpacing(5);
+            card.setSpacing(10);
 
-            card.setStyle("""
+// 🔥 IMPORTANT FIX
+            card.setMaxWidth(Double.MAX_VALUE);
+
+            card.getStyleClass().add("cycle-card");
+
+           /*/ card.setStyle("""
                 -fx-background-color: white;
                 -fx-padding: 15;
                 -fx-border-color: #ccc;
                 -fx-border-radius: 10;
                 -fx-background-radius: 10;
             """);
+            card.setMaxWidth(700); // controls card width
+            card.setPrefWidth(700);*/
 
-            Label start = new Label("Start: " + c.getDate_debut_m());
-            Label end = new Label("End: " + c.getDate_fin_m());
+            Label start = new Label("Start Date");
+            start.getStyleClass().add("cycle-label-title");
+
+            Label startValue = new Label(c.getDate_debut_m().toString());
+            startValue.getStyleClass().add("cycle-label-value");
+
+            Label end = new Label("End Date");
+            end.getStyleClass().add("cycle-label-title");
+
+            Label endValue = new Label(c.getDate_fin_m().toString());
+            endValue.getStyleClass().add("cycle-label-value");
+
             Label user = new Label("User ID: " + c.getUser_id());
+            user.getStyleClass().add("cycle-label-title");
+
 
             // DELETE
             Button deleteBtn = new Button("Delete");
-            deleteBtn.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+            deleteBtn.getStyleClass().add("btn-delete");
 
             deleteBtn.setOnAction(e -> {
                 new CycleService().deleteCycle(c.getCycle_id());
@@ -63,7 +83,7 @@ public class DisplayCycleController {
 
             // EDIT
             Button editBtn = new Button("Edit");
-            editBtn.setStyle("-fx-background-color: orange; -fx-text-fill: white;");
+            editBtn.getStyleClass().add("btn-edit");
 
             editBtn.setOnAction(e -> {
                 try {
@@ -89,10 +109,17 @@ public class DisplayCycleController {
                 }
             });
 
-            HBox buttons = new HBox(10);
+            HBox buttons = new HBox();
+            buttons.getStyleClass().add("cycle-buttons");
             buttons.getChildren().addAll(editBtn, deleteBtn);
-
-            card.getChildren().addAll(start, end, user, buttons);
+            card.getChildren().addAll(
+                    start,
+                    startValue,
+                    end,
+                    endValue,
+                    user,
+                    buttons
+            );
 
             cycleContainer.getChildren().add(card);
         }
