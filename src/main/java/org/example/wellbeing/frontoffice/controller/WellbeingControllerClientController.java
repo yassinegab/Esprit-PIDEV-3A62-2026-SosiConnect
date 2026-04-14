@@ -291,29 +291,13 @@ public class WellbeingControllerClientController {
 
             // Load Meal Cards with Filtering
             List<Meal> mealList = mealService.getByUserId(currentUser.getId());
-            String searchText = searchField.getText().toLowerCase();
+            String searchText = searchField.getText();
             String filter = filterCombo.getValue();
 
-            for (Meal meal : mealList) {
-                // Apply Search Filter
-                boolean matchesSearch = meal.getDescription().toLowerCase().contains(searchText) ||
-                        (meal.getAiAnalysis() != null && meal.getAiAnalysis().toLowerCase().contains(searchText));
+            List<Meal> filteredView = mealService.filterMeals(mealList, searchText, filter);
 
-                // Apply Calorie Filter
-                boolean matchesCalorie = true;
-                if (filter != null) {
-                    double calories = (meal.getCalories() != null) ? meal.getCalories() : 0;
-                    if (filter.equals("Léger (< 300 kcal)"))
-                        matchesCalorie = calories < 300;
-                    else if (filter.equals("Équilibré (300-600 kcal)"))
-                        matchesCalorie = calories >= 300 && calories <= 600;
-                    else if (filter.equals("Riche (> 600 kcal)"))
-                        matchesCalorie = calories > 600;
-                }
-
-                if (matchesSearch && matchesCalorie) {
-                    addMealCardToDashboard(meal);
-                }
+            for (Meal meal : filteredView) {
+                addMealCardToDashboard(meal);
             }
 
             // Populate Statistics Charts

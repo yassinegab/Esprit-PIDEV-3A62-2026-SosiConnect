@@ -162,6 +162,33 @@ public class WellbeingService implements IService<UserWellBeingData> {
         return alerts;
     }
 
+    public List<UserWellBeingData> getByUserId(int userId) throws SQLException {
+        List<UserWellBeingData> list = new ArrayList<>();
+        String query = "SELECT * FROM user_well_being_data WHERE user_id = ? ORDER BY created_at DESC";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRowToData(rs));
+                }
+            }
+        }
+        return list;
+    }
+
+    public UserWellBeingData getLatestByUserId(int userId) throws SQLException {
+        String query = "SELECT * FROM user_well_being_data WHERE user_id = ? ORDER BY created_at DESC LIMIT 1";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRowToData(rs);
+                }
+            }
+        }
+        return null;
+    }
+
     private UserWellBeingData mapRowToData(ResultSet rs) throws SQLException {
         UserWellBeingData data = new UserWellBeingData();
         data.setId(rs.getInt("id"));

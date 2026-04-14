@@ -27,6 +27,30 @@ public class StressPredictionService {
 
     public StressPrediction predict(UserWellBeingData data) throws SQLException {
         // 1. Calculate weighted score
+        double normalizedScore = calculateNormalizedScore(data);
+
+        // 2. Classify
+        String label = classifyStress(normalizedScore);
+
+        // 3. Create Entity
+        StressPrediction prediction = new StressPrediction();
+        prediction.setUserWellBeingData(data);
+        prediction.setPredictedStressType(label);
+        prediction.setPredictedLabel(label);
+        prediction.setConfidenceScore((float) normalizedScore);
+        prediction.setModelVersion("v1.0-weighted-java");
+
+        // 4. Generate AI Recommendation
+        String recommendation = generateAiRecommendation(prediction, data);
+        prediction.setRecommendation(recommendation);
+
+        // 5. Save to database
+        ajouter(prediction);
+
+        return prediction;
+    }
+
+    public double calculateNormalizedScore(UserWellBeingData data) {
         Map<String, Double> weights = new HashMap<>();
         weights.put("anxietyTension", 2.5);
         weights.put("headaches", 2.0);
@@ -57,32 +81,16 @@ public class StressPredictionService {
             maxPossibleRaw += 5 * w;
         }
 
-        double normalizedScore = (totalScore / maxPossibleRaw) * 100;
+        return (totalScore / maxPossibleRaw) * 100;
+    }
 
-        // 2. Classify
-        String label = "Moderate";
+    public String classifyStress(double normalizedScore) {
         if (normalizedScore <= 35) {
-            label = "Low";
+            return "Low";
         } else if (normalizedScore >= 70) {
-            label = "High";
+            return "High";
         }
-
-        // 3. Create Entity
-        StressPrediction prediction = new StressPrediction();
-        prediction.setUserWellBeingData(data);
-        prediction.setPredictedStressType(label);
-        prediction.setPredictedLabel(label);
-        prediction.setConfidenceScore((float) normalizedScore);
-        prediction.setModelVersion("v1.0-weighted-java");
-
-        // 4. Generate AI Recommendation
-        String recommendation = generateAiRecommendation(prediction, data);
-        prediction.setRecommendation(recommendation);
-
-        // 5. Save to database
-        ajouter(prediction);
-
-        return prediction;
+        return "Moderate";
     }
 
     private String generateAiRecommendation(StressPrediction prediction, UserWellBeingData data) {

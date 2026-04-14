@@ -27,15 +27,35 @@ public class AiService {
     }
 
     public String analyzeText(String prompt) {
+        return analyzeText(prompt, null);
+    }
+
+    public String analyzeText(String prompt, String context) {
         try {
             JSONObject body = new JSONObject();
             body.put("model", "qwen/qwen-2.5-vl-72b-instruct");
             
             JSONArray messages = new JSONArray();
-            JSONObject message = new JSONObject();
-            message.put("role", "user");
-            message.put("content", prompt);
-            messages.put(message);
+            
+            // System prompt with context if available
+            StringBuilder systemContent = new StringBuilder("You are SosiApp's Wellbeing Assistant. " +
+                    "You must ONLY talk about user wellbeing, health, mental health, diet, stress management, and physical activity. " +
+                    "If a user asks about anything unrelated, politely explain that you are specialized in wellbeing.\n\n");
+            
+            if (context != null && !context.isEmpty()) {
+                systemContent.append("USER DATA CONTEXT:\n").append(context).append("\n\n");
+                systemContent.append("Use this data to provide personalized and accurate advice. Reference specific facts from this context when relevant.");
+            }
+
+            JSONObject systemMessage = new JSONObject();
+            systemMessage.put("role", "system");
+            systemMessage.put("content", systemContent.toString());
+            messages.put(systemMessage);
+
+            JSONObject userMessage = new JSONObject();
+            userMessage.put("role", "user");
+            userMessage.put("content", prompt);
+            messages.put(userMessage);
             
             body.put("messages", messages);
 

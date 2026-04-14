@@ -126,4 +126,36 @@ public class MealService implements IService<Meal> {
         }
         return list;
     }
+
+    /**
+     * Filters a list of meals based on search text and calorie bracket.
+     * This method is extracted from the controller to allow unit testing.
+     */
+    public List<Meal> filterMeals(List<Meal> meals, String searchText, String calorieFilter) {
+        String lowerSearch = searchText.toLowerCase();
+        List<Meal> filtered = new ArrayList<>();
+
+        for (Meal meal : meals) {
+            // Apply Search Filter
+            boolean matchesSearch = meal.getDescription().toLowerCase().contains(lowerSearch) ||
+                    (meal.getAiAnalysis() != null && meal.getAiAnalysis().toLowerCase().contains(lowerSearch));
+
+            // Apply Calorie Filter
+            boolean matchesCalorie = true;
+            if (calorieFilter != null && !calorieFilter.isEmpty()) {
+                double calories = (meal.getCalories() != null) ? meal.getCalories() : 0;
+                if (calorieFilter.equals("Léger (< 300 kcal)"))
+                    matchesCalorie = calories < 300;
+                else if (calorieFilter.equals("Équilibré (300-600 kcal)"))
+                    matchesCalorie = calories >= 300 && calories <= 600;
+                else if (calorieFilter.equals("Riche (> 600 kcal)"))
+                    matchesCalorie = calories > 600;
+            }
+
+            if (matchesSearch && matchesCalorie) {
+                filtered.add(meal);
+            }
+        }
+        return filtered;
+    }
 }

@@ -15,10 +15,16 @@ import org.example.user.model.User;
 import org.example.utils.AiService;
 import org.example.utils.SessionManager;
 import org.example.wellbeing.model.ChatbotMessage;
+import org.example.wellbeing.model.Meal;
+import org.example.wellbeing.model.UserWellBeingData;
 import org.example.wellbeing.service.ChatbotMessageService;
+import org.example.wellbeing.service.MealService;
+import org.example.wellbeing.service.WellbeingService;
+
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChatbotController {
 
@@ -31,6 +37,8 @@ public class ChatbotController {
 
     private ChatbotMessageService messageService = new ChatbotMessageService();
     private AiService aiService = new AiService();
+    private MealService mealService = new MealService();
+    private WellbeingService wellbeingService = new WellbeingService();
     private User currentUser;
 
     @FXML
@@ -86,7 +94,9 @@ public class ChatbotController {
 
         new Thread(() -> {
             try {
-                String aiResponse = aiService.analyzeText(content);
+                // Fetch User Context
+                String context = buildUserContext();
+                String aiResponse = aiService.analyzeText(content, context);
                 
                 Platform.runLater(() -> {
                     try {
@@ -111,6 +121,44 @@ public class ChatbotController {
                 });
             }
         }).start();
+    }
+
+    private String buildUserContext() {
+        if (currentUser == null) return "";
+        
+        StringBuilder sb = new StringBuilder();
+        try {
+            // 1. Get Wellness Data
+            UserWellBeingData latestWellbeing = wellbeingService.getLatestByUserId(currentUser.getId());
+            if (latestWellbeing != null) {
+                sb.append("LATEST WELLBEING DATA:\n");
+                sb.append("- Anxiety/Tension Score: ").append(latestWellbeing.getAnxietyTension()).append("/5\n");
+                sb.append("- Sleep Problems Score: ").append(latestWellbeing.getSleepProblems()).append("/5\n");
+                sb.append("- Irritability: ").append(latestWellbeing.getIrritability()).append("/5\n");
+                if (latestWellbeing.getStressPrediction() != null) {
+                    sb.append("- Stress Prediction: ").append(latestWellbeing.getStressPrediction().getPredictedLabel())
+                      .append(" (").append(String.format("%.1f", latestWellbeing.getStressPrediction().getConfidenceScore())).append("% confidence)\n");
+                    sb.append("- Recommendation: ").append(latestWellbeing.getStressPrediction().getRecommendation()).append("\n");
+                }
+                sb.append("\n");
+            }
+
+            // 2. Get Recent Meals
+            List<Meal> recentMeals = mealService.getByUserId(currentUser.getId());
+            if (recentMeals != null && !recentMeals.isEmpty()) {
+                sb.append("RECENT MEALS (Last 3):\n");
+                recentMeals.stream().limit(3).forEach(meal -> {
+                    sb.append("- ").append(meal.getDescription())
+                      .append(" (").append(meal.getCalories() != null ? meal.getCalories().intValue() : "?").append(" kcal, ")
+                      .append(meal.getProtein() != null ? meal.getProtein().intValue() : "?").append("g Protein)\n");
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Note: User data unavailable due to error.";
+        }
+        
+        return sb.toString();
     }
 
     private void addMessageToUI(String text, boolean isUser) {
