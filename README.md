@@ -18,6 +18,7 @@ SOSI Connect is a comprehensive personal wellbeing tracking solution. This proje
 - **Services Médicaux**: Quick access and management of medical services.
 - **Secure Authentication**: Robust login and registration system.
 
+<<<<<<< HEAD
 ---
 
 ## 🧘 Focus: Module Bien-être (Wellbeing)
@@ -47,6 +48,8 @@ Le projet intègre une suite de tests automatisés rigoureuse avec **JUnit 5** p
 
 ---
 
+=======
+>>>>>>> afab8be (Initial commit - aide et don module)
 ## 🏗️ Architecture
 
 The project follows a modular **MVC (Model-View-Controller)** pattern for clean separation of concerns:

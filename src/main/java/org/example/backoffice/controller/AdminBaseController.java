@@ -54,7 +54,11 @@ public class AdminBaseController {
 
     @FXML
     private void showAideAdmin() {
+<<<<<<< HEAD
         loadView("/aideEtdon/backoffice/AideEtdonAdminView.fxml", btnAide);
+=======
+        loadView("/aideEtdon/backoffice/AidesEtDonsAdminView.fxml", btnAide);
+>>>>>>> afab8be (Initial commit - aide et don module)
     }
 
     @FXML

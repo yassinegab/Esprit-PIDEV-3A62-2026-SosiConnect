@@ -1,0 +1,126 @@
+/* Modern Don Module CSS */
+
+/* --- Typography & Global Setup --- */
+.client-nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 12px 30px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+}
+.client-nav-button:hover {
+    -fx-background-color: #f1f5f9;
+}
+.client-nav-button.active {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #2563eb);
+    -fx-text-fill: white;
+}
+
+.main-bg {
+    -fx-background-color: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
+    -fx-padding: 40;
+}
+
+.modern-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 20, 0, 0, 8);
+}
+.modern-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.15), 30, 0, 0, 12);
+}
+
+.form-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 20, 0, 0, 8);
+    -fx-padding: 35;
+}
+
+.page-title {
+    -fx-font-size: 32px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-weight: 800;
+    -fx-text-fill: #0f172a;
+}
+
+.label-title {
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #2563eb);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-padding: 12 24;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #2563eb, #1d4ed8);
+}
+
+.success-button {
+    -fx-background-color: linear-gradient(to right, #10b981, #059669);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-padding: 12 24;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.success-button:hover {
+    -fx-background-color: linear-gradient(to right, #059669, #047857);
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+}
+.back-button:hover {
+    -fx-text-fill: #0f172a;
+}
+
+.modern-input {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+}
+.modern-input:focused {
+    -fx-border-color: #3b82f6;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(59, 130, 246, 0.2), 10, 0, 0, 0);
+}
+
+.badge-normal {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #475569;
+    -fx-padding: 4 12;
+    -fx-background-radius: 12px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+.badge-urgent {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #dc2626;
+    -fx-padding: 4 12;
+    -fx-background-radius: 12px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}

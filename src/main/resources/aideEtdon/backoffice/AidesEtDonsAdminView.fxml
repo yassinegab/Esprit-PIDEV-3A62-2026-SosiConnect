@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.aideEtdon.backoffice.AideEtdonControllerAdmin"
+            stylesheets="@admin_don_styles.css"
+            style="-fx-background-color: transparent;">
+
+    <!-- MASTER TOP BAR -->
+    <top>
+        <VBox alignment="CENTER" spacing="15" style="-fx-padding: 10 20 20 20;">
+            <Label text="Service Solidarité: Aides &amp; Dons" style="-fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+            <HBox alignment="CENTER" spacing="30" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-background-radius: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4); -fx-max-width: 500;">
+                <Button fx:id="btnMasterAide" text="🆘 Accéder à l'Aide" onAction="#showMasterAide" styleClass="admin-nav-button" />
+                <Button fx:id="btnMasterDon" text="💖 Accéder aux Dons" onAction="#showMasterDon" styleClass="admin-nav-button" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- MASTER CENTER STACK -->
+    <center>
+        <StackPane fx:id="masterContentArea" style="-fx-padding: 0 20 20 20;">
+            
+            <!-- MASTER: AIDE PANE (MOCK) -->
+            <VBox fx:id="masterAidePane" alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4); -fx-padding: 40; -fx-max-width: 600; -fx-max-height: 400;" visible="false">
+                <Label text="Panneau Administrateur: Aide" style="-fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
+                <Label text="Module en cours de construction par l'équipe." style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
+            </VBox>
+
+            <!-- MASTER: DON PANE -->
+            <VBox fx:id="masterDonPane" spacing="25.0">
+                <!-- Inner Nav Bar for Don -->
+                <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-padding: 10 30; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2); -fx-max-width: 500;">
+                    <Button fx:id="btnViewAide" text="🤝 Gestion des Demandes" onAction="#showDemandesView" styleClass="admin-nav-button" />
+                    <Button fx:id="btnViewDon" text="📺 Gestion des Vidéos" onAction="#showVideosView" styleClass="admin-nav-button" />
+                </HBox>
+
+                <StackPane fx:id="contentStackPane" VBox.vgrow="ALWAYS">
+                    <!-- Demandes View -->
+                    <VBox fx:id="demandesViewBox" spacing="20.0" style="-fx-padding: 10 0;">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Dons: Liste de toutes les demandes actives" style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Rafraîchir" onAction="#initialize" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 8 16; -fx-font-weight: bold;"/>
+                        </HBox>
+                        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                            <VBox fx:id="adminDemandesContainer" spacing="15.0" style="-fx-padding: 10;" />
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Videos View -->
+                    <VBox fx:id="videosViewBox" spacing="20.0" style="-fx-padding: 10 0;" visible="false">
+                        <HBox spacing="30.0" VBox.vgrow="ALWAYS">
+                            <!-- Left side: Video List -->
+                            <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                                <Label text="Dons: Vidéos de sensibilisation existantes" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                                    <VBox fx:id="adminVideosContainer" spacing="15.0" style="-fx-padding: 10;" />
+                                </ScrollPane>
+                            </VBox>
+                            
+                            <Separator orientation="VERTICAL" />
+
+                            <!-- Right side: Add Form (Modern Card) -->
+                            <VBox spacing="20.0" prefWidth="350" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 20, 0, 0, 8);">
+                                <Label text="Nouvelle Vidéo" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                                
+                                <VBox spacing="8.0">
+                                    <Label text="Titre de la vidéo *" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 13px;" />
+                                    <TextField fx:id="videoTitleField" promptText="Ex: Campagne Don Sang" style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                </VBox>
+
+                                <VBox spacing="8.0">
+                                    <Label text="URL YouTube *" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 13px;" />
+                                    <TextField fx:id="videoUrlField" promptText="https://youtube.com/..." style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                </VBox>
+                                
+                                <Label fx:id="videoErrorLabel" visible="false" text="Champs requis!" style="-fx-text-fill: #ef4444; -fx-font-weight: bold;" />
+
+                                <Region prefHeight="10" />
+                                <Button text="+ Ajouter la vidéo" onAction="#handleAddVideo" maxWidth="Infinity" style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </StackPane>
+            </VBox>
+            
+        </StackPane>
+    </center>
+</BorderPane>

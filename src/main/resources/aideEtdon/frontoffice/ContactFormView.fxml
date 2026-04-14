@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" fitToHeight="true" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="org.example.aideEtdon.frontoffice.controller.ContactFormController" 
+            style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
+
+    <VBox alignment="CENTER" spacing="30" style="-fx-padding: 40; -fx-background-color: transparent;">
+
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Gestion des Contacts de Confiance" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+            <Label text="Ces personnes seront alertées en cas de besoin absolu." style="-fx-font-size: 18px; -fx-text-fill: #64748b;" />
+        </VBox>
+
+        <HBox spacing="40" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+            
+            <!-- Left Side: Form to ADD or UPDATE -->
+            <VBox spacing="20" prefWidth="450" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                <Label fx:id="formTitleLabel" text="Ajouter un contact" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2563eb;" />
+                <VBox spacing="8">
+                    <Label text="Nom complet *" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #475569;" />
+                    <TextField fx:id="fldNom" promptText="Ex: Jean" style="-fx-font-size: 18px; -fx-padding: 10; -fx-background-radius: 8;" />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Email *" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #475569;" />
+                    <TextField fx:id="fldEmail" promptText="Ex: jean@email.com" style="-fx-font-size: 18px; -fx-padding: 10; -fx-background-radius: 8;" />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Téléphone" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #475569;" />
+                    <TextField fx:id="fldTel" promptText="06..." style="-fx-font-size: 18px; -fx-padding: 10; -fx-background-radius: 8;" />
+                </VBox>
+                
+                <Label fx:id="lblError" text="Veuillez remplir le Nom et l'Email." style="-fx-font-size: 16px;" textFill="red" visible="false" />
+                
+                <HBox spacing="10">
+                    <Button fx:id="btnSave" text="💾 ENREGISTRER" onAction="#handleSave" HBox.hgrow="ALWAYS" maxWidth="Infinity" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+                    <Button fx:id="btnCancelEdit" text="✖" visible="false" onAction="#cancelEdit" style="-fx-background-color: #94a3b8; -fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15; -fx-background-radius: 8; -fx-cursor: hand;" />
+                </HBox>
+            </VBox>
+
+            <!-- Right Side: List of Contacts -->
+            <VBox spacing="20" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                <Label text="Contacts Enregistrés" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                    <VBox fx:id="contactsContainer" spacing="15.0" style="-fx-padding: 5;" />
+                </ScrollPane>
+            </VBox>
+
+        </HBox>
+
+        <Button text="← Retour au Bouton" onAction="#goBack" style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand;" />
+
+    </VBox>
+
+</ScrollPane>

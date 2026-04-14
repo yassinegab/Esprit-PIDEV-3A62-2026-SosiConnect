@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.aideEtdon.frontoffice.controller.DonHomeController"
+      alignment="CENTER" spacing="60.0"
+      stylesheets="@don_styles.css"
+      styleClass="main-bg">
+
+    <Label text="Espace Dons" styleClass="page-title" />
+
+    <HBox alignment="CENTER" spacing="40.0">
+        <!-- Card 1 -->
+        <VBox fx:id="cardCreate" onMouseClicked="#goToCreateDemande" alignment="CENTER" spacing="15.0" prefWidth="260" prefHeight="220" styleClass="modern-card" style="-fx-cursor: hand; -fx-padding: 20;">
+            <Label text="➕" style="-fx-font-size: 54px;" />
+            <Label text="Faire une demande" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+            <Label text="Sollicitez de l'aide" style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" />
+        </VBox>
+
+        <!-- Card 2 -->
+        <VBox fx:id="cardView" onMouseClicked="#goToViewDemandes" alignment="CENTER" spacing="15.0" prefWidth="260" prefHeight="220" styleClass="modern-card" style="-fx-cursor: hand; -fx-padding: 20;">
+            <Label text="📋" style="-fx-font-size: 54px;" />
+            <Label text="Voir les demandes" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+            <Label text="Aidez ceux dans le besoin" style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" />
+        </VBox>
+
+        <!-- Card 3 -->
+        <VBox fx:id="cardVideo" onMouseClicked="#goToVideos" alignment="CENTER" spacing="15.0" prefWidth="260" prefHeight="220" styleClass="modern-card" style="-fx-cursor: hand; -fx-padding: 20;">
+            <Label text="📺" style="-fx-font-size: 54px;" />
+            <Label text="Vidéos sur le don" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" />
+            <Label text="Sensibilisation" style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" />
+        </VBox>
+    </HBox>
+</VBox>

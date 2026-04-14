@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.aideEtdon.frontoffice.controller.DonReactionController"
+      alignment="TOP_CENTER" spacing="30.0"
+      stylesheets="@don_styles.css"
+      styleClass="main-bg">
+
+    <StackPane>
+        <HBox alignment="CENTER_LEFT">
+            <Button text="← Retour" onAction="#handleRetour" styleClass="back-button" />
+        </HBox>
+        <Label text="Faire un don pour cette demande" styleClass="page-title" StackPane.alignment="CENTER" />
+    </StackPane>
+
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+        <VBox alignment="TOP_CENTER" style="-fx-padding: 5;">
+            <VBox spacing="20.0" maxWidth="550" styleClass="form-card">
+        
+        <Label fx:id="demandeTitleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+        <Label fx:id="demandeDescLabel" style="-fx-text-fill: #475569; -fx-font-size: 15px;" wrapText="true" />
+
+        <Separator />
+
+        <VBox spacing="8.0">
+            <Label text="Détails de votre don *" styleClass="label-title" />
+            <TextArea fx:id="messageArea" promptText="Précisez votre groupe sanguin, l'organe proposé, ou tout autre détail..." prefRowCount="5" styleClass="modern-input" wrapText="true" />
+        </VBox>
+
+        <Label fx:id="errorLabel" visible="false" text="Le message est requis !" style="-fx-text-fill: #ef4444; -fx-font-weight: bold;" />
+
+        <Region prefHeight="10.0" />
+        <Button text="Confirmer le don" onAction="#handleValider" maxWidth="Infinity" styleClass="success-button" />
+
+            </VBox>
+        </VBox>
+    </ScrollPane>
+</VBox>

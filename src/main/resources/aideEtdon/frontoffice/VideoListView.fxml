@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.aideEtdon.frontoffice.controller.VideoListController"
+      alignment="TOP_CENTER" spacing="30.0"
+      stylesheets="@don_styles.css"
+      styleClass="main-bg">
+
+    <StackPane>
+        <HBox alignment="CENTER_LEFT">
+            <Button text="← Retour" onAction="#handleRetour" styleClass="back-button" />
+        </HBox>
+        <Label text="Vidéos Sensibilisation" styleClass="page-title" StackPane.alignment="CENTER" />
+    </StackPane>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 10;">
+        <FlowPane fx:id="videosContainer" hgap="40.0" vgap="40.0" alignment="CENTER" style="-fx-padding: 20;" />
+    </ScrollPane>
+</VBox>

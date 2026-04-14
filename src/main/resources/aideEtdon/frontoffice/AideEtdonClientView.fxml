@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<<<<<<< HEAD
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -15,3 +16,29 @@
         <Label text="Plateforme d'entraide et de dons bientôt disponible." style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
     </VBox>
 </AnchorPane>
+=======
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.aideEtdon.frontoffice.controller.AideEtdonControllerClientController"
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: #f8fafc;">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER" spacing="40" style="-fx-background-color: #ffffff; -fx-padding: 15 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+            <Button fx:id="btnAides" text="Aides" onAction="#showAides" style="-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 0 0 3 0; -fx-cursor: hand; -fx-padding: 5 10;" />
+            <Button fx:id="btnDons" text="Dons" onAction="#showDons" style="-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #64748b; -fx-border-color: transparent; -fx-border-width: 0 0 3 0; -fx-cursor: hand; -fx-padding: 5 10;" />
+        </HBox>
+    </top>
+
+    <!-- Center Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-padding: 30;" BorderPane.alignment="CENTER">
+            <!-- Content will be injected dynamically by controller -->
+        </StackPane>
+    </center>
+</BorderPane>
+>>>>>>> afab8be (Initial commit - aide et don module)
