@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
+
+<ScrollPane fitToWidth="true"
+            style="-fx-background-color: #f0f2f7;
+                   -fx-background: #f0f2f7;
+                   -fx-border-color: transparent;"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.servicesociaux.backoffice.controllers.MainMenuController">
+
+    <VBox spacing="14" style="-fx-padding: 0 0 24 0; -fx-background-color: #f0f2f7;">
+
+        <!-- ══ HEADER marine ══════════════════════════════════════ -->
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: #1a2744; -fx-padding: 16 22;">
+            <Label text="A"
+                   style="-fx-background-color: #c9a882;
+                          -fx-background-radius: 7;
+                          -fx-text-fill: white;
+                          -fx-font-size: 14; -fx-font-weight: bold;
+                          -fx-padding: 5 10;"/>
+            <VBox spacing="1" HBox.hgrow="ALWAYS">
+                <Label text="MediCare — Administration"
+                       style="-fx-text-fill: white;
+                              -fx-font-size: 14; -fx-font-weight: bold;"/>
+                <Label text="Tableau de bord administrateur"
+                       style="-fx-text-fill: rgba(255,255,255,0.45);
+                              -fx-font-size: 10;"/>
+            </VBox>
+            <Label text="● Connecté"
+                   style="-fx-background-color: rgba(30,160,100,0.18);
+                          -fx-text-fill: #5dd4a0;
+                          -fx-background-radius: 10;
+                          -fx-font-size: 10; -fx-padding: 4 10;"/>
+        </HBox>
+
+        <VBox spacing="14" style="-fx-padding: 0 18;">
+
+            <!-- ══ CARTES STATS — compactes, largeur réduite ══════ -->
+            <!-- Alignées à gauche, taille fixe petite -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+
+                <!-- Hôpitaux -->
+                <VBox prefWidth="130" minWidth="120" maxWidth="140"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #f5e6d3, #e8e0d8, #e8e0d8, #f5e6d3;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-border-radius: 0 8 8 0;
+                             -fx-background-radius: 8;
+                             -fx-padding: 9 10;" spacing="2">
+                    <Label text="HÔPITAUX"
+                           style="-fx-font-size: 8; -fx-font-weight: bold;
+                                  -fx-text-fill: #aaa;"/>
+                    <Label fx:id="countHopital" text="—"
+                           style="-fx-font-size: 22; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a2744;"/>
+                    <Label text="établissements"
+                           style="-fx-font-size: 8; -fx-text-fill: #bbb;"/>
+                </VBox>
+
+                <!-- Total RDV -->
+                <VBox prefWidth="130" minWidth="120" maxWidth="140"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #1ea064, #e8e0d8, #e8e0d8, #1ea064;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-border-radius: 0 8 8 0;
+                             -fx-background-radius: 8;
+                             -fx-padding: 9 10;" spacing="2">
+                    <Label text="TOTAL RDV"
+                           style="-fx-font-size: 8; -fx-font-weight: bold;
+                                  -fx-text-fill: #aaa;"/>
+                    <Label fx:id="countRdv" text="—"
+                           style="-fx-font-size: 22; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a2744;"/>
+                    <Label text="enregistrés"
+                           style="-fx-font-size: 8; -fx-text-fill: #bbb;"/>
+                </VBox>
+
+                <!-- En attente -->
+                <VBox prefWidth="130" minWidth="120" maxWidth="140"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #e09030, #e8e0d8, #e8e0d8, #e09030;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-border-radius: 0 8 8 0;
+                             -fx-background-radius: 8;
+                             -fx-padding: 9 10;" spacing="2">
+                    <Label text="EN ATTENTE"
+                           style="-fx-font-size: 8; -fx-font-weight: bold;
+                                  -fx-text-fill: #aaa;"/>
+                    <Label fx:id="countEnAttente" text="—"
+                           style="-fx-font-size: 22; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a2744;"/>
+                    <Label text="à traiter"
+                           style="-fx-font-size: 8; -fx-text-fill: #e09030;"/>
+                </VBox>
+
+            </HBox>
+
+            <!-- ══ BOUTONS D'ACTION ═══════════════════════════════ -->
+            <HBox spacing="10">
+                <!-- Bouton Hôpitaux : beige -->
+                <Button text="🏥   Gérer les Hôpitaux"
+                        onAction="#ouvrirHopital"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                        style="-fx-background-color: #f5e6d3;
+                               -fx-text-fill: #7b5c3a;
+                               -fx-background-radius: 9;
+                               -fx-font-size: 12; -fx-font-weight: bold;
+                               -fx-padding: 12; -fx-cursor: hand;
+                               -fx-border-color: #d4b896;
+                               -fx-border-width: 0.5;"/>
+
+                <!-- Bouton Rendez-vous : marine (conservé pour contraste) -->
+                <Button text="📅   Gérer les Rendez-vous"
+                        onAction="#ouvrirRendezVous"
+                        HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                        style="-fx-background-color: #1a2744;
+                               -fx-text-fill: #f5e6d3;
+                               -fx-background-radius: 9;
+                               -fx-font-size: 12; -fx-font-weight: bold;
+                               -fx-padding: 12; -fx-cursor: hand;
+                               -fx-border-color: transparent;"/>
+            </HBox>
+
+            <!-- ══ BARCHART ════════════════════════════════════════ -->
+            <VBox style="-fx-background-color: white;
+                         -fx-border-color: #e8e0d8;
+                         -fx-border-width: 0.5;
+                         -fx-border-radius: 10;
+                         -fx-background-radius: 10;
+                         -fx-padding: 14;" spacing="6">
+
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Rendez-vous par hôpital"
+                           HBox.hgrow="ALWAYS"
+                           style="-fx-font-size: 12; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a2744;"/>
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <HBox spacing="4" alignment="CENTER">
+                            <Rectangle width="10" height="10"
+                                       arcWidth="3" arcHeight="3"
+                                       fill="#f5e6d3"
+                                       strokeWidth="1" stroke="#d4b896"/>
+                            <Label text="Total RDV"
+                                   style="-fx-font-size: 9; -fx-text-fill: #888;"/>
+                        </HBox>
+                        <HBox spacing="4" alignment="CENTER">
+                            <Rectangle width="10" height="10"
+                                       arcWidth="3" arcHeight="3"
+                                       fill="#e09030"/>
+                            <Label text="En attente"
+                                   style="-fx-font-size: 9; -fx-text-fill: #888;"/>
+                        </HBox>
+                    </HBox>
+                </HBox>
+
+                <BarChart fx:id="barChart"
+                          prefHeight="230" maxHeight="230"
+                          animated="true"
+                          legendVisible="false"
+                          style="-fx-background-color: transparent; -fx-padding: 0;">
+                    <xAxis>
+                        <CategoryAxis label="Hôpitaux" tickLabelRotation="15"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Nb RDV" minorTickVisible="false"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+
+        </VBox>
+    </VBox>
+</ScrollPane>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.servicesociaux.backoffice.controllers.RendezVousController"
+            style="-fx-background-color: #f0f2f7; -fx-background: #f0f2f7;
+                   -fx-border-color: transparent;">
+
+    <VBox spacing="0" style="-fx-background-color: #f0f2f7; -fx-min-height: 700;">
+
+        <!-- ═══ HEADER ADMIN ══════════════════════════════════════ -->
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: #1a2744; -fx-padding: 14 22;">
+            <Button text="←" onAction="#retourAccueil"
+                    style="-fx-background-color: rgba(58,123,213,0.25);
+                           -fx-text-fill: #7ab3f0;
+                           -fx-background-radius: 50;
+                           -fx-font-size: 14; -fx-font-weight: bold;
+                           -fx-padding: 4 13;
+                           -fx-border-color: rgba(58,123,213,0.4);
+                           -fx-border-radius: 50; -fx-cursor: hand;"/>
+            <Label text="📅  Gestion des Rendez-vous — Administration"
+                   style="-fx-font-size: 14; -fx-font-weight: bold;
+                          -fx-text-fill: white;" HBox.hgrow="ALWAYS"/>
+            <Label text="⚙ Backoffice"
+                   style="-fx-text-fill: rgba(255,255,255,0.35); -fx-font-size: 10;"/>
+        </HBox>
+
+        <VBox spacing="12" style="-fx-padding: 16 20;">
+
+            <!-- ═══ STATISTIQUES ══════════════════════════════════ -->
+            <HBox spacing="10">
+
+                <!-- Total -->
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #3a7bd5, #dde3f0, #dde3f0, #3a7bd5;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-background-radius: 10; -fx-border-radius: 0 10 10 0;
+                             -fx-padding: 11 14;" spacing="2" alignment="CENTER_LEFT">
+                    <Label text="TOTAL RDV"
+                           style="-fx-font-size: 9; -fx-font-weight: bold; -fx-text-fill: #999;"/>
+                    <Label fx:id="statTotal" text="0"
+                           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a2744;"/>
+                    <Label text="rendez-vous"
+                           style="-fx-font-size: 9; -fx-text-fill: #bbb;"/>
+                </VBox>
+
+                <!-- En attente -->
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #e09030, #dde3f0, #dde3f0, #e09030;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-background-radius: 10; -fx-border-radius: 0 10 10 0;
+                             -fx-padding: 11 14;" spacing="2" alignment="CENTER_LEFT">
+                    <Label text="EN ATTENTE"
+                           style="-fx-font-size: 9; -fx-font-weight: bold; -fx-text-fill: #999;"/>
+                    <Label fx:id="statEnAttente" text="0"
+                           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a2744;"/>
+                    <Label text="à traiter"
+                           style="-fx-font-size: 9; -fx-text-fill: #e09030;"/>
+                </VBox>
+
+                <!-- Confirmés -->
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #1ea064, #dde3f0, #dde3f0, #1ea064;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-background-radius: 10; -fx-border-radius: 0 10 10 0;
+                             -fx-padding: 11 14;" spacing="2" alignment="CENTER_LEFT">
+                    <Label text="CONFIRMÉS"
+                           style="-fx-font-size: 9; -fx-font-weight: bold; -fx-text-fill: #999;"/>
+                    <Label fx:id="statConfirme" text="0"
+                           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a2744;"/>
+                    <Label text="confirmés"
+                           style="-fx-font-size: 9; -fx-text-fill: #1ea064;"/>
+                </VBox>
+
+                <!-- Terminés -->
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #7b5ea7, #dde3f0, #dde3f0, #7b5ea7;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-background-radius: 10; -fx-border-radius: 0 10 10 0;
+                             -fx-padding: 11 14;" spacing="2" alignment="CENTER_LEFT">
+                    <Label text="TERMINÉS"
+                           style="-fx-font-size: 9; -fx-font-weight: bold; -fx-text-fill: #999;"/>
+                    <Label fx:id="statTermine" text="0"
+                           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a2744;"/>
+                    <Label text="traités"
+                           style="-fx-font-size: 9; -fx-text-fill: #7b5ea7;"/>
+                </VBox>
+
+                <!-- Annulés -->
+                <VBox HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #e53935, #dde3f0, #dde3f0, #e53935;
+                             -fx-border-width: 0.5 0.5 0.5 4;
+                             -fx-background-radius: 10; -fx-border-radius: 0 10 10 0;
+                             -fx-padding: 11 14;" spacing="2" alignment="CENTER_LEFT">
+                    <Label text="ANNULÉS"
+                           style="-fx-font-size: 9; -fx-font-weight: bold; -fx-text-fill: #999;"/>
+                    <Label fx:id="statAnnule" text="0"
+                           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a2744;"/>
+                    <Label text="annulés"
+                           style="-fx-font-size: 9; -fx-text-fill: #e53935;"/>
+                </VBox>
+
+            </HBox>
+
+            <!-- ═══ LAYOUT : FORMULAIRE | TABLEAU ════════════════ -->
+            <HBox spacing="12" VBox.vgrow="ALWAYS">
+
+                <!-- ── PANNEAU MODIFICATION (gauche) ─────────────── -->
+                <VBox spacing="10" prefWidth="270" minWidth="255"
+                      style="-fx-background-color: white;
+                             -fx-border-color: #dde3f0; -fx-border-width: 0.5;
+                             -fx-border-radius: 10; -fx-background-radius: 10;
+                             -fx-padding: 14;">
+
+                    <!-- Titre panneau -->
+                    <Label text="Modifier un rendez-vous"
+                           style="-fx-font-size: 12; -fx-font-weight: bold;
+                                  -fx-text-fill: #1a2744;"/>
+                    <Label text="Cliquez sur une ligne du tableau pour la sélectionner"
+                           style="-fx-font-size: 9; -fx-text-fill: #aaa;"
+                           wrapText="true"/>
+
+                    <!-- Badge RDV sélectionné -->
+                    <Label fx:id="labelSelectedId"
+                           text="Aucun rendez-vous sélectionné"
+                           wrapText="true"
+                           style="-fx-font-size: 10; -fx-text-fill: #aaa;
+                                  -fx-padding: 4 8;"/>
+
+                    <Region prefHeight="2"
+                            style="-fx-background-color: #f0f2f7;"/>
+
+                    <!-- Rappel : champs en lecture seule ───────── -->
+                    <Label text="Informations (non modifiables)"
+                           style="-fx-font-size: 10; -fx-font-weight: bold;
+                                  -fx-text-fill: #888;"/>
+
+                    <VBox spacing="5"
+                          style="-fx-background-color: #f5f7fc;
+                                 -fx-border-color: #dde3f0;
+                                 -fx-border-width: 0.5;
+                                 -fx-border-radius: 8; -fx-background-radius: 8;
+                                 -fx-padding: 10;">
+                        <Label text="• Hôpital, type et date sont définis par le patient."
+                               style="-fx-font-size: 9; -fx-text-fill: #888;" wrapText="true"/>
+                        <Label text="• Seuls le statut et les notes sont modifiables."
+                               style="-fx-font-size: 9; -fx-text-fill: #888;" wrapText="true"/>
+                    </VBox>
+
+                    <Region prefHeight="4"/>
+
+                    <!-- Statut * (modifiable) ──────────────────── -->
+                    <VBox spacing="3">
+                        <Label text="Statut *"
+                               style="-fx-font-size: 10; -fx-font-weight: bold;
+                                      -fx-text-fill: #555;"/>
+                        <ComboBox fx:id="fieldStatut" maxWidth="Infinity"
+                                  promptText="Choisir le statut..."
+                                  disable="true"
+                                  style="-fx-background-color: white;
+                                         -fx-border-color: #dde3f0;
+                                         -fx-border-radius: 7; -fx-background-radius: 7;
+                                         -fx-font-size: 11;"/>
+                    </VBox>
+
+                    <!-- Notes (modifiable) ─────────────────────── -->
+                    <VBox spacing="3">
+                        <Label text="Notes"
+                               style="-fx-font-size: 10; -fx-font-weight: bold;
+                                      -fx-text-fill: #555;"/>
+                        <TextArea fx:id="fieldNotes"
+                                  prefRowCount="4"
+                                  promptText="Remarques, instructions, observations..."
+                                  disable="true"
+                                  wrapText="true"
+                                  style="-fx-background-color: white;
+                                         -fx-border-color: #dde3f0;
+                                         -fx-border-radius: 7; -fx-background-radius: 7;
+                                         -fx-font-size: 11; -fx-padding: 7;"/>
+                    </VBox>
+
+                    <Region prefHeight="6"/>
+
+                    <!-- Boutons ────────────────────────────────── -->
+                    <Button fx:id="btnModifier"
+                            text="✎  Enregistrer la modification"
+                            onAction="#modifier"
+                            maxWidth="Infinity" disable="true"
+                            style="-fx-background-color: #3a7bd5;
+                                   -fx-text-fill: white;
+                                   -fx-background-radius: 7;
+                                   -fx-font-size: 11; -fx-font-weight: bold;
+                                   -fx-padding: 10; -fx-cursor: hand;
+                                   -fx-border-color: transparent;"/>
+
+                    <Button fx:id="btnSupprimer"
+                            text="✕  Supprimer ce rendez-vous"
+                            onAction="#supprimer"
+                            maxWidth="Infinity" disable="true"
+                            style="-fx-background-color: #e53935;
+                                   -fx-text-fill: white;
+                                   -fx-background-radius: 7;
+                                   -fx-font-size: 11; -fx-font-weight: bold;
+                                   -fx-padding: 10; -fx-cursor: hand;
+                                   -fx-border-color: transparent;"/>
+
+                    <Button fx:id="btnVider"
+                            text="↺  Désélectionner"
+                            onAction="#viderFormulaire"
+                            maxWidth="Infinity" disable="true"
+                            style="-fx-background-color: white;
+                                   -fx-text-fill: #555;
+                                   -fx-background-radius: 7;
+                                   -fx-font-size: 11; -fx-font-weight: bold;
+                                   -fx-padding: 8; -fx-cursor: hand;
+                                   -fx-border-color: #dde3f0;
+                                   -fx-border-width: 0.5;"/>
+
+                    <!-- Feedback ────────────────────────────────── -->
+                    <Label fx:id="errorLabel" wrapText="true"
+                           style="-fx-font-size: 11; -fx-min-height: 18;"/>
+
+                </VBox>
+
+                <!-- ── TABLEAU + FILTRES (droite) ────────────────── -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+
+                    <!-- Recherche + Export -->
+                    <VBox spacing="8"
+                          style="-fx-background-color: white;
+                                 -fx-border-color: #dde3f0; -fx-border-width: 0.5;
+                                 -fx-border-radius: 10; -fx-background-radius: 10;
+                                 -fx-padding: 12;">
+
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="🔍" style="-fx-font-size: 13;"/>
+                            <TextField fx:id="searchField"
+                                       promptText="Rechercher par ID, patient, hôpital, statut..."
+                                       HBox.hgrow="ALWAYS"
+                                       style="-fx-background-color: #f5f7fc;
+                                              -fx-border-color: #dde3f0;
+                                              -fx-border-radius: 8; -fx-background-radius: 8;
+                                              -fx-font-size: 11; -fx-padding: 7 10;"/>
+                            <Button text="⬇  Exporter CSV" onAction="#exporterCSV"
+                                    style="-fx-background-color: #3a7bd5;
+                                           -fx-text-fill: white;
+                                           -fx-font-size: 10; -fx-font-weight: bold;
+                                           -fx-background-radius: 8; -fx-padding: 8 12;
+                                           -fx-cursor: hand; -fx-border-color: transparent;"/>
+                        </HBox>
+
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Statut :"
+                                   style="-fx-font-size: 10; -fx-text-fill: #888;
+                                          -fx-min-width: 45;"/>
+                            <ComboBox fx:id="filterStatut" prefWidth="120"
+                                      style="-fx-background-color: #f5f7fc;
+                                             -fx-border-color: #dde3f0;
+                                             -fx-border-radius: 7; -fx-background-radius: 7;
+                                             -fx-font-size: 11;"/>
+                            <Label text="Type :"
+                                   style="-fx-font-size: 10; -fx-text-fill: #888;
+                                          -fx-min-width: 38;"/>
+                            <ComboBox fx:id="filterType" prefWidth="130"
+                                      style="-fx-background-color: #f5f7fc;
+                                             -fx-border-color: #dde3f0;
+                                             -fx-border-radius: 7; -fx-background-radius: 7;
+                                             -fx-font-size: 11;"/>
+                            <Label text="Hôpital :"
+                                   style="-fx-font-size: 10; -fx-text-fill: #888;
+                                          -fx-min-width: 50;"/>
+                            <ComboBox fx:id="filterHopital"
+                                      HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                      style="-fx-background-color: #f5f7fc;
+                                             -fx-border-color: #dde3f0;
+                                             -fx-border-radius: 7; -fx-background-radius: 7;
+                                             -fx-font-size: 11;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tableau -->
+                    <TableView fx:id="tableView"
+                               VBox.vgrow="ALWAYS" minHeight="420"
+                               style="-fx-background-color: white;
+                                      -fx-border-color: #dde3f0; -fx-border-width: 0.5;
+                                      -fx-border-radius: 10; -fx-background-radius: 10;">
+                        <columns>
+                            <TableColumn fx:id="colId"
+                                         text="ID"               prefWidth="50"/>
+                            <TableColumn fx:id="colPatient"
+                                         text="Patient ID"       prefWidth="80"/>
+                            <TableColumn fx:id="colHopital"
+                                         text="Hôpital"          prefWidth="170"/>
+                            <TableColumn fx:id="colType"
+                                         text="Type"             prefWidth="125"/>
+                            <TableColumn fx:id="colStatut"
+                                         text="Statut"           prefWidth="100"/>
+                            <TableColumn fx:id="colDate"
+                                         text="Date &amp; Heure" prefWidth="150"/>
+                            <TableColumn fx:id="colNotes"
+                                         text="Notes"            prefWidth="180"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="Aucun rendez-vous trouvé"
+                                   style="-fx-text-fill: #aaa; -fx-font-size: 13;"/>
+                        </placeholder>
+                    </TableView>
+
+                </VBox>
+            </HBox>
+
+        </VBox>
+    </VBox>
+</ScrollPane>
