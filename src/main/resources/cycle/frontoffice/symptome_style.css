@@ -1,0 +1,90 @@
+/* =========================
+   SYMPTOME MODULE - PREMIUM UI
+========================= */
+
+.main-container {
+    -fx-background-color: #f8fafc;
+    -fx-padding: 40;
+    -fx-alignment: center;
+}
+
+/* Card principale */
+.form-card {
+    -fx-background-color: white;
+    -fx-padding: 40;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 30, 0, 0, 15);
+    -fx-min-width: 450px;
+}
+
+/* Header Title */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e293b;
+    -fx-padding: 0 0 20 0;
+}
+
+/* Inputs / ComboBoxes */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #64748b;
+    -fx-padding: 5 0 2 0;
+}
+
+.form-combobox, .form-datepicker {
+    -fx-pref-width: 350px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8;
+    -fx-background-color: #f8fafc;
+    -fx-padding: 0 5;
+}
+
+.form-combobox:focused, .form-datepicker:focused {
+    -fx-border-color: #ff4d6d;
+    -fx-background-color: white;
+}
+
+/* Buttons */
+.btn-primary {
+    -fx-background-color: linear-gradient(to right, #ff4d6d, #c9184a);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-pref-width: 150px;
+}
+
+.btn-primary:hover {
+    -fx-opacity: 0.9;
+    -fx-translate-y: -2;
+}
+
+.btn-secondary {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #475569;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-pref-width: 150px;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #cbd5e1;
+}
+
+/* Button Box */
+.button-container {
+    -fx-spacing: 15;
+    -fx-alignment: center;
+    -fx-padding: 30 0 0 0;
+}

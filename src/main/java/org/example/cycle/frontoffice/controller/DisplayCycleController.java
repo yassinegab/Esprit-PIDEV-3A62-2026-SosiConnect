@@ -8,22 +8,47 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.cycle.model.Cycle;
 import org.example.cycle.service.CycleService;
+import org.example.home.controller.HomeController;
+
+import java.io.IOException;
+
 
 public class DisplayCycleController {
 
+
     @FXML
-    private VBox cycleContainer;
+    private FlowPane cycleContainer;
 
     private ObservableList<Cycle> cycles = FXCollections.observableArrayList();
+    private HomeController homeController;
+
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+
+    @FXML
+    private void goToEdit() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/EditCycle.fxml"));
+            Parent view = loader.load();
+
+            homeController.setContent(view); // 🔥 magie ici
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
-        cycleContainer.setFillWidth(true);
+        //cycleContainer.setMinWidth(true);
         loadCycles();
     }
 
@@ -41,8 +66,8 @@ public class DisplayCycleController {
             VBox card = new VBox();
             card.setSpacing(10);
 
-// 🔥 IMPORTANT FIX
-            card.setMaxWidth(Double.MAX_VALUE);
+// 🔥 IMPORTANT: largeur fixe pour grid
+            card.setPrefWidth(250);
 
             card.getStyleClass().add("cycle-card");
 
@@ -77,8 +102,16 @@ public class DisplayCycleController {
             deleteBtn.getStyleClass().add("btn-delete");
 
             deleteBtn.setOnAction(e -> {
-                new CycleService().deleteCycle(c.getCycle_id());
-                loadCycles(); // 🔥 refresh auto après delete
+                boolean confirmed = org.example.utils.AlertHelper.showConfirmationAlert(
+                        "Confirmation de Suppression", 
+                        "Êtes-vous sûr de vouloir supprimer ce cycle ? Tous les symptômes associés pourraient également être supprimés."
+                );
+
+                if (confirmed) {
+                    new CycleService().deleteCycle(c.getCycle_id());
+                    org.example.utils.AlertHelper.showSuccessAlert("Succès", "Le cycle a été supprimé avec succès.");
+                    loadCycles(); // 🔥 refresh auto après delete
+                }
             });
 
             // EDIT
@@ -91,19 +124,35 @@ public class DisplayCycleController {
                             getClass().getResource("/cycle/frontoffice/EditCycle.fxml")
                     );
 
-                    Parent root = loader.load();
+                    Parent view = loader.load();
 
                     EditCycleController controller = loader.getController();
                     controller.setCycle(c);
-                    controller.setParentController(this);
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Edit Cycle");
-                    stage.show();
+                    // 🔥 IMPORTANT : passer HomeController à Edit aussi
+                    controller.setHomeController(homeController);
 
-                    controller.setStage(stage); // 🔥 important
+                    // 🔥 NAVIGATION INTERNE (LA BONNE)
+                    homeController.setContent(view);
 
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+            // VIEW SYMPTOMES
+            Button symptomesBtn = new Button("Symptômes");
+            symptomesBtn.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 12; -fx-padding: 8 16; -fx-cursor: hand;");
+            symptomesBtn.setOnAction(e -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource("/cycle/frontoffice/display_symptome.fxml")
+                    );
+                    Parent view = loader.load();
+                    DisplaySymptomeController controller = loader.getController();
+                    controller.setHomeController(homeController);
+                    controller.setCycleId(c.getCycle_id());
+                    homeController.setContent(view);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -111,7 +160,7 @@ public class DisplayCycleController {
 
             HBox buttons = new HBox();
             buttons.getStyleClass().add("cycle-buttons");
-            buttons.getChildren().addAll(editBtn, deleteBtn);
+            buttons.getChildren().addAll(editBtn, deleteBtn, symptomesBtn);
             card.getChildren().addAll(
                     start,
                     startValue,
@@ -122,6 +171,47 @@ public class DisplayCycleController {
             );
 
             cycleContainer.getChildren().add(card);
+        }
+    }
+
+    @FXML
+    private void goToAddCycle() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/cycle/frontoffice/CycleClientView.fxml")
+            );
+
+            Parent view = loader.load();
+
+            ClientCycleController controller = loader.getController();
+
+            // 🔥 IMPORTANT : garder navigation Home
+            controller.setHomeController(homeController);
+
+            homeController.setContent(view);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToAddSymptome() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/cycle/frontoffice/add_symptome.fxml")
+            );
+
+            Parent view = loader.load();
+
+            org.example.cycle.frontoffice.controller.AddSymptomeController controller = loader.getController();
+            controller.setHomeController(homeController);
+
+            if (homeController != null) {
+                homeController.setContent(view);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

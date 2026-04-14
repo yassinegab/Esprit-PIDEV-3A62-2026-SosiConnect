@@ -49,6 +49,10 @@ public class HomeController {
 
     private List<Button> navButtons;
 
+    public void setContent(Parent view) {
+        contentArea.getChildren().setAll(view);
+    }
+
     @FXML
     public void initialize() {
         navButtons = Arrays.asList(btnWellbeing, btnServicesSociaux, btnJournal, btnAideEtdon, btnCycle);
@@ -107,8 +111,18 @@ public class HomeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
+
+            // 🔥 récupérer le controller de la page chargée
+            Object controller = loader.getController();
+
+            // 🔥 injecter HomeController dans les autres controllers
+            if (controller instanceof org.example.cycle.frontoffice.controller.DisplayCycleController) {
+                ((org.example.cycle.frontoffice.controller.DisplayCycleController) controller).setHomeController(this);
+            }
+
             contentArea.getChildren().setAll(view);
             updateActiveButton(activeBtn);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.DisplayCycleController">
+<VBox prefHeight="600.0" prefWidth="900.0" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.DisplaySymptomeController">
 
     <stylesheets>
         <URL value="@DisplayCss.css" />
@@ -17,14 +17,13 @@
 
     <!-- HEADER SECTION -->
     <HBox styleClass="header-container" alignment="CENTER_LEFT">
-        <Label styleClass="header-title" text="Mes Cycles Menstruels" />
+        <Label styleClass="header-title" text="Carnet de Symptômes" />
         
         <!-- PUSH BUTTONS TO RIGHT -->
         <Pane HBox.hgrow="ALWAYS" />
         
         <HBox spacing="10">
-            <Button fx:id="navtoaddSymptome" onAction="#goToAddSymptome" styleClass="btn-secondary" text="+ Symptôme Rapide" />
-            <Button fx:id="navtoaddcycle" onAction="#goToAddCycle" styleClass="btn-primary" text="+ Nouveau Cycle" />
+            <Button fx:id="btnAddSymptom" onAction="#goToAddSymptom" styleClass="btn-primary" text="+ Nouveau Symptôme" />
         </HBox>
     </HBox>
 
@@ -32,8 +31,8 @@
     <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="custom-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
         <content>
             <VBox alignment="TOP_CENTER" spacing="15">
-                <!-- 🔥 CYCLES CONTAINER -->
-                <FlowPane fx:id="cycleContainer" hgap="25" prefWrapLength="850" styleClass="cycle-container" vgap="25" />
+                <!-- 🔥 SYMPTOMS CONTAINER -->
+                <FlowPane fx:id="symptomeContainer" hgap="25" prefWrapLength="850" styleClass="cycle-container" vgap="25" />
             </VBox>
         </content>
     </ScrollPane>

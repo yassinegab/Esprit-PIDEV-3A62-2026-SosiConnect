@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.EditSymptomeController">
+
+    <stylesheets>
+        <URL value="@DisplayCss.css" />
+    </stylesheets>
+
+    <VBox alignment="CENTER_LEFT" spacing="20" styleClass="form-card" maxWidth="450">
+
+        <Label styleClass="header-title" text="Modifier un Symptôme" />
+
+        <VBox spacing="8">
+            <Label styleClass="form-label" text="Type de symptôme" />
+            <ComboBox fx:id="typeComboBox" promptText="Sélectionnez un type" styleClass="form-combobox" />
+        </VBox>
+
+        <VBox spacing="8">
+            <Label styleClass="form-label" text="Niveau d'intensité" />
+            <ComboBox fx:id="intensiteComboBox" promptText="Sélectionnez l'intensité" styleClass="form-combobox" />
+        </VBox>
+
+        <VBox spacing="8">
+            <Label styleClass="form-label" text="Date d'observation" />
+            <DatePicker fx:id="datePicker" promptText="Sélectionnez la date" styleClass="form-datepicker" />
+        </VBox>
+
+        <HBox alignment="CENTER" spacing="15" styleClass="button-container">
+            <Button fx:id="btnCancel" onAction="#handleCancel" styleClass="btn-secondary" text="Annuler" />
+            <Button fx:id="btnUpdate" onAction="#handleUpdateSymptome" styleClass="btn-primary" text="Mettre à jour" />
+        </HBox>
+
+    </VBox>
+</VBox>

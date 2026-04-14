@@ -1,11 +1,20 @@
 package org.example.cycle.frontoffice.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.example.cycle.model.Cycle;
 import org.example.cycle.service.CycleService;
 import javafx.scene.control.DatePicker;
+import org.example.home.controller.HomeController;
+
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -28,30 +37,76 @@ public class ClientCycleController {
 
     // 👉 THIS METHOD IS CALLED WHEN BUTTON IS CLICKED
     @FXML
-    public void ajouterCycle() {
+    public void ajouterCycle(ActionEvent event) {
 
-        // 1. get values from UI
         LocalDate localDebut = DP_datadebut.getValue();
         LocalDate localFin = DP_datefin.getValue();
+
+        // VALIDATION
+        if (localDebut == null) {
+            org.example.utils.AlertHelper.showErrorAlert("Erreur de Saisie", "La date de début ne peut pas être vide.");
+            return;
+        }
+        if (localFin == null) {
+            org.example.utils.AlertHelper.showErrorAlert("Erreur de Saisie", "La date de fin ne peut pas être vide.");
+            return;
+        }
+        if (localFin.isBefore(localDebut)) {
+            org.example.utils.AlertHelper.showErrorAlert("Erreur de Saisie", "La date de fin doit être postérieure à la date de début.");
+            return;
+        }
 
         Date dateDebut = Date.valueOf(localDebut);
         Date dateFin = Date.valueOf(localFin);
 
-        // ⚠️ IMPORTANT: you don't have user_id in UI yet
-        // so we put a fixed value for now (example: 1)
         int userId = 1;
 
-        // 2. create Cycle object
         Cycle c = new Cycle(dateDebut, dateFin, userId);
-
-        // 3. send to service (database)
         CycleService.addCycle(c);
 
-        // 4. feedback
-        System.out.println("Cycle added successfully!");
+        org.example.utils.AlertHelper.showSuccessAlert("Succès", "Le cycle a été ajouté avec succès !");
 
-        // 5. clear fields (nice UX)
-        DP_datadebut.setValue(null);
-        DP_datefin.setValue(null);
+        // 👉 NAVIGATE BACK
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/cycle/frontoffice/DisplayCycle.fxml")
+            );
+
+            Parent view = loader.load();
+
+            DisplayCycleController controller = loader.getController();
+            controller.setHomeController(homeController);
+
+            homeController.setContent(view); // 🔥 NAVIGATION BACK
+
+        } catch (IOException e) {
+            org.example.utils.AlertHelper.showErrorAlert("Erreur", "Problème lors du retour: " + e.getMessage());
+        }
+    }
+
+    private HomeController homeController;
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+
+
+    @FXML
+    private void goBack() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/cycle/frontoffice/DisplayCycle.fxml")
+            );
+
+            Parent view = loader.load();
+
+            DisplayCycleController controller = loader.getController();
+            controller.setHomeController(homeController);
+
+            homeController.setContent(view);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
