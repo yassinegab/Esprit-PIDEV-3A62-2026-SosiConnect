@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="TOP_CENTER" spacing="30" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleStatisticsController">
+
+    <stylesheets>
+        <URL value="@DisplayCss.css" />
+    </stylesheets>
+
+    <!-- HEADER SECTION -->
+    <HBox styleClass="header-container" alignment="CENTER_LEFT">
+        <Label styleClass="header-title" text="Statistiques Globales" />
+    </HBox>
+
+    <HBox spacing="30" alignment="CENTER">
+        <!-- CARD 1 -->
+        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
+            <Label styleClass="form-label" text="Total Cycles" />
+            <Label fx:id="lblTotalCycles" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #ff4d6d;" text="0" />
+        </VBox>
+
+        <!-- CARD 2 -->
+        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
+            <Label styleClass="form-label" text="Durée Moyenne" />
+            <Label fx:id="lblAvgDuration" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #3b82f6;" text="0j" />
+        </VBox>
+    </HBox>
+
+    <HBox spacing="30" alignment="CENTER">
+        <!-- CARD 3 -->
+        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
+            <Label styleClass="form-label" text="Cycle le Plus Court" />
+            <Label fx:id="lblShortest" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #10b981;" text="0j" />
+        </VBox>
+
+        <!-- CARD 4 -->
+        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
+            <Label styleClass="form-label" text="Cycle le Plus Long" />
+            <Label fx:id="lblLongest" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #f59e0b;" text="0j" />
+        </VBox>
+    </HBox>
+
+</VBox>

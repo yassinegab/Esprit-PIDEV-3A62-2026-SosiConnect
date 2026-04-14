@@ -29,15 +29,15 @@ public class EditCycleController {
     private DisplayCycleController parentController;
     private Stage stage;
     private HomeController homeController;
-    @FXML private AnchorPane root;
+    //@FXML private AnchorPane root;
 
     @FXML
     public void initialize() {
-        root.setOpacity(0);
+      /*  root.setOpacity(0);
 
         FadeTransition ft = new FadeTransition(Duration.millis(400), root);
         ft.setToValue(1);
-        ft.play();
+        ft.play();*/
     }
 
     public void setHomeController(HomeController homeController) {

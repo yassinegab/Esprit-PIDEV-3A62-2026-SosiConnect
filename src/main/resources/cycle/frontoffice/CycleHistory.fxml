@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleHistoryController">
+
+    <stylesheets>
+        <URL value="@DisplayCss.css" />
+    </stylesheets>
+
+    <!-- HEADER SECTION -->
+    <HBox styleClass="header-container" alignment="CENTER_LEFT">
+        <Label styleClass="header-title" text="Historique Chronologique des Cycles" />
+    </HBox>
+
+    <!-- CONTENT SECTION (Dense chronological list) -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="custom-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+        <content>
+            <VBox fx:id="historyContainer" alignment="TOP_CENTER" spacing="10">
+                <!-- Dynamically populated in Controller -->
+            </VBox>
+        </content>
+    </ScrollPane>
+
+</VBox>

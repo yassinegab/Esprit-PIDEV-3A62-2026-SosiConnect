@@ -198,20 +198,72 @@ public class DisplayCycleController {
     @FXML
     private void goToAddSymptome() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/cycle/frontoffice/add_symptome.fxml")
-            );
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/add_symptome.fxml"));
             Parent view = loader.load();
-
             org.example.cycle.frontoffice.controller.AddSymptomeController controller = loader.getController();
             controller.setHomeController(homeController);
-
             if (homeController != null) {
                 homeController.setContent(view);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToSymptomes() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/display_symptome.fxml"));
+            Parent view = loader.load();
+            org.example.cycle.frontoffice.controller.DisplaySymptomeController controller = loader.getController();
+            controller.setHomeController(homeController);
+            if (homeController != null) homeController.setContent(view);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    @FXML
+    private void goToStats() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleStatistics.fxml"));
+            Parent view = loader.load();
+            org.example.cycle.frontoffice.controller.CycleStatisticsController controller = loader.getController();
+            controller.setHomeController(homeController);
+            if (homeController != null) homeController.setContent(view);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    @FXML
+    private void goToHistory() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleHistory.fxml"));
+            Parent view = loader.load();
+            org.example.cycle.frontoffice.controller.CycleHistoryController controller = loader.getController();
+            controller.setHomeController(homeController);
+            if (homeController != null) homeController.setContent(view);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    @FXML
+    private void exportToPdf() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("Enregistrer le rapport PDF");
+        fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
+        fileChooser.setInitialFileName("Rapport_Cycles.pdf");
+
+        java.io.File destFile = fileChooser.showSaveDialog(cycleContainer.getScene().getWindow());
+
+        if (destFile != null) {
+            try {
+                org.example.cycle.service.PdfExportService.exportCyclesToPdf(
+                        destFile,
+                        new CycleService().getAllCycles(),
+                        new org.example.cycle.service.SymptomeService()
+                );
+                org.example.utils.AlertHelper.showSuccessAlert("Export Réussi", "Le rapport PDF a été sauvegardé avec succès.");
+            } catch (Exception e) {
+                org.example.utils.AlertHelper.showErrorAlert("Erreur Export", "Échec de l'export: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -17,13 +17,20 @@
 
     <!-- HEADER SECTION -->
     <HBox styleClass="header-container" alignment="CENTER_LEFT">
-        <Label styleClass="header-title" text="Mes Cycles Menstruels" />
+        <VBox>
+            <Label styleClass="header-title" text="Mes Cycles Menstruels" />
+            <HBox spacing="10">
+                <Button fx:id="btnPdf" onAction="#exportToPdf" styleClass="btn-secondary" text="Exporter PDF" />
+                <Button fx:id="btnStats" onAction="#goToStats" styleClass="btn-secondary" text="Statistiques" />
+                <Button fx:id="btnHistory" onAction="#goToHistory" styleClass="btn-secondary" text="Historique" />
+                <Button fx:id="btnSymptomes" onAction="#goToSymptomes" styleClass="btn-secondary" text="Voir Symptômes" />
+            </HBox>
+        </VBox>
         
         <!-- PUSH BUTTONS TO RIGHT -->
         <Pane HBox.hgrow="ALWAYS" />
         
-        <HBox spacing="10">
-            <Button fx:id="navtoaddSymptome" onAction="#goToAddSymptome" styleClass="btn-secondary" text="+ Symptôme Rapide" />
+        <HBox spacing="10" alignment="CENTER_RIGHT">
             <Button fx:id="navtoaddcycle" onAction="#goToAddCycle" styleClass="btn-primary" text="+ Nouveau Cycle" />
         </HBox>
     </HBox>
