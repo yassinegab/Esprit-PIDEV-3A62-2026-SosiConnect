@@ -22,6 +22,7 @@
             <HBox spacing="10">
                 <Button fx:id="btnPdf" onAction="#exportToPdf" styleClass="btn-secondary" text="Exporter PDF" />
                 <Button fx:id="btnStats" onAction="#goToStats" styleClass="btn-secondary" text="Statistiques" />
+                <Button fx:id="btnCharts" onAction="#goToCharts" styleClass="btn-secondary" text="Graphiques" />
                 <Button fx:id="btnHistory" onAction="#goToHistory" styleClass="btn-secondary" text="Historique" />
                 <Button fx:id="btnSymptomes" onAction="#goToSymptomes" styleClass="btn-secondary" text="Voir Symptômes" />
             </HBox>

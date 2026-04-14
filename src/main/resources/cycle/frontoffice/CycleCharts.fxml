@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+
+<VBox alignment="TOP_CENTER" spacing="30" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleChartsController">
+
+    <stylesheets>
+        <URL value="@DisplayCss.css" />
+    </stylesheets>
+
+    <!-- HEADER SECTION -->
+    <HBox styleClass="header-container" alignment="CENTER_LEFT">
+        <Label styleClass="header-title" text="Graphiques &amp; Analyses" />
+    </HBox>
+
+    <!-- CHARTS SECTION -->
+    <HBox spacing="20" alignment="CENTER">
+        <!-- BAR CHART -->
+        <VBox styleClass="form-card" prefWidth="400" prefHeight="400" alignment="CENTER">
+            <Label styleClass="form-label" text="Durée des Cycles (Jours)" />
+            <BarChart fx:id="cycleBarChart" legendVisible="false" prefHeight="350">
+                <xAxis>
+                    <CategoryAxis label="Cycles" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Jours" />
+                </yAxis>
+            </BarChart>
+        </VBox>
+
+        <!-- PIE CHART -->
+        <VBox styleClass="form-card" prefWidth="400" prefHeight="400" alignment="CENTER">
+            <Label styleClass="form-label" text="Répartition des Symptômes" />
+            <PieChart fx:id="symptomePieChart" prefHeight="350" legendSide="BOTTOM" />
+        </VBox>
+    </HBox>
+
+</VBox>

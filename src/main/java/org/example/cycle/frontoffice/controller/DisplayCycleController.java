@@ -244,6 +244,17 @@ public class DisplayCycleController {
     }
 
     @FXML
+    private void goToCharts() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleCharts.fxml"));
+            Parent view = loader.load();
+            org.example.cycle.frontoffice.controller.CycleChartsController controller = loader.getController();
+            controller.setHomeController(homeController);
+            if (homeController != null) homeController.setContent(view);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    @FXML
     private void exportToPdf() {
         javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
         fileChooser.setTitle("Enregistrer le rapport PDF");

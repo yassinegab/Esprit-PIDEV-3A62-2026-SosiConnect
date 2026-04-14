@@ -3,7 +3,10 @@ package org.example.user.service;
 import org.example.IService.IService;
 import org.example.user.model.User;
 import org.example.utils.MyConnection;
-
+import org.example.user.model.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +114,33 @@ public class ServiceUser implements IService<User> {
         user.setUser_role(rs.getString("user_role"));
         user.setSpecialite(rs.getString("specialite"));
         user.setCreated_at(rs.getTimestamp("created_at"));
+        return user;
+    }
+    public User getUserById(int id) {
+
+        User user = null;
+
+        String sql = "SELECT * FROM user WHERE id = ?";
+
+        try (Connection conn = MyConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user = new User();
+                user.setId(rs.getInt("id"));
+
+                // ⚠️ CHANGE THIS depending on DB column
+                user.setNom(rs.getString("prenom"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return user;
     }
 }

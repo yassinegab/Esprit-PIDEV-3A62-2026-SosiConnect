@@ -179,3 +179,19 @@
 .scroll-bar .thumb:hover {
     -fx-background-color: rgba(220, 53, 69, 0.8);
 }
+
+/* =========================
+   CHARTS OVERRIDES (PINK THEME)
+========================= */
+.chart-bar {
+    -fx-bar-fill: #f472b6; /* Light pink for bars */
+}
+
+/* Pie Chart Colors */
+.default-color0.chart-pie { -fx-pie-color: #fbcfe8; }
+.default-color1.chart-pie { -fx-pie-color: #f9a8d4; }
+.default-color2.chart-pie { -fx-pie-color: #f472b6; }
+.default-color3.chart-pie { -fx-pie-color: #ec4899; }
+.default-color4.chart-pie { -fx-pie-color: #db2777; }
+.default-color5.chart-pie { -fx-pie-color: #be185d; }
+.default-color6.chart-pie { -fx-pie-color: #9d174d; }

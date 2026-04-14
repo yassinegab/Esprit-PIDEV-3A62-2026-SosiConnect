@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<VBox prefHeight="800.0" prefWidth="900.0" spacing="30.0" styleClass="admin-content-area" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.backoffice.controller.CycleAdminController">
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.cycle.backoffice.CycleControllerAdmin"
-            prefHeight="400.0" prefWidth="600.0">
+   <stylesheets>
+      <URL value="@../../backoffice/admin_style.css" />
+   </stylesheets>
 
-</AnchorPane>
+   <!-- Header -->
+   <VBox spacing="10">
+      <Label styleClass="admin-card-title" style="-fx-font-size: 24;" text="Cycle Tracking Analytics" />
+      <Label styleClass="admin-card-subtitle" style="-fx-font-size: 14;" text="Overview of system-wide menstrual cycle tracking usage by users" />
+   </VBox>
+
+   <!-- Top Analytics Cards -->
+   <HBox spacing="20">
+      <!-- Unique Users Card -->
+      <VBox styleClass="admin-card" HBox.hgrow="ALWAYS" prefHeight="120" alignment="CENTER_LEFT" spacing="10">
+         <Label styleClass="admin-card-subtitle" text="TOTAL WOMEN TRACKING" />
+         <Label fx:id="lblTotalTrackers" styleClass="admin-card-title" style="-fx-font-size: 36; -fx-text-fill: #4f46e5;" text="0" />
+      </VBox>
+      
+      <!-- Total Cycles Logged Card -->
+      <VBox styleClass="admin-card" HBox.hgrow="ALWAYS" prefHeight="120" alignment="CENTER_LEFT" spacing="10">
+         <Label styleClass="admin-card-subtitle" text="TOTAL CYCLES LOGGED" />
+         <Label fx:id="lblTotalCycles" styleClass="admin-card-title" style="-fx-font-size: 36; -fx-text-fill: #10b981;" text="0" />
+      </VBox>
+   </HBox>
+
+   <!-- Table Container -->
+   <VBox styleClass="admin-card" VBox.vgrow="ALWAYS" spacing="15">
+      <Label styleClass="admin-card-title" text="User Usage Distribution" />
+      <Label styleClass="admin-card-subtitle" text="Detailed breakdown of cycle entries per user account" />
+
+       <TableView fx:id="cycleUsageTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+
+           <columns>
+
+               <TableColumn fx:id="colUserId" prefWidth="200.0" text="User ID" />
+
+               <TableColumn fx:id="colUserName" prefWidth="300.0" text="User Name" />
+
+               <TableColumn fx:id="colCycleCount" prefWidth="300.0" text="Cycle Count" />
+
+           </columns>
+
+       </TableView>
+   </VBox>
+
+</VBox>

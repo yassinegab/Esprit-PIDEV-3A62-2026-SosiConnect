@@ -1,0 +1,123 @@
+/* Admin Global Reset */
+.root {
+    -fx-font-family: 'Segoe UI', Helvetica, sans-serif;
+    -fx-background-color: #f8fafc;
+}
+
+/* Sidebar General */
+.sidebar {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 15, 0, 0, 0);
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 1 0 0;
+}
+
+/* Sidebar Navigation Items */
+.admin-nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20;
+    -fx-cursor: hand;
+    -fx-alignment: center-left;
+    -fx-background-radius: 0 10 10 0;
+    -fx-margin: 0 15 0 0;
+}
+
+/* Hover Effect for standard buttons */
+.admin-nav-item:hover {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #334155;
+}
+
+/* Active State for Sidebar Items */
+.admin-nav-item.active {
+    -fx-background-color: #eef2ff;
+    -fx-text-fill: #4f46e5;
+    -fx-font-weight: 700;
+    -fx-border-color: #4f46e5;
+    -fx-border-width: 0 0 0 4;
+    -fx-background-radius: 0 8 8 0;
+}
+
+/* Header Settings */
+.admin-header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 5, 0, 0, 2);
+}
+
+/* Search Bar Wrapper */
+.admin-search-box {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 20;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 20;
+    -fx-padding: 0 15;
+}
+
+/* Content Panel Wrapper */
+.admin-content-area {
+    -fx-background-color: #f8fafc;
+}
+
+/* Form & Dash Cards inside Admin */
+.admin-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);
+    -fx-padding: 20;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12;
+}
+
+.admin-card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e293b;
+}
+
+.admin-card-subtitle {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #94a3b8;
+}
+
+/* TableView overrides for Admin Dashboards */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 40;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #64748b;
+    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+    -fx-padding: 5;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafafa;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f1f5f9;
+}

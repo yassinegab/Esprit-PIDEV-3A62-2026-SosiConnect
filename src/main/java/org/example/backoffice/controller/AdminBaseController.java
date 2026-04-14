@@ -75,13 +75,14 @@ public class AdminBaseController {
     }
 
     private void updateActiveButton(Button activeBtn) {
+        // Clear active class from all nav buttons natively
         for (Button btn : navButtons) {
             btn.getStyleClass().remove("active");
-            btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #475569;");
+            btn.setStyle(""); // wipe inline messes
         }
+        // Set new active natively via CSS class
         if (activeBtn != null) {
             activeBtn.getStyleClass().add("active");
-            activeBtn.setStyle("-fx-background-color: #f1f5f9; -fx-text-fill: #6366f1; -fx-font-weight: bold;");
         }
     }
 
