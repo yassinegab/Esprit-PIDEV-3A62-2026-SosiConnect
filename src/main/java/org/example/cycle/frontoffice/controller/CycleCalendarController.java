@@ -27,7 +27,8 @@ public class CycleCalendarController {
 
     private HomeController homeController;
     private YearMonth currentYearMonth;
-    private final CycleService cycleService = new CycleService();
+    private final org.example.cycle.service.CycleService cycleService = new org.example.cycle.service.CycleService();
+    private final org.example.cycle.service.CycleAnalysisService analysisService = new org.example.cycle.service.CycleAnalysisService();
 
     private int getCurrentUserId() {
         org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
@@ -67,6 +68,7 @@ public class CycleCalendarController {
         int daysInMonth = currentYearMonth.lengthOfMonth();
 
         List<Cycle> userCycles = cycleService.getCyclesByUserId(getCurrentUserId());
+        List<org.example.cycle.model.CycleAnalysis> analyses = analysisService.analyzeAllUserCycles(userCycles);
 
         int row = 0;
         int col = dayOfWeekOfFirst - 1;
@@ -97,13 +99,26 @@ public class CycleCalendarController {
             dayBox.getChildren().add(lblDay);
 
             // Check if there is a cycle on this date
-            Cycle activeCycle = getCycleForDate(currentDate, userCycles);
-            if (activeCycle != null) {
+            String dayState = getDayState(currentDate, analyses);
+
+            if (dayState.equals("MENSTRUATION")) {
                 dayBox.getStyleClass().add("cycle-active-day");
-                Label lblCycleInfo = new Label("Cycle \u25CF"); // Bullet dot
+                Label lblCycleInfo = new Label("🩸 Règles");
                 lblCycleInfo.getStyleClass().add("cycle-label");
                 dayBox.getChildren().add(lblCycleInfo);
+            } else if (dayState.equals("OVULATION")) {
+                dayBox.getStyleClass().add("ovulation-day");
+                Label lblOvu = new Label("🌹 Ovulation");
+                lblOvu.getStyleClass().add("ovulation-label");
+                dayBox.getChildren().add(lblOvu);
+            } else if (dayState.equals("FERTILE")) {
+                dayBox.getStyleClass().add("fertile-day");
+                Label lblFertile = new Label("🩵 Fertile");
+                lblFertile.getStyleClass().add("fertile-label");
+                dayBox.getChildren().add(lblFertile);
             }
+
+            Cycle activeCycle = getCycleForDate(currentDate, userCycles);
 
             // Click interaction
             dayBox.setOnMouseClicked(e -> showCycleDialog(currentDate, activeCycle));
@@ -136,6 +151,23 @@ public class CycleCalendarController {
             }
         }
         return null; // No cycle for this date
+    }
+
+    private String getDayState(LocalDate date, List<org.example.cycle.model.CycleAnalysis> analyses) {
+        for (org.example.cycle.model.CycleAnalysis a : analyses) {
+            Cycle c = a.getCycle();
+            if (!date.isBefore(c.getDate_debut_m().toLocalDate()) && !date.isAfter(c.getDate_fin_m().toLocalDate())) {
+                return "MENSTRUATION";
+            }
+            if (a.getOvulationDate() != null && date.equals(a.getOvulationDate())) {
+                return "OVULATION";
+            }
+            if (a.getFertileWindowStart() != null && a.getFertileWindowEnd() != null && 
+                !date.isBefore(a.getFertileWindowStart()) && !date.isAfter(a.getFertileWindowEnd())) {
+                return "FERTILE";
+            }
+        }
+        return "NORMAL";
     }
 
     @FXML

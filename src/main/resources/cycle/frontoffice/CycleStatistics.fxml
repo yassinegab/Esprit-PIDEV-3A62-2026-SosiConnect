@@ -2,46 +2,72 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.geometry.Insets?>
-<VBox alignment="TOP_CENTER" spacing="30" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleStatisticsController">
+
+<VBox prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: #fcfbfd;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleStatisticsController">
 
     <stylesheets>
         <URL value="@DisplayCss.css" />
     </stylesheets>
 
     <!-- HEADER SECTION -->
-    <HBox styleClass="header-container" alignment="CENTER_LEFT">
-        <Label styleClass="header-title" text="Statistiques Globales" />
-    </HBox>
-
-    <HBox spacing="30" alignment="CENTER">
-        <!-- CARD 1 -->
-        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
-            <Label styleClass="form-label" text="Total Cycles" />
-            <Label fx:id="lblTotalCycles" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #ff4d6d;" text="0" />
-        </VBox>
-
-        <!-- CARD 2 -->
-        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
-            <Label styleClass="form-label" text="Durée Moyenne" />
-            <Label fx:id="lblAvgDuration" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #3b82f6;" text="0j" />
+    <HBox style="-fx-background-color: white; -fx-padding: 20 30; -fx-border-color: #f1f2f6; -fx-border-width: 0 0 1 0; -fx-alignment: center-left;">
+        <VBox>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" text="📊 Statistiques Cliniques" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #64748b;" text="Indicateurs clés de votre santé menstruelle" />
         </VBox>
     </HBox>
 
-    <HBox spacing="30" alignment="CENTER">
-        <!-- CARD 3 -->
-        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
-            <Label styleClass="form-label" text="Cycle le Plus Court" />
-            <Label fx:id="lblShortest" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #10b981;" text="0j" />
-        </VBox>
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #fcfbfd;" VBox.vgrow="ALWAYS">
+        <content>
+            <GridPane hgap="25" vgap="25" style="-fx-padding: 30;">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
 
-        <!-- CARD 4 -->
-        <VBox alignment="CENTER" spacing="10" styleClass="form-card" prefWidth="200" prefHeight="150" minWidth="200">
-            <Label styleClass="form-label" text="Cycle le Plus Long" />
-            <Label fx:id="lblLongest" styleClass="header-title" style="-fx-font-size: 36px; -fx-text-fill: #f59e0b;" text="0j" />
-        </VBox>
-    </HBox>
+                <!-- CARD 1 -->
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" text="Total Cycles Enregistrés" />
+                    <Label fx:id="lblTotalCycles" style="-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-font-weight: 800;" text="0" />
+                </VBox>
+
+                <!-- CARD 2 -->
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" text="Durée Moyenne d'un Cycle" />
+                    <Label fx:id="lblAvgDuration" style="-fx-font-size: 40px; -fx-text-fill: #ff6b81; -fx-font-weight: 800;" text="0 j" />
+                </VBox>
+
+                <!-- CARD 3 -->
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" text="Cycle le Plus Court" />
+                    <Label fx:id="lblShortest" style="-fx-font-size: 40px; -fx-text-fill: #10b981; -fx-font-weight: 800;" text="0 j" />
+                </VBox>
+
+                <!-- CARD 4 -->
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" text="Cycle le Plus Long" />
+                    <Label fx:id="lblLongest" style="-fx-font-size: 40px; -fx-text-fill: #f59e0b; -fx-font-weight: 800;" text="0 j" />
+                </VBox>
+
+                <!-- CARD 5 -->
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" text="Taux de Régularité" />
+                    <Label fx:id="lblRegularity" style="-fx-font-size: 40px; -fx-text-fill: #6366f1; -fx-font-weight: 800;" text="0%" />
+                </VBox>
+
+                <!-- CARD 6 -->
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;" text="Durée Moyenne des Règles" />
+                    <Label fx:id="lblAvgPeriod" style="-fx-font-size: 40px; -fx-text-fill: #ec4899; -fx-font-weight: 800;" text="0 j" />
+                </VBox>
+            </GridPane>
+        </content>
+    </ScrollPane>
 
 </VBox>

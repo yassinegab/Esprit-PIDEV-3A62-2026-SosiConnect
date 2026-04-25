@@ -90,3 +90,41 @@
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
+
+/* FERTILE */
+.fertile-day {
+    -fx-background-color: #f0f9ff;
+    -fx-border-color: #bae6fd;
+}
+.fertile-day:hover {
+    -fx-background-color: #e0f2fe;
+    -fx-border-color: #7dd3fc;
+}
+.fertile-label {
+    -fx-background-color: #38bdf8;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 6 3 6;
+    -fx-background-radius: 10px;
+    -fx-alignment: center;
+}
+
+/* OVULATION */
+.ovulation-day {
+    -fx-background-color: #fdf2f8;
+    -fx-border-color: #fbcfe8;
+}
+.ovulation-day:hover {
+    -fx-background-color: #fce7f3;
+    -fx-border-color: #f9a8d4;
+}
+.ovulation-label {
+    -fx-background-color: #f472b6;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 6 3 6;
+    -fx-background-radius: 10px;
+    -fx-alignment: center;
+}

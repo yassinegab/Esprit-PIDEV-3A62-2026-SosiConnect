@@ -1,271 +1,156 @@
 package org.example.cycle.frontoffice.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.example.cycle.model.Cycle;
+import org.example.cycle.service.CycleAnalysisService;
 import org.example.cycle.service.CycleService;
 import org.example.home.controller.HomeController;
 
 import java.io.IOException;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class DisplayCycleController {
 
+    @FXML private Label lblWelcome;
+    @FXML private Label lblNextPeriod;
+    @FXML private Label lblDaysRemaining;
+    @FXML private Label lblOvulation;
+    @FXML private Label lblFertile;
+    
+    @FXML private Label lblAvgCycle;
+    @FXML private Label lblAvgMenstruation;
+    @FXML private Label lblRegularity;
+    
+    @FXML private VBox alertBox;
+    @FXML private Label lblAlertMsg;
 
-    @FXML
-    private FlowPane cycleContainer;
-
-    private ObservableList<Cycle> cycles = FXCollections.observableArrayList();
     private HomeController homeController;
-
+    private final CycleService cycleService = new CycleService();
+    private final CycleAnalysisService analysisService = new CycleAnalysisService();
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
     }
 
     @FXML
-    private void goToEdit() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/EditCycle.fxml"));
-            Parent view = loader.load();
-
-            homeController.setContent(view);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     public void initialize() {
-        //cycleContainer.setMinWidth(true);
-        loadCycles();
+        loadDashboardData();
     }
 
-
-    public void loadCycles() {
-
-        cycleContainer.getChildren().clear();
-        cycles.clear();
-
+    private void loadDashboardData() {
         org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
-        CycleService service = new CycleService();
-        if (currentUser != null) {
-            cycles.addAll(service.getCyclesByUserId(currentUser.getId()));
+        if (currentUser == null) return;
+
+        lblWelcome.setText("Bonjour " + currentUser.getPrenom() + " 👋, voici votre suivi menstruel.");
+        
+        List<Cycle> cycles = cycleService.getCyclesByUserId(currentUser.getId());
+        
+        if (cycles.isEmpty()) {
+            lblNextPeriod.setText("Aucune donnée");
+            lblDaysRemaining.setText("Ajoutez un cycle");
+            lblOvulation.setText("-");
+            lblFertile.setText("-");
+            lblAvgCycle.setText("- j");
+            lblAvgMenstruation.setText("- j");
+            lblRegularity.setText("-");
+            return;
         }
 
-        for (Cycle c : cycles) {
+        // Calculations
+        int avgCycle = analysisService.getAverageCycleLength(cycles);
+        int avgPeriod = analysisService.getAverageMenstruationLength(cycles);
+        double regularity = analysisService.getRegularityRate(cycles);
+        
+        LocalDate nextPeriod = analysisService.predictNextPeriod(cycles);
+        LocalDate today = LocalDate.now();
+        long daysDiff = ChronoUnit.DAYS.between(today, nextPeriod);
+        
+        LocalDate ovulation = nextPeriod.minusDays(14);
+        LocalDate fertileStart = ovulation.minusDays(5);
+        LocalDate fertileEnd = ovulation.plusDays(1);
 
-            VBox card = new VBox();
-            card.setSpacing(10);
+        // UI Updates
+        lblAvgCycle.setText(avgCycle + " j");
+        lblAvgMenstruation.setText(avgPeriod + " j");
+        lblRegularity.setText(String.format("%.0f%%", regularity));
+        
+        lblNextPeriod.setText(nextPeriod.format(formatter));
+        lblOvulation.setText(ovulation.format(formatter));
+        lblFertile.setText(fertileStart.format(formatter) + " - " + fertileEnd.format(formatter));
+        
+        if (daysDiff == 0) {
+            lblDaysRemaining.setText("Aujourd'hui !");
+        } else if (daysDiff < 0) {
+            lblDaysRemaining.setText("En retard de " + Math.abs(daysDiff) + " jours");
+        } else {
+            lblDaysRemaining.setText("Dans " + daysDiff + " jours");
+        }
 
-
-            card.setPrefWidth(250);
-
-            card.getStyleClass().add("cycle-card");
-
-           /*/ card.setStyle("""
-                -fx-background-color: white;
-                -fx-padding: 15;
-                -fx-border-color: #ccc;
-                -fx-border-radius: 10;
-                -fx-background-radius: 10;
-            """);
-            card.setMaxWidth(700); // controls card width
-            card.setPrefWidth(700);*/
-
-            Label start = new Label("Start Date");
-            start.getStyleClass().add("cycle-label-title");
-
-            Label startValue = new Label(c.getDate_debut_m().toString());
-            startValue.getStyleClass().add("cycle-label-value");
-
-            Label end = new Label("End Date");
-            end.getStyleClass().add("cycle-label-title");
-
-            Label endValue = new Label(c.getDate_fin_m().toString());
-            endValue.getStyleClass().add("cycle-label-value");
-
-            Label user = new Label("User ID: " + c.getUser_id());
-            user.getStyleClass().add("cycle-label-title");
-
-
-
-            Button deleteBtn = new Button("Delete");
-            deleteBtn.getStyleClass().add("btn-delete");
-
-            deleteBtn.setOnAction(e -> {
-                boolean confirmed = org.example.utils.AlertHelper.showConfirmationAlert(
-                        "Confirmation de Suppression", 
-                        "Êtes-vous sûr de vouloir supprimer ce cycle ? Tous les symptômes associés pourraient également être supprimés."
-                );
-
-                if (confirmed) {
-                    new CycleService().deleteCycle(c.getCycle_id());
-                    org.example.utils.AlertHelper.showSuccessAlert("Succès", "Le cycle a été supprimé avec succès.");
-                    loadCycles();
-                }
-            });
-
-
-            Button editBtn = new Button("Edit");
-            editBtn.getStyleClass().add("btn-edit");
-
-            editBtn.setOnAction(e -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/cycle/frontoffice/EditCycle.fxml")
-                    );
-
-                    Parent view = loader.load();
-
-                    EditCycleController controller = loader.getController();
-                    controller.setCycle(c);
-
-
-                    controller.setHomeController(homeController);
-
-
-                    homeController.setContent(view);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-
-
-            Button symptomesBtn = new Button("Symptômes");
-            symptomesBtn.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 12; -fx-padding: 8 16; -fx-cursor: hand;");
-            symptomesBtn.setOnAction(e -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("/cycle/frontoffice/display_symptome.fxml")
-                    );
-                    Parent view = loader.load();
-                    DisplaySymptomeController controller = loader.getController();
-                    controller.setHomeController(homeController);
-                    controller.setCycleId(c.getCycle_id());
-                    homeController.setContent(view);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-
-            HBox buttons = new HBox();
-            buttons.getStyleClass().add("cycle-buttons");
-            buttons.getChildren().addAll(editBtn, deleteBtn, symptomesBtn);
-            card.getChildren().addAll(
-                    start,
-                    startValue,
-                    end,
-                    endValue,
-                    user,
-                    buttons
-            );
-
-            cycleContainer.getChildren().add(card);
+        // Alert
+        if (regularity < 70.0) { // If many cycles are irregular
+            alertBox.setVisible(true);
+            alertBox.setManaged(true);
+        } else {
+            alertBox.setVisible(false);
+            alertBox.setManaged(false);
         }
     }
 
-    @FXML
-    private void goToAddCycle() {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/cycle/frontoffice/CycleClientView.fxml")
-            );
-
-            Parent view = loader.load();
-
-            ClientCycleController controller = loader.getController();
-
-
-            controller.setHomeController(homeController);
-
-            homeController.setContent(view);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @FXML private void goToAddCycle() {
+        navigate("/cycle/frontoffice/CycleClientView.fxml");
+    }
+    @FXML private void goToStats() {
+        navigate("/cycle/frontoffice/CycleStatistics.fxml");
+    }
+    @FXML private void goToCharts() {
+        navigate("/cycle/frontoffice/CycleCharts.fxml");
+    }
+    @FXML private void goToHistory() {
+        navigate("/cycle/frontoffice/CycleHistory.fxml");
+    }
+    @FXML private void goToCalendar() {
+        navigate("/cycle/frontoffice/CycleCalendarView.fxml");
+    }
+    @FXML private void goToSymptomes() {
+        navigate("/cycle/frontoffice/display_symptome.fxml");
     }
 
-    @FXML
-    private void goToAddSymptome() {
+    private void navigate(String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/add_symptome.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
-            org.example.cycle.frontoffice.controller.AddSymptomeController controller = loader.getController();
-            controller.setHomeController(homeController);
+            
+            // Re-bind controller if exists
+            Object controller = loader.getController();
+            if (controller instanceof ClientCycleController) {
+                ((ClientCycleController) controller).setHomeController(homeController);
+            } else if (controller instanceof CycleStatisticsController) {
+                ((CycleStatisticsController) controller).setHomeController(homeController);
+            } else if (controller instanceof CycleChartsController) {
+                ((CycleChartsController) controller).setHomeController(homeController);
+            } else if (controller instanceof CycleHistoryController) {
+                ((CycleHistoryController) controller).setHomeController(homeController);
+            } else if (controller instanceof CycleCalendarController) {
+                ((CycleCalendarController) controller).setHomeController(homeController);
+            } else if (controller instanceof DisplaySymptomeController) {
+                ((DisplaySymptomeController) controller).setHomeController(homeController);
+            }
+
             if (homeController != null) {
                 homeController.setContent(view);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void goToSymptomes() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/display_symptome.fxml"));
-            Parent view = loader.load();
-            org.example.cycle.frontoffice.controller.DisplaySymptomeController controller = loader.getController();
-            controller.setHomeController(homeController);
-            if (homeController != null) homeController.setContent(view);
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    @FXML
-    private void goToStats() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleStatistics.fxml"));
-            Parent view = loader.load();
-            org.example.cycle.frontoffice.controller.CycleStatisticsController controller = loader.getController();
-            controller.setHomeController(homeController);
-            if (homeController != null) homeController.setContent(view);
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    @FXML
-    private void goToHistory() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleHistory.fxml"));
-            Parent view = loader.load();
-            org.example.cycle.frontoffice.controller.CycleHistoryController controller = loader.getController();
-            controller.setHomeController(homeController);
-            if (homeController != null) homeController.setContent(view);
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    @FXML
-    private void goToCalendar() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleCalendarView.fxml"));
-            Parent view = loader.load();
-            org.example.cycle.frontoffice.controller.CycleCalendarController controller = loader.getController();
-            controller.setHomeController(homeController);
-            if (homeController != null) homeController.setContent(view);
-        } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    @FXML
-    private void goToCharts() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleCharts.fxml"));
-            Parent view = loader.load();
-            org.example.cycle.frontoffice.controller.CycleChartsController controller = loader.getController();
-            controller.setHomeController(homeController);
-            if (homeController != null) homeController.setContent(view);
-        } catch (Exception e) { e.printStackTrace(); }
     }
 
     @FXML
@@ -281,7 +166,7 @@ public class DisplayCycleController {
         fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
         fileChooser.setInitialFileName("Rapport_Cycles.pdf");
 
-        java.io.File destFile = fileChooser.showSaveDialog(cycleContainer.getScene().getWindow());
+        java.io.File destFile = fileChooser.showSaveDialog(lblWelcome.getScene().getWindow());
 
         if (destFile != null) {
             try {
@@ -293,7 +178,6 @@ public class DisplayCycleController {
                 org.example.utils.AlertHelper.showSuccessAlert("Export Réussi", "Le rapport PDF a été sauvegardé avec succès.");
             } catch (Exception e) {
                 org.example.utils.AlertHelper.showErrorAlert("Erreur Export", "Échec de l'export: " + e.getMessage());
-                e.printStackTrace();
             }
         }
     }

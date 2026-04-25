@@ -6,21 +6,24 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleHistoryController">
+<VBox prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: #fcfbfd;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleHistoryController">
 
     <stylesheets>
         <URL value="@DisplayCss.css" />
     </stylesheets>
 
     <!-- HEADER SECTION -->
-    <HBox styleClass="header-container" alignment="CENTER_LEFT">
-        <Label styleClass="header-title" text="Historique Chronologique des Cycles" />
+    <HBox style="-fx-background-color: white; -fx-padding: 20 30; -fx-border-color: #f1f2f6; -fx-border-width: 0 0 1 0; -fx-alignment: center-left;">
+        <VBox>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" text="⏳ Historique Chronologique" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #64748b;" text="Analyse détaillée de vos précédents cycles" />
+        </VBox>
     </HBox>
 
     <!-- CONTENT SECTION (Dense chronological list) -->
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="custom-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" pannable="true" style="-fx-background-color: transparent; -fx-background: #fcfbfd;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
         <content>
-            <VBox fx:id="historyContainer" alignment="TOP_CENTER" spacing="10">
+            <VBox fx:id="historyContainer" alignment="TOP_CENTER" spacing="20" style="-fx-padding: 30;">
                 <!-- Dynamically populated in Controller -->
             </VBox>
         </content>

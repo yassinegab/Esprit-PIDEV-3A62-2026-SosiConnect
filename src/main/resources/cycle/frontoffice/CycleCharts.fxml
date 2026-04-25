@@ -2,45 +2,72 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 
-<VBox alignment="TOP_CENTER" spacing="30" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleChartsController">
+<VBox prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: #fcfbfd;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.frontoffice.controller.CycleChartsController">
 
     <stylesheets>
         <URL value="@DisplayCss.css" />
     </stylesheets>
 
     <!-- HEADER SECTION -->
-    <HBox styleClass="header-container" alignment="CENTER_LEFT">
-        <Label styleClass="header-title" text="Graphiques &amp; Analyses" />
-    </HBox>
-
-    <!-- CHARTS SECTION -->
-    <HBox spacing="20" alignment="CENTER">
-        <!-- BAR CHART -->
-        <VBox styleClass="form-card" prefWidth="400" prefHeight="400" alignment="CENTER">
-            <Label styleClass="form-label" text="Durée des Cycles (Jours)" />
-            <BarChart fx:id="cycleBarChart" legendVisible="false" prefHeight="350">
-                <xAxis>
-                    <CategoryAxis label="Cycles" />
-                </xAxis>
-                <yAxis>
-                    <NumberAxis label="Jours" />
-                </yAxis>
-            </BarChart>
-        </VBox>
-
-        <!-- PIE CHART -->
-        <VBox styleClass="form-card" prefWidth="400" prefHeight="400" alignment="CENTER">
-            <Label styleClass="form-label" text="Répartition des Symptômes" />
-            <PieChart fx:id="symptomePieChart" prefHeight="350" legendSide="BOTTOM" />
+    <HBox style="-fx-background-color: white; -fx-padding: 20 30; -fx-border-color: #f1f2f6; -fx-border-width: 0 0 1 0; -fx-alignment: center-left;">
+        <VBox>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" text="📈 Graphiques d'Analyses" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #64748b;" text="Visualisez la tendance de votre corps" />
         </VBox>
     </HBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #fcfbfd;" VBox.vgrow="ALWAYS">
+        <content>
+            <VBox spacing="20" style="-fx-padding: 20;">
+                
+                <!-- TOP CHARTS -->
+                <HBox spacing="20" alignment="CENTER">
+                    <!-- LINE CHART: CYCLE DURATION -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #334155;" text="Évolution de la Durée des Cycles" />
+                        <LineChart fx:id="cycleLineChart" legendVisible="false" prefHeight="250">
+                            <xAxis><CategoryAxis label="Cycles" /></xAxis>
+                            <yAxis><NumberAxis label="Jours" /></yAxis>
+                        </LineChart>
+                    </VBox>
+                    
+                    <!-- BAR CHART: MENSTRUATION DURATION -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #334155;" text="Fluctuation de la Durée des Règles" />
+                        <BarChart fx:id="menstruationBarChart" legendVisible="false" prefHeight="250">
+                            <xAxis><CategoryAxis label="Cycles" /></xAxis>
+                            <yAxis><NumberAxis label="Jours" /></yAxis>
+                        </BarChart>
+                    </VBox>
+                </HBox>
+                
+                <!-- BOTTOM CHARTS -->
+                <HBox spacing="20" alignment="CENTER">
+                    <!-- PIE CHART: REGULARITY -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #334155;" text="Stabilité (Réguliers vs Anormaux)" />
+                        <PieChart fx:id="regularityPieChart" prefHeight="250" legendSide="BOTTOM" />
+                    </VBox>
+
+                    <!-- EXISTING SYMPTOMS -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #334155;" text="Répartition des Symptômes" />
+                        <PieChart fx:id="symptomePieChart" prefHeight="250" legendSide="BOTTOM" />
+                    </VBox>
+                </HBox>
+                
+            </VBox>
+        </content>
+    </ScrollPane>
 
 </VBox>
