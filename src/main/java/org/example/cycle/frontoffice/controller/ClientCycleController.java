@@ -35,14 +35,14 @@ public class ClientCycleController {
 
     CycleService CycleService = new CycleService();
 
-    // 👉 THIS METHOD IS CALLED WHEN BUTTON IS CLICKED
+
     @FXML
     public void ajouterCycle(ActionEvent event) {
 
         LocalDate localDebut = DP_datadebut.getValue();
         LocalDate localFin = DP_datefin.getValue();
 
-        // VALIDATION
+
         if (localDebut == null) {
             org.example.utils.AlertHelper.showErrorAlert("Erreur de Saisie", "La date de début ne peut pas être vide.");
             return;
@@ -61,12 +61,22 @@ public class ClientCycleController {
 
         int userId = 1;
 
+
+
+        if (CycleService.cycleExists(dateDebut, userId)) {
+            org.example.utils.AlertHelper.showErrorAlert(
+                    "Doublon détecté",
+                    "Un cycle existe déjà pour cette date."
+            );
+            return;
+        }
         Cycle c = new Cycle(dateDebut, dateFin, userId);
+
         CycleService.addCycle(c);
 
         org.example.utils.AlertHelper.showSuccessAlert("Succès", "Le cycle a été ajouté avec succès !");
 
-        // 👉 NAVIGATE BACK
+
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/cycle/frontoffice/DisplayCycle.fxml")
@@ -77,7 +87,7 @@ public class ClientCycleController {
             DisplayCycleController controller = loader.getController();
             controller.setHomeController(homeController);
 
-            homeController.setContent(view); // 🔥 NAVIGATION BACK
+            homeController.setContent(view);
 
         } catch (IOException e) {
             org.example.utils.AlertHelper.showErrorAlert("Erreur", "Problème lors du retour: " + e.getMessage());

@@ -29,7 +29,7 @@ public class DisplaySymptomeController {
 
     private ObservableList<Symptome> symptomes = FXCollections.observableArrayList();
     private HomeController homeController;
-    private int currentCycleId = -1; // Added if we need to filter by cycle
+    private int currentCycleId = -1;
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
@@ -37,13 +37,13 @@ public class DisplaySymptomeController {
 
     public void setCycleId(int cycleId) {
         this.currentCycleId = cycleId;
-        loadSymptomes(); // Reload filtered data when cycle ID is set
+        loadSymptomes();
     }
 
     @FXML
     public void initialize() {
         if (currentCycleId == -1) {
-             loadSymptomes(); // default load all if not explicitly set
+             loadSymptomes();
         }
     }
 
@@ -66,7 +66,7 @@ public class DisplaySymptomeController {
                 VBox card = new VBox();
                 card.setSpacing(10);
                 card.setPrefWidth(250);
-                // We'll reuse the cycle-card style from DisplayCss.css to be consistent
+
                 card.getStyleClass().add("cycle-card"); 
 
                 Label typeLabel = new Label("Type");
@@ -87,12 +87,12 @@ public class DisplaySymptomeController {
                 Label dateValue = new Label(s.getDateObservation().toString());
                 dateValue.getStyleClass().add("cycle-label-value");
 
-                // Edit Button
+
                 Button editBtn = new Button("Edit");
                 editBtn.getStyleClass().add("btn-edit");
                 editBtn.setOnAction(e -> goToEdit(s));
 
-                // Delete Button
+
                 Button deleteBtn = new Button("Delete");
                 deleteBtn.getStyleClass().add("btn-delete");
                 deleteBtn.setOnAction(e -> {
@@ -105,7 +105,7 @@ public class DisplaySymptomeController {
                         try {
                             service.supprimer(s.getIdSymptome());
                             org.example.utils.AlertHelper.showSuccessAlert("Succès", "Le symptôme a été supprimé avec succès.");
-                            loadSymptomes(); // Refresh immediately
+                            loadSymptomes();
                         } catch (SQLException ex) {
                             org.example.utils.AlertHelper.showErrorAlert("Erreur technique", "Échec de la suppression: " + ex.getMessage());
                         }

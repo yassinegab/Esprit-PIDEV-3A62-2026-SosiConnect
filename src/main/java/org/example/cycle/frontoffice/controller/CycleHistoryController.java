@@ -38,7 +38,7 @@ public class CycleHistoryController {
         historyContainer.getChildren().clear();
 
         List<Cycle> cycles = cycleService.getAllCycles();
-        // Sort chronologically ascending
+
         cycles.sort(Comparator.comparing(Cycle::getDate_debut_m));
 
         if (cycles.isEmpty()) {
@@ -59,7 +59,7 @@ public class CycleHistoryController {
                 symptoms = java.util.Collections.emptyList();
             }
 
-            // Build HBox row mimicking a list item
+
             HBox row = new HBox();
             row.setAlignment(Pos.CENTER_LEFT);
             row.setSpacing(20);
@@ -67,11 +67,11 @@ public class CycleHistoryController {
             row.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);");
             row.setPrefWidth(800);
 
-            // Index
+
             Label idxLbl = new Label("#" + (i + 1));
             idxLbl.setStyle("-fx-font-weight: 900; -fx-font-size: 18px; -fx-text-fill: #cbd5e1;");
 
-            // Dates
+
             VBox datesBox = new VBox(5);
             Label startLbl = new Label("Début: " + c.getDate_debut_m());
             startLbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #334155;");
@@ -80,12 +80,12 @@ public class CycleHistoryController {
             datesBox.getChildren().addAll(startLbl, endLbl);
             datesBox.setPrefWidth(200);
 
-            // Duration
+
             Label durLbl = new Label(days + " jours");
             durLbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #ff4d6d; -fx-font-size: 16px;");
             durLbl.setPrefWidth(150);
 
-            // Symptoms
+
             Label sympLbl = new Label(symptoms.size() + " symptôme(s)");
             sympLbl.setStyle("-fx-font-weight: bold; -fx-text-fill: #3b82f6;");
             

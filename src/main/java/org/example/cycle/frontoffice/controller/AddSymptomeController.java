@@ -50,17 +50,17 @@ public class AddSymptomeController {
     public void initialize() {
         symptomeService = new SymptomeService();
         
-        // Populate ComboBoxes with Enums
+
         typeComboBox.setItems(FXCollections.observableArrayList(TypeSymptome.values()));
         intensiteComboBox.setItems(FXCollections.observableArrayList(IntensiteSymptome.values()));
         
-        // Set default date to today
+
         datePicker.setValue(LocalDate.now());
     }
 
     @FXML
     void handleAddSymptome(ActionEvent event) {
-        // VALIDATION
+
         if (typeComboBox.getValue() == null) {
             AlertHelper.showErrorAlert("Erreur de Saisie", "Veuillez sélectionner un type de symptôme.");
             return;
@@ -74,7 +74,7 @@ public class AddSymptomeController {
             return;
         }
 
-        // Fetch last created cycle ID via service
+
         int lastCycleId = symptomeService.getLastInsertedCycleId();
 
         if (lastCycleId == -1) {
@@ -82,7 +82,7 @@ public class AddSymptomeController {
             return;
         }
 
-        // Prepare the model
+
         Symptome newSymptome = new Symptome(
                 lastCycleId,
                 typeComboBox.getValue(),
@@ -90,12 +90,12 @@ public class AddSymptomeController {
                 Date.valueOf(datePicker.getValue())
         );
 
-        // Add using the service
+
         try {
             symptomeService.ajouter(newSymptome);
             AlertHelper.showSuccessAlert("Succès", "Le symptôme a été ajouté avec succès !");
             
-            // Redirect to DisplaySymptome
+
             goToDisplaySymptomes();
         } catch (SQLException e) {
             AlertHelper.showErrorAlert("Erreur technique", "Une erreur est survenue : " + e.getMessage());

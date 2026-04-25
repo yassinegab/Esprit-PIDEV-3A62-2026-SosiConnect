@@ -72,7 +72,7 @@ public class EditSymptomeController {
             return;
         }
 
-        // VALIDATION
+
         if (typeComboBox.getValue() == null) {
             AlertHelper.showErrorAlert("Erreur de Saisie", "Veuillez sélectionner un type de symptôme.");
             return;
@@ -86,7 +86,7 @@ public class EditSymptomeController {
             return;
         }
 
-        // Setup the new updated values
+
         currentSymptome.setType(typeComboBox.getValue());
         currentSymptome.setIntensite(intensiteComboBox.getValue());
         currentSymptome.setDateObservation(Date.valueOf(datePicker.getValue()));
@@ -95,7 +95,7 @@ public class EditSymptomeController {
             symptomeService.modifier(currentSymptome);
             AlertHelper.showSuccessAlert("Succès", "Le symptôme a été mis à jour avec succès !");
             
-            // Redirect after success
+
             handleCancel(event);
             
         } catch (SQLException e) {

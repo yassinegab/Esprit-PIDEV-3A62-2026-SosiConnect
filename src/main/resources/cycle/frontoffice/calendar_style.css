@@ -1,0 +1,92 @@
+.calendar-header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.calendar-grid {
+    -fx-background-color: #f4f6f8;
+    -fx-padding: 10px;
+    -fx-hgap: 5px;
+    -fx-vgap: 5px;
+}
+
+.calendar-day-header {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555555;
+    -fx-alignment: center;
+}
+
+.calendar-cell {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+}
+
+.calendar-cell:hover {
+    -fx-background-color: #f0f4ff;
+    -fx-border-color: #3b82f6;
+}
+
+.calendar-cell-empty {
+    -fx-background-color: #fafafa;
+    -fx-border-color: #efefef;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.calendar-day-number {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+.cycle-active-day {
+    -fx-background-color: #ffeff1; /* light pink/red for cycles */
+    -fx-border-color: #ffc2d1;
+}
+
+.cycle-active-day:hover {
+    -fx-background-color: #ffe6eb;
+    -fx-border-color: #ff99b5;
+}
+
+.cycle-label {
+    -fx-background-color: #ff4d6d;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 5 2 5;
+    -fx-background-radius: 8px;
+    -fx-min-width: 50px;
+    -fx-alignment: center;
+}
+
+.calendar-btn-nav {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5 15;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.calendar-btn-nav:hover {
+    -fx-background-color: #f3f4f6;
+}
+
+.dialog-container {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+    -fx-spacing: 15px;
+}
+
+.dialog-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}

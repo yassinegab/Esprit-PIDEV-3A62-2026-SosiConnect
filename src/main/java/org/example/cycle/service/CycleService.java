@@ -3,7 +3,8 @@ import org.example.cycle.model.Cycle;
 import org.example.utils.MyConnection;
 
 import java.sql.*;
-        import java.util.*;
+import java.sql.Date;
+import java.util.*;
 
 public class CycleService {
 
@@ -19,7 +20,7 @@ public class CycleService {
 
 
 
-    // CREATE
+
     public void addCycle(Cycle c) {
         try {
             String sql = "INSERT INTO cycle (date_debut_m, date_fin_m, user_id) VALUES (?, ?, ?)";
@@ -40,7 +41,8 @@ public class CycleService {
         }
     }
 
-    // READ
+
+
     public List<Cycle> getAllCycles() {
 
         List<Cycle> list = new ArrayList<>();
@@ -65,11 +67,30 @@ public class CycleService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return list;
     }
 
-    // DELETE
+    public List<Cycle> getCyclesByUserId(int userId) {
+        List<Cycle> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM cycle WHERE user_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Cycle c = new Cycle();
+                c.setCycle_id(rs.getInt("id_cycle"));
+                c.setDate_debut_m(rs.getDate("date_debut_m"));
+                c.setDate_fin_m(rs.getDate("date_fin_m"));
+                c.setUser_id(rs.getInt("user_id"));
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public void deleteCycle(int id) {
 
         try {
@@ -87,7 +108,8 @@ public class CycleService {
         }
     }
 
-//update
+
+
 public void updateCycle(Cycle c) {
 
     try {
@@ -107,4 +129,26 @@ public void updateCycle(Cycle c) {
         e.printStackTrace();
     }
 }
+
+    public boolean cycleExists(Date debut, int userId) {
+        String sql = "SELECT COUNT(*) FROM cycle WHERE date_debut_m = ? AND user_id = ?";
+
+        try (Connection conn = MyConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setDate(1, debut);
+            ps.setInt(2, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

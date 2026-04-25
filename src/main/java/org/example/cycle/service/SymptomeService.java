@@ -22,7 +22,7 @@ public class SymptomeService implements IService<Symptome> {
         }
     }
 
-    // Method to get the most recently created cycle's ID
+
     public int getLastInsertedCycleId() {
         int id = -1;
         try {

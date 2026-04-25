@@ -25,6 +25,7 @@
                 <Button fx:id="btnCharts" onAction="#goToCharts" styleClass="btn-secondary" text="Graphiques" />
                 <Button fx:id="btnHistory" onAction="#goToHistory" styleClass="btn-secondary" text="Historique" />
                 <Button fx:id="btnSymptomes" onAction="#goToSymptomes" styleClass="btn-secondary" text="Voir Symptômes" />
+                <Button fx:id="btnCalendar" onAction="#goToCalendar" styleClass="btn-primary" style="-fx-background-color: #f43f5e;" text="📅 vue Calendrier" />
             </HBox>
         </VBox>
         

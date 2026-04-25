@@ -55,7 +55,7 @@ public class CycleChartsController {
         cycleBarChart.getData().clear();
         cycleBarChart.getData().add(series);
 
-        // 2. Populate PieChart (Symptoms)
+
         try {
             List<Symptome> symptomes = symptomeService.afficher(); // fetches all
             Map<TypeSymptome, Integer> distribution = new HashMap<>();

@@ -39,7 +39,7 @@ public class DisplayCycleController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/EditCycle.fxml"));
             Parent view = loader.load();
 
-            homeController.setContent(view); // 🔥 magie ici
+            homeController.setContent(view);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class DisplayCycleController {
         loadCycles();
     }
 
-    // 🔥 méthode propre de refresh
+
     public void loadCycles() {
 
         cycleContainer.getChildren().clear();
@@ -66,7 +66,7 @@ public class DisplayCycleController {
             VBox card = new VBox();
             card.setSpacing(10);
 
-// 🔥 IMPORTANT: largeur fixe pour grid
+
             card.setPrefWidth(250);
 
             card.getStyleClass().add("cycle-card");
@@ -97,7 +97,7 @@ public class DisplayCycleController {
             user.getStyleClass().add("cycle-label-title");
 
 
-            // DELETE
+
             Button deleteBtn = new Button("Delete");
             deleteBtn.getStyleClass().add("btn-delete");
 
@@ -110,11 +110,11 @@ public class DisplayCycleController {
                 if (confirmed) {
                     new CycleService().deleteCycle(c.getCycle_id());
                     org.example.utils.AlertHelper.showSuccessAlert("Succès", "Le cycle a été supprimé avec succès.");
-                    loadCycles(); // 🔥 refresh auto après delete
+                    loadCycles();
                 }
             });
 
-            // EDIT
+
             Button editBtn = new Button("Edit");
             editBtn.getStyleClass().add("btn-edit");
 
@@ -129,10 +129,10 @@ public class DisplayCycleController {
                     EditCycleController controller = loader.getController();
                     controller.setCycle(c);
 
-                    // 🔥 IMPORTANT : passer HomeController à Edit aussi
+
                     controller.setHomeController(homeController);
 
-                    // 🔥 NAVIGATION INTERNE (LA BONNE)
+
                     homeController.setContent(view);
 
                 } catch (Exception ex) {
@@ -140,7 +140,7 @@ public class DisplayCycleController {
                 }
             });
 
-            // VIEW SYMPTOMES
+
             Button symptomesBtn = new Button("Symptômes");
             symptomesBtn.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 12; -fx-padding: 8 16; -fx-cursor: hand;");
             symptomesBtn.setOnAction(e -> {
@@ -185,7 +185,7 @@ public class DisplayCycleController {
 
             ClientCycleController controller = loader.getController();
 
-            // 🔥 IMPORTANT : garder navigation Home
+
             controller.setHomeController(homeController);
 
             homeController.setContent(view);
@@ -238,6 +238,17 @@ public class DisplayCycleController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleHistory.fxml"));
             Parent view = loader.load();
             org.example.cycle.frontoffice.controller.CycleHistoryController controller = loader.getController();
+            controller.setHomeController(homeController);
+            if (homeController != null) homeController.setContent(view);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    @FXML
+    private void goToCalendar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cycle/frontoffice/CycleCalendarView.fxml"));
+            Parent view = loader.load();
+            org.example.cycle.frontoffice.controller.CycleCalendarController controller = loader.getController();
             controller.setHomeController(homeController);
             if (homeController != null) homeController.setContent(view);
         } catch (Exception e) { e.printStackTrace(); }

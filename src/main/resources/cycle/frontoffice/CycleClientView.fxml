@@ -15,7 +15,7 @@
 
     <VBox alignment="CENTER_LEFT" spacing="20" styleClass="form-card" maxWidth="450">
 
-        <Label styleClass="header-title" text="Créer un Cycle" />
+        <Label styleClass="header-title" text="Ajouter Menstruation" />
 
         <VBox spacing="8">
             <Label styleClass="form-label" text="Date de début" />
