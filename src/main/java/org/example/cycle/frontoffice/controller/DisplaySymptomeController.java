@@ -53,11 +53,17 @@ public class DisplaySymptomeController {
 
         SymptomeService service = new SymptomeService();
         try {
-            List<Symptome> fetchedSymptomes;
+            List<Symptome> fetchedSymptomes = new java.util.ArrayList<>();
             if (currentCycleId != -1) {
                 fetchedSymptomes = service.getSymptomesByCycleId(currentCycleId);
             } else {
-                 fetchedSymptomes = service.afficher();
+                org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+                if (currentUser != null) {
+                    List<org.example.cycle.model.Cycle> userCycles = new org.example.cycle.service.CycleService().getCyclesByUserId(currentUser.getId());
+                    for (org.example.cycle.model.Cycle c : userCycles) {
+                        fetchedSymptomes.addAll(service.getSymptomesByCycleId(c.getCycle_id()));
+                    }
+                }
             }
             symptomes.addAll(fetchedSymptomes);
 

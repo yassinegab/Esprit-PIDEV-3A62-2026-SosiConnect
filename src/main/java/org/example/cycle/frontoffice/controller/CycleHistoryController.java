@@ -37,7 +37,9 @@ public class CycleHistoryController {
     private void loadHistory() {
         historyContainer.getChildren().clear();
 
-        List<Cycle> cycles = cycleService.getAllCycles();
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+        if (currentUser == null) return;
+        List<Cycle> cycles = cycleService.getCyclesByUserId(currentUser.getId());
 
         cycles.sort(Comparator.comparing(Cycle::getDate_debut_m));
 

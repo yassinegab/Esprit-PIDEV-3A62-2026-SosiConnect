@@ -40,7 +40,9 @@ public class CycleChartsController {
 
     private void populateCharts() {
         // 1. Populate BarChart (Durations)
-        List<Cycle> cycles = cycleService.getAllCycles();
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+        if (currentUser == null) return;
+        List<Cycle> cycles = cycleService.getCyclesByUserId(currentUser.getId());
         cycles.sort(Comparator.comparing(Cycle::getDate_debut_m));
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -57,11 +59,13 @@ public class CycleChartsController {
 
 
         try {
-            List<Symptome> symptomes = symptomeService.afficher(); // fetches all
             Map<TypeSymptome, Integer> distribution = new HashMap<>();
 
-            for (Symptome s : symptomes) {
-                distribution.put(s.getType(), distribution.getOrDefault(s.getType(), 0) + 1);
+            for (Cycle c : cycles) {
+                List<Symptome> symptomes = symptomeService.getSymptomesByCycleId(c.getCycle_id());
+                for (Symptome s : symptomes) {
+                    distribution.put(s.getType(), distribution.getOrDefault(s.getType(), 0) + 1);
+                }
             }
 
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();

@@ -29,7 +29,9 @@ public class CycleStatisticsController {
     }
 
     private void calculateStats() {
-        List<Cycle> cycles = cycleService.getAllCycles();
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+        if (currentUser == null) return;
+        List<Cycle> cycles = cycleService.getCyclesByUserId(currentUser.getId());
 
         if (cycles.isEmpty()) {
             lblTotalCycles.setText("0");

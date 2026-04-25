@@ -58,8 +58,11 @@ public class DisplayCycleController {
         cycleContainer.getChildren().clear();
         cycles.clear();
 
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
         CycleService service = new CycleService();
-        cycles.addAll(service.getAllCycles());
+        if (currentUser != null) {
+            cycles.addAll(service.getCyclesByUserId(currentUser.getId()));
+        }
 
         for (Cycle c : cycles) {
 
@@ -267,6 +270,12 @@ public class DisplayCycleController {
 
     @FXML
     private void exportToPdf() {
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+        if (currentUser == null) {
+            org.example.utils.AlertHelper.showErrorAlert("Erreur", "Veuillez vous connecter pour exporter vos données.");
+            return;
+        }
+        
         javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
         fileChooser.setTitle("Enregistrer le rapport PDF");
         fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
@@ -278,7 +287,7 @@ public class DisplayCycleController {
             try {
                 org.example.cycle.service.PdfExportService.exportCyclesToPdf(
                         destFile,
-                        new CycleService().getAllCycles(),
+                        new CycleService().getCyclesByUserId(currentUser.getId()),
                         new org.example.cycle.service.SymptomeService()
                 );
                 org.example.utils.AlertHelper.showSuccessAlert("Export Réussi", "Le rapport PDF a été sauvegardé avec succès.");
