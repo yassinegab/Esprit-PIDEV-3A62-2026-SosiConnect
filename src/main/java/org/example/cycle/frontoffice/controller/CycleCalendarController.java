@@ -29,8 +29,10 @@ public class CycleCalendarController {
     private YearMonth currentYearMonth;
     private final CycleService cycleService = new CycleService();
 
-    // Default tester user id
-    private final int MOCK_USER_ID = 1;
+    private int getCurrentUserId() {
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+        return currentUser != null ? currentUser.getId() : -1;
+    }
 
     public void setHomeController(HomeController homeController) {
         this.homeController = homeController;
@@ -64,7 +66,7 @@ public class CycleCalendarController {
         int dayOfWeekOfFirst = firstOfMonth.getDayOfWeek().getValue(); // 1 = Monday, 7 = Sunday
         int daysInMonth = currentYearMonth.lengthOfMonth();
 
-        List<Cycle> userCycles = cycleService.getCyclesByUserId(MOCK_USER_ID);
+        List<Cycle> userCycles = cycleService.getCyclesByUserId(getCurrentUserId());
 
         int row = 0;
         int col = dayOfWeekOfFirst - 1;
@@ -169,7 +171,7 @@ public class CycleCalendarController {
             Parent root = loader.load();
 
             CycleSettingsDialogController controller = loader.getController();
-            controller.initData(clickedDate, cycle, MOCK_USER_ID);
+            controller.initData(clickedDate, cycle, getCurrentUserId());
 
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);

@@ -59,7 +59,12 @@ public class ClientCycleController {
         Date dateDebut = Date.valueOf(localDebut);
         Date dateFin = Date.valueOf(localFin);
 
-        int userId = 1;
+        org.example.user.model.User currentUser = org.example.utils.SessionManager.getCurrentUser();
+        if (currentUser == null) {
+            org.example.utils.AlertHelper.showErrorAlert("Erreur", "Aucun utilisateur connecté.");
+            return;
+        }
+        int userId = currentUser.getId();
 
 
 
