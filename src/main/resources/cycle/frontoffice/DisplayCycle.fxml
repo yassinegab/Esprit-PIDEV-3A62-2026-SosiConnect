@@ -93,6 +93,35 @@
                 </VBox>
             </HBox>
             
+            <!-- CHATBOT SECTION -->
+            <VBox style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 5);" spacing="15" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-font-size: 24px;" text="👩‍⚕️" />
+                    <VBox>
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Assistante Santé &amp; Cycle" />
+                        <Label style="-fx-font-size: 12px; -fx-text-fill: #64748b;" text="Posez vos questions sur le cycle, l'ovulation et le bien-être" />
+                    </VBox>
+                </HBox>
+                
+                <Pane style="-fx-background-color: #f1f5f9; -fx-pref-height: 1;" />
+                
+                <ScrollPane fx:id="chatScrollPane" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: white;" prefHeight="300" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+                    <VBox fx:id="chatMessagesBox" spacing="10" style="-fx-padding: 10;">
+                        <!-- Messages will be injected here dynamically -->
+                        <HBox alignment="CENTER_LEFT">
+                            <Label style="-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-padding: 10 15; -fx-background-radius: 15 15 15 0; -fx-wrap-text: true; -fx-max-width: 400;" text="Bonjour ! Je suis votre assistante spécialisée en santé féminine. Comment puis-je vous aider aujourd'hui ?" />
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+                
+                <Label fx:id="lblTyping" text="L'assistante tape..." style="-fx-text-fill: #94a3b8; -fx-font-style: italic; -fx-font-size: 11px;" visible="false" managed="false"/>
+                
+                <HBox spacing="10" alignment="CENTER">
+                    <javafx.scene.control.TextField fx:id="txtChatInput" promptText="Écrivez votre message ici..." style="-fx-background-color: #f8fafc; -fx-border-color: #e2e8f0; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 10 15; -fx-font-size: 14px;" HBox.hgrow="ALWAYS" onAction="#sendChatMessage" />
+                    <Button fx:id="btnSendChat" onAction="#sendChatMessage" style="-fx-background-color: #c084fc; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 20; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(192,132,252,0.3), 10, 0, 0, 5);" text="Envoyer" />
+                </HBox>
+            </VBox>
+            
         </VBox>
     </ScrollPane>
 

@@ -99,7 +99,7 @@ public class CycleCalendarController {
             dayBox.getChildren().add(lblDay);
 
             // Check if there is a cycle on this date
-            String dayState = getDayState(currentDate, analyses);
+            String dayState = analysisService.getDayState(currentDate, analyses);
 
             if (dayState.equals("MENSTRUATION")) {
                 dayBox.getStyleClass().add("cycle-active-day");
@@ -118,7 +118,7 @@ public class CycleCalendarController {
                 dayBox.getChildren().add(lblFertile);
             }
 
-            Cycle activeCycle = getCycleForDate(currentDate, userCycles);
+            Cycle activeCycle = analysisService.getCycleForDate(currentDate, userCycles);
 
             // Click interaction
             dayBox.setOnMouseClicked(e -> showCycleDialog(currentDate, activeCycle));
@@ -141,33 +141,6 @@ public class CycleCalendarController {
            calendarGrid.add(emptyBox, col, row);
            col++;
         }
-    }
-
-    private Cycle getCycleForDate(LocalDate date, List<Cycle> cycles) {
-        java.sql.Date sqlDate = java.sql.Date.valueOf(date);
-        for (Cycle c : cycles) {
-            if (!sqlDate.before(c.getDate_debut_m()) && !sqlDate.after(c.getDate_fin_m())) {
-                return c;
-            }
-        }
-        return null; // No cycle for this date
-    }
-
-    private String getDayState(LocalDate date, List<org.example.cycle.model.CycleAnalysis> analyses) {
-        for (org.example.cycle.model.CycleAnalysis a : analyses) {
-            Cycle c = a.getCycle();
-            if (!date.isBefore(c.getDate_debut_m().toLocalDate()) && !date.isAfter(c.getDate_fin_m().toLocalDate())) {
-                return "MENSTRUATION";
-            }
-            if (a.getOvulationDate() != null && date.equals(a.getOvulationDate())) {
-                return "OVULATION";
-            }
-            if (a.getFertileWindowStart() != null && a.getFertileWindowEnd() != null && 
-                !date.isBefore(a.getFertileWindowStart()) && !date.isAfter(a.getFertileWindowEnd())) {
-                return "FERTILE";
-            }
-        }
-        return "NORMAL";
     }
 
     @FXML

@@ -118,4 +118,42 @@ public class CycleAnalysisService {
         
         return 100.0 - (((double) irregularCount / totalCalculable) * 100.0);
     }
+
+    public Cycle getCycleForDate(LocalDate date, List<Cycle> cycles) {
+        for (Cycle c : cycles) {
+            LocalDate start = c.getDate_debut_m().toLocalDate();
+            LocalDate end = c.getDate_fin_m().toLocalDate();
+            if ((date.isEqual(start) || date.isAfter(start)) && (date.isEqual(end) || date.isBefore(end))) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public String getDayState(LocalDate date, List<CycleAnalysis> analyses) {
+        for (CycleAnalysis a : analyses) {
+            Cycle c = a.getCycle();
+            LocalDate start = c.getDate_debut_m().toLocalDate();
+            LocalDate end = c.getDate_fin_m().toLocalDate();
+
+            // 1. Solid Date Comparison for Menstruation
+            if ((date.isEqual(start) || date.isAfter(start)) && (date.isEqual(end) || date.isBefore(end))) {
+                return "MENSTRUATION";
+            }
+            
+            // 2. Ovulation Comparison
+            if (a.getOvulationDate() != null && date.isEqual(a.getOvulationDate())) {
+                return "OVULATION";
+            }
+            
+            // 3. Fertile Window Comparison
+            if (a.getFertileWindowStart() != null && a.getFertileWindowEnd() != null) {
+                if ((date.isEqual(a.getFertileWindowStart()) || date.isAfter(a.getFertileWindowStart())) && 
+                    (date.isEqual(a.getFertileWindowEnd()) || date.isBefore(a.getFertileWindowEnd()))) {
+                    return "FERTILE";
+                }
+            }
+        }
+        return "NORMAL";
+    }
 }

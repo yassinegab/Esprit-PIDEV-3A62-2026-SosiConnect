@@ -12,10 +12,20 @@ import org.example.cycle.service.CycleService;
 import org.example.home.controller.HomeController;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import javafx.application.Platform;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import org.json.JSONObject;
 
 public class DisplayCycleController {
 
@@ -31,6 +41,13 @@ public class DisplayCycleController {
     
     @FXML private VBox alertBox;
     @FXML private Label lblAlertMsg;
+
+    // CHATBOT FXML
+    @FXML private VBox chatMessagesBox;
+    @FXML private ScrollPane chatScrollPane;
+    @FXML private TextField txtChatInput;
+    @FXML private Label lblTyping;
+    @FXML private Button btnSendChat;
 
     private HomeController homeController;
     private final CycleService cycleService = new CycleService();
@@ -180,5 +197,92 @@ public class DisplayCycleController {
                 org.example.utils.AlertHelper.showErrorAlert("Erreur Export", "Échec de l'export: " + e.getMessage());
             }
         }
+    }
+
+    // --- CHATBOT LOGIC ---
+
+    @FXML
+    private void sendChatMessage() {
+        String message = txtChatInput.getText().trim();
+        if (message.isEmpty()) return;
+
+        txtChatInput.clear();
+        addUserMessage(message);
+        
+        lblTyping.setVisible(true);
+        lblTyping.setManaged(true);
+        btnSendChat.setDisable(true);
+        txtChatInput.setDisable(true);
+
+        // API Call via HttpClient
+        new Thread(() -> {
+            try {
+                JSONObject json = new JSONObject();
+                json.put("message", message);
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("http://localhost:8082/api/chat"))
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
+                        .build();
+
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                
+                String botReply;
+                if (response.statusCode() == 200) {
+                    JSONObject resJson = new JSONObject(response.body());
+                    botReply = resJson.getString("response");
+                } else {
+                    botReply = "Désolé, je suis indisponible pour le moment.";
+                }
+
+                Platform.runLater(() -> {
+                    addBotMessage(botReply);
+                    lblTyping.setVisible(false);
+                    lblTyping.setManaged(false);
+                    btnSendChat.setDisable(false);
+                    txtChatInput.setDisable(false);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Platform.runLater(() -> {
+                    addBotMessage("Erreur de connexion avec l'assistante.");
+                    lblTyping.setVisible(false);
+                    lblTyping.setManaged(false);
+                    btnSendChat.setDisable(false);
+                    txtChatInput.setDisable(false);
+                });
+            }
+        }).start();
+    }
+
+    private void addUserMessage(String message) {
+        Label lblMsg = new Label(message);
+        lblMsg.setStyle("-fx-background-color: #c084fc; -fx-text-fill: white; -fx-padding: 10 15; -fx-background-radius: 15 15 0 15; -fx-wrap-text: true; -fx-max-width: 400;");
+        
+        HBox hbox = new HBox(lblMsg);
+        hbox.setAlignment(Pos.CENTER_RIGHT);
+        
+        chatMessagesBox.getChildren().add(hbox);
+        scrollToBottom();
+    }
+
+    private void addBotMessage(String message) {
+        Label lblMsg = new Label(message);
+        lblMsg.setStyle("-fx-background-color: #f1f5f9; -fx-text-fill: #334155; -fx-padding: 10 15; -fx-background-radius: 15 15 15 0; -fx-wrap-text: true; -fx-max-width: 400;");
+        
+        HBox hbox = new HBox(lblMsg);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        
+        chatMessagesBox.getChildren().add(hbox);
+        scrollToBottom();
+    }
+
+    private void scrollToBottom() {
+        Platform.runLater(() -> {
+            chatScrollPane.layout();
+            chatScrollPane.setVvalue(1.0);
+        });
     }
 }
