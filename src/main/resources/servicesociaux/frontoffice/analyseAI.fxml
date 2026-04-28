@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  analyseAI.fxml — Page d'analyse IA : 5 moteurs distincts
+  Onglet 1 : Groq LLaMA      — Analyse clinique profonde
+  Onglet 2 : HuggingFace     — Classification zero-shot
+  Onglet 3 : OpenAI Vision   — Analyse d'images médicales
+  Onglet 4 : Google Gemini   — Plan nutrition + sport 30 jours
+  Onglet 5 : ElevenLabs      — Synthèse vocale du diagnostic
+-->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.servicesociaux.frontoffice.controller.controllers.AnalyseIAController"
+      spacing="0"
+      style="-fx-background-color:#f0edf7;"
+      minWidth="1200" minHeight="720">
+
+    <!-- ══ HEADER ══ -->
+    <HBox alignment="CENTER_LEFT" spacing="14"
+          style="-fx-background-color:white;
+                 -fx-border-color:#e0d6f5;-fx-border-width:0 0 1 0;
+                 -fx-padding:12 22;
+                 -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.06),6,0,0,2);">
+
+        <Button text="← Retour" onAction="#retour"
+                style="-fx-background-color:#ede7f6;-fx-text-fill:#6a1b9a;
+                       -fx-background-radius:20;-fx-font-size:12;
+                       -fx-font-weight:bold;-fx-padding:6 16;
+                       -fx-border-color:transparent;-fx-cursor:hand;"/>
+
+        <Label fx:id="titreLabel" text="Analyse IA — Dossier"
+               style="-fx-font-size:16;-fx-font-weight:bold;-fx-text-fill:#4a148c;"
+               HBox.hgrow="ALWAYS"/>
+
+        <Label fx:id="engineLabel" text=""
+               style="-fx-font-size:11;-fx-text-fill:white;
+                      -fx-background-color:#7b1fa2;
+                      -fx-padding:4 12;-fx-background-radius:20;"/>
+
+        <Label fx:id="statusLabel" text=""
+               style="-fx-font-size:11;-fx-text-fill:#9c27b0;-fx-font-weight:bold;"/>
+
+        <Label fx:id="errorLabel" text=""
+               style="-fx-font-size:11;-fx-text-fill:#c62828;-fx-max-width:300;"
+               wrapText="true"/>
+    </HBox>
+
+    <!-- ══ BODY : Gauche recap + Droite onglets ══ -->
+    <HBox VBox.vgrow="ALWAYS" spacing="0">
+
+        <!-- ═ GAUCHE : Résumé dossier + boutons ═ -->
+        <VBox prefWidth="300" minWidth="260"
+              style="-fx-background-color:white;
+                     -fx-border-color:#e0d6f5;-fx-border-width:0 1 0 0;">
+
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 16;-fx-background-color:#faf7ff;
+                         -fx-border-color:#e0d6f5;-fx-border-width:0 0 1 0;">
+                <Label text="📋 Dossier analysé"
+                       style="-fx-font-size:12;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:transparent;-fx-background-color:transparent;
+                               -fx-border-color:transparent;">
+                <VBox fx:id="recapPanel" spacing="8"
+                      style="-fx-padding:12;-fx-background-color:white;"/>
+            </ScrollPane>
+
+            <Separator/>
+
+            <!-- Boutons des 5 moteurs IA -->
+            <VBox spacing="8" style="-fx-padding:12;">
+                <Label text="🤖 Moteurs IA disponibles"
+                       style="-fx-font-size:11;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"/>
+
+                <!-- Groq -->
+                <Button fx:id="btnGroq"
+                        text="🧠 Groq LLaMA — Analyse clinique"
+                        onAction="#lancerGroq" maxWidth="Infinity"
+                        style="-fx-background-color:#1a237e;-fx-text-fill:white;
+                               -fx-background-radius:8;-fx-font-size:11;
+                               -fx-font-weight:bold;-fx-padding:10;
+                               -fx-cursor:hand;-fx-border-color:transparent;"/>
+                <Label text="Scores + médecins + hôpitaux + plan suivi"
+                       style="-fx-font-size:9;-fx-text-fill:#888;"/>
+
+                <!-- HuggingFace -->
+                <Button fx:id="btnHF"
+                        text="🤗 HuggingFace — Classification"
+                        onAction="#lancerHF" maxWidth="Infinity"
+                        style="-fx-background-color:#e65100;-fx-text-fill:white;
+                               -fx-background-radius:8;-fx-font-size:11;
+                               -fx-font-weight:bold;-fx-padding:10;
+                               -fx-cursor:hand;-fx-border-color:transparent;"/>
+                <Label text="Probabilités zero-shot 6 dimensions"
+                       style="-fx-font-size:9;-fx-text-fill:#888;"/>
+
+                <!-- OpenAI Vision -->
+                <VBox spacing="4">
+                    <Button fx:id="btnImportImage"
+                            text="🖼 Importer image médicale"
+                            onAction="#choisirImage" maxWidth="Infinity"
+                            style="-fx-background-color:#ede7f6;-fx-text-fill:#6a1b9a;
+                                   -fx-background-radius:8;-fx-font-size:11;
+                                   -fx-font-weight:bold;-fx-padding:8;
+                                   -fx-cursor:hand;-fx-border-color:transparent;"/>
+                    <Label fx:id="imageChoisieLabel" text="Aucune image choisie"
+                           style="-fx-font-size:9;-fx-text-fill:#aaa;" wrapText="true"/>
+                    <Button fx:id="btnVision"
+                            text="👁 OpenAI Vision — Analyser image"
+                            onAction="#lancerVision" maxWidth="Infinity"
+                            style="-fx-background-color:#f57f17;-fx-text-fill:white;
+                                   -fx-background-radius:8;-fx-font-size:11;
+                                   -fx-font-weight:bold;-fx-padding:10;
+                                   -fx-cursor:hand;-fx-border-color:transparent;"/>
+                </VBox>
+                <Label text="Radio / IRM / ECG → anomalies détectées"
+                       style="-fx-font-size:9;-fx-text-fill:#888;"/>
+
+                <!-- Gemini -->
+                <Button fx:id="btnGemini"
+                        text="🌿 Gemini — Plan nutrition + sport"
+                        onAction="#lancerGemini" maxWidth="Infinity"
+                        style="-fx-background-color:#2e7d32;-fx-text-fill:white;
+                               -fx-background-radius:8;-fx-font-size:11;
+                               -fx-font-weight:bold;-fx-padding:10;
+                               -fx-cursor:hand;-fx-border-color:transparent;"/>
+                <Label text="Menus 7 jours + programme exercice 30j"
+                       style="-fx-font-size:9;-fx-text-fill:#888;"/>
+
+                <!-- ElevenLabs -->
+                <Button fx:id="btnVoix"
+                        text="🎤 ElevenLabs — Écouter diagnostic"
+                        onAction="#lancerVoix" maxWidth="Infinity"
+                        style="-fx-background-color:#c2185b;-fx-text-fill:white;
+                               -fx-background-radius:8;-fx-font-size:11;
+                               -fx-font-weight:bold;-fx-padding:10;
+                               -fx-cursor:hand;-fx-border-color:transparent;"/>
+                <Label text="Synthèse vocale multilingue du dossier"
+                       style="-fx-font-size:9;-fx-text-fill:#888;-fx-padding:0 0 4 0;"/>
+
+            </VBox>
+        </VBox>
+
+        <!-- ═ DROITE : TabPane 5 onglets ═ -->
+        <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="0">
+
+            <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS"
+                     tabClosingPolicy="UNAVAILABLE"
+                     style="-fx-background-color:#f0edf7;">
+
+                <!-- ── Onglet 1 : Groq ── -->
+                <Tab fx:id="tabGroq" text="🧠 Groq LLaMA">
+                    <ScrollPane fitToWidth="true"
+                                style="-fx-background:transparent;-fx-background-color:#f0edf7;
+                                       -fx-border-color:transparent;">
+                        <VBox fx:id="groqPanel" spacing="14" style="-fx-padding:20;">
+                            <VBox alignment="CENTER" spacing="12" style="-fx-padding:60 0;">
+                                <Label text="🧠 Groq LLaMA 3.3-70B"
+                                       style="-fx-font-size:16;-fx-text-fill:#bbb;-fx-font-weight:bold;"/>
+                                <Label text="Analyse clinique approfondie : score santé, médecins experts, hôpitaux, plan de suivi"
+                                       style="-fx-font-size:11;-fx-text-fill:#ccc;" wrapText="true"
+                                       maxWidth="400"/>
+                                <Label text="Cliquez sur '🧠 Groq LLaMA' à gauche pour démarrer"
+                                       style="-fx-font-size:11;-fx-text-fill:#ddd;"/>
+                            </VBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- ── Onglet 2 : HuggingFace ── -->
+                <Tab fx:id="tabHF" text="🤗 HuggingFace">
+                    <ScrollPane fitToWidth="true"
+                                style="-fx-background:transparent;-fx-background-color:#f0edf7;
+                                       -fx-border-color:transparent;">
+                        <VBox fx:id="hfPanel" spacing="14" style="-fx-padding:20;">
+                            <VBox alignment="CENTER" spacing="12" style="-fx-padding:60 0;">
+                                <Label text="🤗 HuggingFace BART-Large-MNLI"
+                                       style="-fx-font-size:16;-fx-text-fill:#bbb;-fx-font-weight:bold;"/>
+                                <Label text="Classification zero-shot : 6 dimensions médicales avec probabilités visuelles"
+                                       style="-fx-font-size:11;-fx-text-fill:#ccc;" wrapText="true"
+                                       maxWidth="400"/>
+                            </VBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- ── Onglet 3 : OpenAI Vision ── -->
+                <Tab fx:id="tabVision" text="👁 Vision IA">
+                    <ScrollPane fitToWidth="true"
+                                style="-fx-background:transparent;-fx-background-color:#f0edf7;
+                                       -fx-border-color:transparent;">
+                        <VBox fx:id="visionPanel" spacing="14" style="-fx-padding:20;">
+                            <VBox alignment="CENTER" spacing="12" style="-fx-padding:60 0;">
+                                <Label text="👁 OpenAI GPT-4o Vision"
+                                       style="-fx-font-size:16;-fx-text-fill:#bbb;-fx-font-weight:bold;"/>
+                                <Label text="Importez une image médicale (radio, IRM, ECG, photo) et GPT-4o détectera les anomalies"
+                                       style="-fx-font-size:11;-fx-text-fill:#ccc;" wrapText="true"
+                                       maxWidth="400"/>
+                                <Label text="1. Cliquez 'Importer image'   2. Cliquez 'Analyser image'"
+                                       style="-fx-font-size:11;-fx-text-fill:#ddd;"/>
+                            </VBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- ── Onglet 4 : Gemini ── -->
+                <Tab fx:id="tabGemini" text="🌿 Gemini Plan">
+                    <ScrollPane fitToWidth="true"
+                                style="-fx-background:transparent;-fx-background-color:#f0edf7;
+                                       -fx-border-color:transparent;">
+                        <VBox fx:id="geminiPanel" spacing="14" style="-fx-padding:20;">
+                            <VBox alignment="CENTER" spacing="12" style="-fx-padding:60 0;">
+                                <Label text="🌿 Google Gemini 1.5 Flash"
+                                       style="-fx-font-size:16;-fx-text-fill:#bbb;-fx-font-weight:bold;"/>
+                                <Label text="Plan de vie personnalisé 30 jours : nutrition, menus, exercices, sommeil, stress"
+                                       style="-fx-font-size:11;-fx-text-fill:#ccc;" wrapText="true"
+                                       maxWidth="400"/>
+                            </VBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- ── Onglet 5 : ElevenLabs ── -->
+                <Tab fx:id="tabVoix" text="🎤 Voix IA">
+                    <ScrollPane fitToWidth="true"
+                                style="-fx-background:transparent;-fx-background-color:#f0edf7;
+                                       -fx-border-color:transparent;">
+                        <VBox fx:id="voixPanel" spacing="14" style="-fx-padding:20;">
+                            <VBox alignment="CENTER" spacing="12" style="-fx-padding:60 0;">
+                                <Label text="🎤 ElevenLabs Text-to-Speech"
+                                       style="-fx-font-size:16;-fx-text-fill:#bbb;-fx-font-weight:bold;"/>
+                                <Label text="Synthèse vocale multilingue du résumé médical avec lecteur audio intégré"
+                                       style="-fx-font-size:11;-fx-text-fill:#ccc;" wrapText="true"
+                                       maxWidth="400"/>
+                            </VBox>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+            </TabPane>
+        </VBox>
+    </HBox>
+</VBox>

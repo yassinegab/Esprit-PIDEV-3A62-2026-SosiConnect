@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.servicesociaux.frontoffice.controller.controllers.CarteHopitalController"
+      spacing="0"
+      style="-fx-background-color: #fdf6f9;">
+
+    <!-- HEADER -->
+    <HBox alignment="CENTER_LEFT" spacing="12"
+          style="-fx-background-color: #fff0f5;
+                 -fx-border-color: #f8bbd0;
+                 -fx-border-width: 0 0 1 0;
+                 -fx-padding: 13 22;">
+
+        <Button text="← Retour" onAction="#fermer"
+                style="-fx-background-color: #fce4ec;
+                       -fx-text-fill: #ad1457;
+                       -fx-background-radius: 50;
+                       -fx-font-size: 13; -fx-font-weight: bold;
+                       -fx-padding: 5 14;
+                       -fx-border-color: #f8bbd0;
+                       -fx-border-radius: 50;
+                       -fx-cursor: hand;"/>
+
+        <Label text="🗺️  Carte des Hôpitaux"
+               style="-fx-font-size: 15; -fx-font-weight: bold;
+                      -fx-text-fill: #ad1457;"
+               HBox.hgrow="ALWAYS"/>
+
+        <Label fx:id="statusLabel"
+               text="⏳ Chargement..."
+               style="-fx-font-size: 11; -fx-text-fill: #c48b9f;"/>
+    </HBox>
+
+    <!-- CARTE -->
+    <WebView fx:id="webView" VBox.vgrow="ALWAYS"/>
+
+</VBox>

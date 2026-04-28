@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow: hidden; }
+        #map {
+            position: absolute; top: 0; left: 0;
+            width: 100% !important; height: 100% !important;
+        }
+        .leaflet-container { background: #a8d5e8 !important; }
+
+        #topbar {
+            position: absolute; top: 10px; left: 55px; z-index: 1000;
+            display: flex; gap: 7px; align-items: center; flex-wrap: wrap;
+        }
+        #search-input {
+            padding: 8px 14px; border-radius: 20px;
+            border: 1.5px solid #e0e0e0; font-size: 12px; width: 200px;
+            outline: none; background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .btn-map {
+            padding: 8px 13px; border-radius: 20px; border: none;
+            font-size: 11px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15); white-space: nowrap;
+        }
+        #counter {
+            position: absolute; top: 10px; right: 10px; z-index: 1000;
+            background: white; padding: 7px 15px; border-radius: 20px;
+            font-size: 12px; border: 1px solid #eee;
+            color: #ad1457; font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .legend {
+            position: absolute; bottom: 90px; right: 10px; z-index: 1000;
+            background: rgba(255,255,255,0.97); padding: 12px 16px;
+            border-radius: 12px; border: 1px solid #eee;
+            font-size: 12px; line-height: 2.2;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        .dot {
+            display: inline-block; width: 13px; height: 13px;
+            border-radius: 50%; margin-right: 7px; vertical-align: middle;
+        }
+
+        /* ── Popup ── */
+        .popup-box { min-width: 220px; max-width: 260px; font-family: Arial, sans-serif; }
+        .popup-title {
+            font-weight: bold; font-size: 13px; color: #ad1457;
+            border-bottom: 2px solid #f8bbd0; padding-bottom: 5px; margin-bottom: 7px;
+        }
+        .popup-row { font-size: 11px; color: #555; margin: 3px 0; }
+        .popup-badge {
+            display: inline-block; padding: 2px 9px;
+            border-radius: 10px; font-size: 10px; font-weight: bold; margin-top: 5px;
+        }
+        .badge-ok  { background: #e8f5e9; color: #2e7d32; }
+        .badge-no  { background: #ffebee; color: #c62828; }
+        .badge-proche {
+            background: #ffebee; color: #c62828; font-size: 10px; font-weight: bold;
+            padding: 2px 9px; border-radius: 10px; display: inline-block; margin-bottom: 5px;
+        }
+        .btn-popup {
+            width: 100%; margin-top: 8px; padding: 8px;
+            background: linear-gradient(135deg, #1565c0, #1976d2);
+            color: white; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 11px; font-weight: bold;
+        }
+        .btn-popup:hover { background: #0d47a1; }
+
+        /* ── Panel itinéraire ── */
+        #itin-panel {
+            display: none;
+            position: absolute; bottom: 0; left: 0; right: 0; z-index: 1000;
+            background: white;
+            border-top: 2px solid #e3f2fd;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            font-family: Arial, sans-serif;
+        }
+        #itin-header {
+            background: linear-gradient(135deg, #1565c0, #1976d2);
+            color: white; padding: 10px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        #itin-header .itin-title { font-weight: bold; font-size: 13px; }
+        #itin-close {
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            border-radius: 50%; width: 24px; height: 24px;
+            cursor: pointer; font-size: 14px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #itin-stats {
+            display: flex; gap: 0; border-bottom: 1px solid #f0f0f0;
+        }
+        .itin-stat {
+            flex: 1; text-align: center; padding: 10px 8px;
+            border-right: 1px solid #f0f0f0;
+        }
+        .itin-stat:last-child { border-right: none; }
+        .itin-stat .val {
+            font-size: 20px; font-weight: bold; color: #1565c0;
+        }
+        .itin-stat .lbl {
+            font-size: 10px; color: #888; margin-top: 2px;
+        }
+        #itin-steps {
+            max-height: 140px; overflow-y: auto;
+            padding: 8px 12px;
+        }
+        .step-item {
+            display: flex; align-items: flex-start; gap: 8px;
+            padding: 5px 0; border-bottom: 1px solid #f8f8f8;
+            font-size: 11px; color: #444;
+        }
+        .step-item:last-child { border-bottom: none; }
+        .step-icon {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: #e3f2fd; color: #1565c0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; flex-shrink: 0;
+        }
+        .step-text { flex: 1; line-height: 1.4; }
+        .step-dist { color: #aaa; font-size: 10px; margin-top: 2px; }
+
+        /* ── Tooltip proche ── */
+        .tooltip-proche {
+            background: #c62828 !important; color: white !important;
+            border: none !important; font-weight: bold; font-size: 11px;
+            border-radius: 6px; padding: 3px 8px;
+        }
+
+        /* ── Loading overlay ── */
+        #itin-loading {
+            display: none; position: absolute; bottom: 10px; left: 50%;
+            transform: translateX(-50%); z-index: 2000;
+            background: rgba(21,101,192,0.92); color: white;
+            padding: 10px 20px; border-radius: 20px; font-size: 12px;
+            font-family: Arial, sans-serif; font-weight: bold;
+        }
+
+        /* ── Étiquette durée sur la carte ── */
+        .dur-label {
+            background: white; border: 2px solid #1565c0;
+            border-radius: 8px; padding: 4px 10px;
+            font-family: Arial, sans-serif; font-size: 12px;
+            font-weight: bold; color: #1565c0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="topbar">
+    <input id="search-input" type="text"
+           placeholder="🔍 Rechercher un hôpital..."/>
+    <button class="btn-map" style="background:#388e3c;color:white"
+            onclick="filtrerUrgence()">🚨 Urgences</button>
+    <button class="btn-map" style="background:#1565c0;color:white"
+            onclick="afficherTous()">🏥 Tous</button>
+    <button class="btn-map" style="background:#7b1fa2;color:white"
+            onclick="allerPlusProche()">📍 + Proche</button>
+    <button class="btn-map" style="background:#e65100;color:white"
+            onclick="maPosition()">🎯 Ma position</button>
+</div>
+
+<div id="counter">0 hôpital</div>
+
+<div class="legend">
+    <b style="font-size:11px;color:#555;display:block;margin-bottom:2px;">Légende</b>
+    <div><span class="dot" style="background:#c62828"></span>Plus proche</div>
+    <div><span class="dot" style="background:#388e3c"></span>Urgence dispo</div>
+    <div><span class="dot" style="background:#1565c0"></span>Sans urgence</div>
+    <div><span class="dot" style="background:#7b1fa2"></span>Ma position</div>
+</div>
+
+<!-- ── Panel itinéraire ── -->
+<div id="itin-panel">
+    <div id="itin-header">
+        <div class="itin-title" id="itin-title">Itinéraire</div>
+        <button id="itin-close" onclick="fermerItin()">✕</button>
+    </div>
+    <div id="itin-stats">
+        <div class="itin-stat">
+            <div class="val" id="stat-dist">—</div>
+            <div class="lbl">Distance</div>
+        </div>
+        <div class="itin-stat">
+            <div class="val" id="stat-dur">—</div>
+            <div class="lbl">Durée estimée</div>
+        </div>
+        <div class="itin-stat">
+            <div class="val" id="stat-arr">—</div>
+            <div class="lbl">Arrivée estimée</div>
+        </div>
+        <div class="itin-stat">
+            <div class="val" id="stat-steps">—</div>
+            <div class="lbl">Étapes</div>
+        </div>
+    </div>
+    <div id="itin-steps"></div>
+</div>
+
+<div id="itin-loading">⏳ Calcul de l'itinéraire...</div>
+
+<!-- Leaflet CSS inline -->
+<style>
+    .leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden}.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none}.leaflet-tile::selection{background:transparent}.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}.leaflet-container.leaflet-touch-zoom{touch-action:pan-x pan-y}.leaflet-container.leaflet-touch-drag{touch-action:none;touch-action:pinch-zoom}.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}.leaflet-zoom-box{width:0;height:0;box-sizing:border-box;z-index:800}.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}.leaflet-control{position:relative;z-index:800;pointer-events:auto}.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-control{float:left;clear:both}.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-fade-anim .leaflet-popup{opacity:0;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}.leaflet-zoom-animated{-webkit-transform-origin:0 0;transform-origin:0 0}.leaflet-zoom-anim .leaflet-zoom-animated{will-change:transform;transition:transform .25s cubic-bezier(0,0,.25,1)}.leaflet-pan-anim .leaflet-tile,.leaflet-zoom-anim .leaflet-tile{transition:none}.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:grab}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-marker-draggable{cursor:grabbing}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-image-layer,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}.leaflet-marker-icon.leaflet-interactive,.leaflet-image-layer.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive{pointer-events:auto}.leaflet-container{background:#ddd;outline-offset:1px}.leaflet-container{font-family:Helvetica Neue,Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5}.leaflet-bar{box-shadow:0 1px 5px rgba(0,0,0,.65);border-radius:4px}.leaflet-bar a{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:black}.leaflet-bar a:hover{background-color:#f4f4f4}.leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}.leaflet-control-zoom-in,.leaflet-control-zoom-out{font:bold 18px Lucida Console,Monaco,monospace;text-indent:1px}.leaflet-control-layers{box-shadow:0 1px 5px rgba(0,0,0,.4);background:#fff;border-radius:5px}.leaflet-control-layers-toggle{width:36px;height:36px}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle{display:none}.leaflet-control-layers-expanded .leaflet-control-layers-list{display:block;position:relative}.leaflet-control-layers-expanded{padding:6px 10px 6px 6px;color:#333;background:#fff}.leaflet-control-layers label{display:block;font-size:13px}.leaflet-container .leaflet-control-attribution{background:rgba(255,255,255,.8);margin:0}.leaflet-control-attribution,.leaflet-control-scale-line{padding:0 5px;color:#333;line-height:1.4}.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:12px}.leaflet-popup-content{margin:13px 24px 13px 20px;line-height:1.3;min-height:1px}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;transform:rotate(45deg)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:white;color:#333;box-shadow:0 3px 14px rgba(0,0,0,.4)}.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;border:none;text-align:center;width:24px;height:24px;font:16px/24px Tahoma,Verdana,sans-serif;color:#757575;text-decoration:none;background:transparent}.leaflet-div-icon{background:#fff;border:1px solid #666}.leaflet-tooltip{position:absolute;padding:6px;background-color:#fff;border:1px solid #fff;border-radius:3px;color:#222;white-space:nowrap;user-select:none;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4)}.tooltip-proche{background:#c62828!important;color:white!important;border:none!important;font-weight:bold;font-size:11px;border-radius:6px;padding:3px 8px}
+</style>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // ════════════════════════════════════════════
+    //  Globals
+    // ════════════════════════════════════════════
+    var map         = null;
+    var allMarkers  = [];
+    var allData     = [];
+    var urgenceOnly = false;
+    var routeLayer  = null;
+    var durLabel    = null;  // étiquette durée sur la carte
+    var userMarker  = null;
+    var procheIdx   = -1;
+    var ORS_KEY     = '';
+    var mapReady    = false;
+
+    // ════════════════════════════════════════════
+    //  Init carte
+    // ════════════════════════════════════════════
+    function tryInitMap(n) {
+        if (typeof L === 'undefined') {
+            if (n < 60) setTimeout(function(){ tryInitMap(n+1); }, 100);
+            return;
+        }
+        startMap();
+    }
+
+    function startMap() {
+        map = L.map('map', {
+            center: [33.8869, 9.5375], zoom: 6,
+            zoomControl: true, preferCanvas: false,
+            fadeAnimation: false, zoomAnimation: false
+        });
+
+        var carto = L.tileLayer(
+            'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            { attribution:'© CartoDB © OSM', subdomains:'abcd',
+              maxZoom:19, updateWhenIdle:true, keepBuffer:4 }
+        );
+        var osm = L.tileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            { attribution:'© OpenStreetMap', maxZoom:19, keepBuffer:4 }
+        );
+
+        carto.addTo(map);
+        L.control.layers({ '🗺 CartoDB': carto, '🌍 OpenStreetMap': osm },
+                         {}, { position:'topright' }).addTo(map);
+
+        // ✅ Forcer redimensionnement
+        [300, 700, 1200, 2000].forEach(function(t){
+            setTimeout(function(){ map.invalidateSize(true); }, t);
+        });
+
+        map.on('moveend', mettreAJourPlusProche);
+        map.on('zoomend', function(){ map.invalidateSize(false); });
+
+        mapReady = true;
+    }
+
+    tryInitMap(0);
+
+    // ════════════════════════════════════════════
+    //  Utilitaires
+    // ════════════════════════════════════════════
+    function haversine(lat1, lng1, lat2, lng2) {
+        var R=6371, dLat=(lat2-lat1)*Math.PI/180, dLng=(lng2-lng1)*Math.PI/180;
+        var a=Math.sin(dLat/2)*Math.sin(dLat/2)+
+              Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+              Math.sin(dLng/2)*Math.sin(dLng/2);
+        return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+    }
+
+    function fmtDist(m) {
+        return m >= 1000 ? (m/1000).toFixed(1)+' km' : Math.round(m)+' m';
+    }
+
+    function fmtDur(s) {
+        var h = Math.floor(s/3600), m = Math.round((s%3600)/60);
+        if (h > 0) return h+'h '+m+'min';
+        return m+' min';
+    }
+
+    function heureArrivee(sec) {
+        var d = new Date(Date.now() + sec*1000);
+        return d.getHours().toString().padStart(2,'0') + ':' +
+               d.getMinutes().toString().padStart(2,'0');
+    }
+
+    // Icône instruction
+    function instrIcon(type) {
+        var icons = {
+            0:'⬆', 1:'↗', 2:'↻', 3:'↪', 4:'↩', 5:'⬆',
+            6:'⬅', 7:'➡', 10:'⬆', 11:'⬆', 12:'⬆', 13:'⬆'
+        };
+        return icons[type] || '⬆';
+    }
+
+    // ════════════════════════════════════════════
+    //  Icônes SVG
+    // ════════════════════════════════════════════
+    function makeIcon(type) {
+        var cfg = {
+            urgence:{ c:'#388e3c', s:40, t:'H' },
+            normal: { c:'#1565c0', s:36, t:'H' },
+            proche: { c:'#c62828', s:44, t:'H' },
+            user:   { c:'#7b1fa2', s:38, t:'★' }
+        };
+        var v = cfg[type]||cfg.normal;
+        var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+v.s+'" height="'+v.s+'">'+
+                '<circle cx="'+(v.s/2)+'" cy="'+(v.s/2)+'" r="'+(v.s/2-2)+'" '+
+                'fill="'+v.c+'" stroke="white" stroke-width="3"/>'+
+                '<text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" '+
+                'fill="white" font-size="'+(v.s*0.38)+'px" font-weight="bold" '+
+                'font-family="Arial">'+v.t+'</text></svg>';
+        return L.divIcon({
+            className:'', html:svg,
+            iconSize:[v.s,v.s], iconAnchor:[v.s/2,v.s/2],
+            popupAnchor:[0,-(v.s/2+4)]
+        });
+    }
+
+    // ════════════════════════════════════════════
+    //  Popup
+    // ════════════════════════════════════════════
+    function makePopup(h, isProche) {
+        var ok   = String(h.urgence)==='true';
+        var badge= ok ? '<span class="popup-badge badge-ok">✅ Urgence dispo</span>'
+                      : '<span class="popup-badge badge-no">❌ Sans urgence</span>';
+        var prch = isProche ? '<div class="badge-proche">📍 PLUS PROCHE</div>' : '';
+        var nom  = String(h.nom||'').replace(/['"\\]/g,'');
+        return '<div class="popup-box">'+prch+
+            '<div class="popup-title">🏥 '+(h.nom||'')+'</div>'+
+            (h.adresse     ?'<div class="popup-row">📍 '+h.adresse+'</div>':'')+
+            (h.ville       ?'<div class="popup-row">🏙 '+h.ville+'</div>':'')+
+            (h.specialites ?'<div class="popup-row">⚕ '+h.specialites+'</div>':'')+
+            (h.tel         ?'<div class="popup-row">📞 '+h.tel+'</div>':'')+
+            '<div class="popup-row" style="color:#aaa;font-size:10px">'+
+              parseFloat(h.lat).toFixed(4)+'° N, '+parseFloat(h.lng).toFixed(4)+'° E</div>'+
+            badge+
+            '<button class="btn-popup" onclick="lancerItineraire('+
+              h.lat+','+h.lng+',\''+nom+'\')">🗺 Calculer l\'itinéraire</button>'+
+            '</div>';
+    }
+
+    // ════════════════════════════════════════════
+    //  Charger hôpitaux — depuis Java
+    // ════════════════════════════════════════════
+    function loadHopitaux(data) {
+        if (!mapReady||!map) { setTimeout(function(){ loadHopitaux(data); },250); return; }
+        allMarkers.forEach(function(m){ map.removeLayer(m); });
+        allMarkers=[];
+        try { allData=(typeof data==='string')?JSON.parse(data):data; }
+        catch(e){ return; }
+
+        var bounds=[];
+        allData.forEach(function(h,i){
+            var lat=parseFloat(h.lat), lng=parseFloat(h.lng);
+            if(isNaN(lat)||isNaN(lng)||(lat===0&&lng===0)){
+                lat=33.5+i*0.7; lng=9.0+i*0.6;
+            }
+            h.lat=lat; h.lng=lng;
+            var type=String(h.urgence)==='true'?'urgence':'normal';
+            var m=L.marker([lat,lng],{icon:makeIcon(type),riseOnHover:true});
+            m.bindPopup(makePopup(h,false),{maxWidth:260});
+            m.hopitalData=h;
+            m.addTo(map);
+            allMarkers.push(m);
+            bounds.push([lat,lng]);
+        });
+
+        if(bounds.length>0) map.fitBounds(bounds,{padding:[70,70],maxZoom:11});
+        setTimeout(function(){ map.invalidateSize(true); },200);
+        majCompteur(allMarkers.length);
+        mettreAJourPlusProche();
+    }
+
+    // ════════════════════════════════════════════
+    //  Plus proche
+    // ════════════════════════════════════════════
+    function mettreAJourPlusProche() {
+        if(!map||allMarkers.length===0) return;
+        var ref=userMarker?userMarker.getLatLng():map.getCenter();
+        var minD=Infinity; procheIdx=-1;
+        allMarkers.forEach(function(m,i){
+            if(!map.hasLayer(m)) return;
+            var d=haversine(ref.lat,ref.lng,m.hopitalData.lat,m.hopitalData.lng);
+            if(d<minD){minD=d;procheIdx=i;}
+        });
+        allMarkers.forEach(function(m){
+            if(!map.hasLayer(m)) return;
+            var h=m.hopitalData;
+            m.setIcon(makeIcon(String(h.urgence)==='true'?'urgence':'normal'));
+            m.setPopupContent(makePopup(h,false));
+            try{m.unbindTooltip();}catch(e){}
+        });
+        if(procheIdx>=0){
+            var pm=allMarkers[procheIdx], ph=pm.hopitalData;
+            var dist=haversine(ref.lat,ref.lng,ph.lat,ph.lng);
+            pm.setIcon(makeIcon('proche'));
+            pm.setPopupContent(makePopup(ph,true));
+            pm.bindTooltip('<b>Plus proche</b><br>'+dist.toFixed(1)+' km',
+                {permanent:true,direction:'top',offset:[0,-25],className:'tooltip-proche'});
+        }
+    }
+
+    // ════════════════════════════════════════════
+    //  Ma position
+    // ════════════════════════════════════════════
+    function maPosition() {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(
+                function(p){ setUserPosition(p.coords.latitude,p.coords.longitude); map.setView([p.coords.latitude,p.coords.longitude],10,{animate:true}); },
+                function(){ setUserPosition(36.8065,10.1815); },
+                {timeout:6000,enableHighAccuracy:true}
+            );
+        } else { setUserPosition(36.8065,10.1815); }
+    }
+
+    function setUserPosition(lat,lng) {
+        if(!map){setTimeout(function(){setUserPosition(lat,lng);},200);return;}
+        if(userMarker) map.removeLayer(userMarker);
+        userMarker=L.marker([lat,lng],{icon:makeIcon('user')})
+            .bindPopup('<b>📍 Votre position</b>').addTo(map);
+        mettreAJourPlusProche();
+    }
+
+    function allerPlusProche() {
+        if(procheIdx<0||!map) return;
+        var pm=allMarkers[procheIdx];
+        map.setView([pm.hopitalData.lat,pm.hopitalData.lng],13,{animate:true});
+        setTimeout(function(){pm.openPopup();},600);
+    }
+
+    // ════════════════════════════════════════════
+    //  ✅ ITINÉRAIRE AVANCÉ avec étapes + durée
+    // ════════════════════════════════════════════
+    function lancerItineraire(latDest, lngDest, nomHop) {
+        if(!map) return;
+
+        // Fermer popup
+        map.closePopup();
+
+        var dep = userMarker ? userMarker.getLatLng() : {lat:36.8065, lng:10.1815};
+
+        // Nettoyer
+        fermerItin();
+
+        // Afficher loading
+        document.getElementById('itin-loading').style.display = 'block';
+
+        var distDirect = haversine(dep.lat, dep.lng, latDest, lngDest);
+
+        // ✅ Avec clé ORS → itinéraire routier réel avec étapes
+        if(ORS_KEY && ORS_KEY !== '' && ORS_KEY !== 'COLLE_TA_CLE_ORS_ICI') {
+
+            var url = 'https://api.openrouteservice.org/v2/directions/driving-car/geojson';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': ORS_KEY,
+                    'Content-Type':  'application/json',
+                    'Accept':        'application/json'
+                },
+                body: JSON.stringify({
+                    coordinates: [
+                        [dep.lng, dep.lat],
+                        [lngDest, latDest]
+                    ],
+                    instructions: true,
+                    language: 'fr',
+                    units: 'km',
+                    geometry_simplify: false,
+                    extra_info: ['steepness','surface'],
+                    attributes: ['avgspeed']
+                })
+            })
+            .then(function(r){
+                if(!r.ok) throw new Error('ORS HTTP '+r.status);
+                return r.json();
+            })
+            .then(function(data){
+                document.getElementById('itin-loading').style.display = 'none';
+                afficherItineraire(data, nomHop, dep);
+            })
+            .catch(function(err){
+                console.warn('ORS error:', err);
+                document.getElementById('itin-loading').style.display = 'none';
+                afficherLigneDroite(dep, latDest, lngDest, nomHop, distDirect);
+            });
+
+        } else {
+            // Sans clé → ligne droite avec estimation
+            setTimeout(function(){
+                document.getElementById('itin-loading').style.display = 'none';
+                afficherLigneDroite(dep, latDest, lngDest, nomHop, distDirect);
+            }, 400);
+        }
+    }
+
+    // ── Afficher itinéraire ORS complet ──
+    function afficherItineraire(data, nomHop, dep) {
+        var feature  = data.features[0];
+        var props    = feature.properties;
+        var summary  = props.summary;
+        var coords   = feature.geometry.coordinates;
+        var segments = props.segments || [];
+        var steps    = segments.length > 0 ? segments[0].steps : [];
+
+        // ✅ Tracer la route sur la carte
+        var latlngs = coords.map(function(c){ return [c[1],c[0]]; });
+
+        // Route principale (bleu)
+        routeLayer = L.polyline(latlngs, {
+            color: '#1565c0', weight: 6, opacity: 0.85
+        }).addTo(map);
+
+        // Contour blanc pour lisibilité
+        L.polyline(latlngs, {
+            color: 'white', weight: 10, opacity: 0.4
+        }).addTo(map).bringToBack();
+
+        map.fitBounds(routeLayer.getBounds(), {padding:[50,50]});
+
+        // ✅ Étiquette durée au milieu du trajet
+        var midIdx = Math.floor(latlngs.length/2);
+        var midPt  = latlngs[midIdx];
+        if(durLabel) { try{map.removeLayer(durLabel);}catch(e){} }
+        durLabel = L.marker(midPt, {
+            icon: L.divIcon({
+                className: 'dur-label',
+                html: '⏱ ' + fmtDur(summary.duration) + '  📏 ' + fmtDist(summary.distance*1000),
+                iconAnchor: [80, 15]
+            }),
+            interactive: false,
+            zIndexOffset: 500
+        }).addTo(map);
+
+        // ✅ Marqueur arrivée
+        var arrIcon = L.divIcon({
+            className: '',
+            html: '<div style="background:#c62828;color:white;border-radius:50%;'+
+                  'width:36px;height:36px;display:flex;align-items:center;'+
+                  'justify-content:center;font-size:18px;border:3px solid white;'+
+                  'box-shadow:0 3px 10px rgba(0,0,0,0.3)">🏥</div>',
+            iconSize:[36,36], iconAnchor:[18,18]
+        });
+
+        // ✅ Panel infos
+        var panel = document.getElementById('itin-panel');
+        document.getElementById('itin-title').textContent = '→ ' + nomHop;
+        document.getElementById('stat-dist').textContent  = fmtDist(summary.distance*1000);
+        document.getElementById('stat-dur') .textContent  = fmtDur(summary.duration);
+        document.getElementById('stat-arr') .textContent  = heureArrivee(summary.duration);
+        document.getElementById('stat-steps').textContent = steps.length;
+        panel.style.display = 'block';
+
+        // ✅ Étapes de navigation
+        var stepsHtml = '';
+        steps.forEach(function(step, i) {
+            var icon = instrIcon(step.type || 0);
+            var dist = fmtDist((step.distance||0)*1000);
+            var dur  = fmtDur(step.duration||0);
+            stepsHtml +=
+                '<div class="step-item">' +
+                '<div class="step-icon">'+icon+'</div>' +
+                '<div class="step-text">' +
+                  '<div>'+(step.instruction||step.name||'Continuer')+'</div>' +
+                  '<div class="step-dist">'+dist+' · '+dur+'</div>' +
+                '</div>' +
+                '</div>';
+        });
+        document.getElementById('itin-steps').innerHTML = stepsHtml;
+
+        // Ajuster la carte pour tenir compte du panel
+        setTimeout(function(){ map.invalidateSize(true); }, 100);
+    }
+
+    // ── Fallback ligne droite ──
+    function afficherLigneDroite(dep, latDest, lngDest, nomHop, dist) {
+        routeLayer = L.polyline(
+            [[dep.lat,dep.lng],[latDest,lngDest]],
+            {color:'#1565c0',weight:4,dashArray:'12,8',opacity:0.8}
+        ).addTo(map);
+
+        // Estimation : 60 km/h moyenne
+        var durEst = dist / 60 * 3600;
+
+        // Étiquette milieu
+        var midLat = (dep.lat + latDest) / 2;
+        var midLng = (dep.lng + lngDest) / 2;
+        if(durLabel){ try{map.removeLayer(durLabel);}catch(e){} }
+        durLabel = L.marker([midLat, midLng], {
+            icon: L.divIcon({
+                className: 'dur-label',
+                html: '⏱ ~' + fmtDur(durEst) + '  📏 ' + dist.toFixed(1) + ' km',
+                iconAnchor: [70, 15]
+            }),
+            interactive: false,
+            zIndexOffset: 500
+        }).addTo(map);
+
+        map.fitBounds(routeLayer.getBounds(), {padding:[50,50]});
+
+        // Panel simplifié
+        document.getElementById('itin-title').textContent = '→ ' + nomHop;
+        document.getElementById('stat-dist').textContent  = dist.toFixed(1)+' km';
+        document.getElementById('stat-dur') .textContent  = '~'+fmtDur(durEst);
+        document.getElementById('stat-arr') .textContent  = heureArrivee(durEst);
+        document.getElementById('stat-steps').textContent = '—';
+        document.getElementById('itin-steps').innerHTML =
+            '<div style="padding:10px;color:#888;font-size:11px;text-align:center;">' +
+            '⚠ Ligne directe (sans clé ORS). ' +
+            'La durée est estimée à 60 km/h.</div>';
+        document.getElementById('itin-panel').style.display = 'block';
+
+        setTimeout(function(){ map.invalidateSize(true); }, 100);
+    }
+
+    function fermerItin() {
+        if(routeLayer){ map.removeLayer(routeLayer); routeLayer=null; }
+        if(durLabel)  { try{map.removeLayer(durLabel);}catch(e){} durLabel=null; }
+        document.getElementById('itin-panel').style.display = 'none';
+        document.getElementById('itin-loading').style.display = 'none';
+        setTimeout(function(){ map.invalidateSize(true); }, 100);
+    }
+
+    // ════════════════════════════════════════════
+    //  Filtres & recherche
+    // ════════════════════════════════════════════
+    function filtrerUrgence() {
+        urgenceOnly=true; var c=0;
+        allMarkers.forEach(function(m){
+            if(String(m.hopitalData.urgence)==='true'){map.addLayer(m);c++;}
+            else map.removeLayer(m);
+        });
+        majCompteur(c); mettreAJourPlusProche();
+    }
+    function afficherTous() {
+        urgenceOnly=false;
+        allMarkers.forEach(function(m){map.addLayer(m);});
+        majCompteur(allMarkers.length); mettreAJourPlusProche();
+    }
+    document.getElementById('search-input').addEventListener('input',function(){
+        var q=this.value.toLowerCase().trim(); var c=0;
+        allMarkers.forEach(function(m){
+            var h=m.hopitalData;
+            var hit=!q||String(h.nom||'').toLowerCase().indexOf(q)>=0||
+                    String(h.ville||'').toLowerCase().indexOf(q)>=0||
+                    String(h.specialites||'').toLowerCase().indexOf(q)>=0;
+            if(hit&&(!urgenceOnly||String(h.urgence)==='true')){map.addLayer(m);c++;}
+            else map.removeLayer(m);
+        });
+        majCompteur(c); mettreAJourPlusProche();
+    });
+
+    function setOrsKey(k){ ORS_KEY=k; }
+    function majCompteur(n){
+        document.getElementById('counter').textContent=n+' hôpital'+(n>1?'x':'');
+    }
+</script>
+</body>
+</html>

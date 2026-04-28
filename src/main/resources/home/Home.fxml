@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.home.controller.HomeController"
+            styleClass="home-root">
+
+    <stylesheets>
+        <URL value="@home_style.css" />
+    </stylesheets>
+
+    <top>
+        <StackPane>
+            <!-- Background for Glass Effect -->
+            <Region styleClass="top-bar-glass" />
+            
+            <HBox alignment="CENTER" spacing="0.0" styleClass="top-bar-content">
+                <padding>
+                    <Insets left="40" right="40" />
+                </padding>
+
+                <!-- Logo Section -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" onMouseClicked="#showDashboard" style="-fx-cursor: hand;">
+                    <StackPane styleClass="logo-container">
+                        <ImageView fitWidth="40" preserveRatio="true">
+                            <Image url="@../assets/images/sosi_logo.png" />
+                        </ImageView>
+                    </StackPane>
+                    <VBox alignment="CENTER_LEFT" spacing="-4">
+                        <Label text="Sosi" styleClass="logo-text" />
+                        <Label text="Alimentation" styleClass="logo-subtext" />
+                    </VBox>
+                </HBox>
+
+                <!-- Spacer -->
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- Menu Navigation (Centered) -->
+                <HBox spacing="10.0" alignment="CENTER">
+                    <Button fx:id="btnWellbeing" onAction="#showWellbeing" styleClass="nav-item, active-nav">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="8">
+                                <StackPane styleClass="nav-icon-container">
+                                    <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" scaleX="1.2" scaleY="1.2" styleClass="svg-icon" />
+                                </StackPane>
+                                <Label text="Bien-être mental" styleClass="nav-text"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
+                    <!-- ... other buttons ... -->
+                    <Button fx:id="btnServicesSociaux" onAction="#showServicesSociaux" styleClass="nav-item">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="8">
+                                <StackPane styleClass="nav-icon-container">
+                                    <SVGPath content="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-2v-4H8v-2h4V8h2v4h4v2z" scaleX="1.2" scaleY="1.2" styleClass="svg-icon" />
+                                </StackPane>
+                                <Label text="Services Médicaux" styleClass="nav-text"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="btnJournal" onAction="#showWellbeing" styleClass="nav-item">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="8">
+                                <StackPane styleClass="nav-icon-container">
+                                    <SVGPath content="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" scaleX="1.2" scaleY="1.2" styleClass="svg-icon" />
+                                </StackPane>
+                                <Label text="Journal Intime" styleClass="nav-text"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="btnAideEtdon" onAction="#showAideEtdon" styleClass="nav-item">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="8">
+                                <StackPane styleClass="nav-icon-container">
+                                    <SVGPath content="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" scaleX="1.2" scaleY="1.2" styleClass="svg-icon" />
+                                </StackPane>
+                                <Label text="Aide &amp; Don" styleClass="nav-text" />
+                            </VBox>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="btnCycle" onAction="#showCycle" styleClass="nav-item">
+                        <graphic>
+                            <VBox alignment="CENTER" spacing="8">
+                                <StackPane styleClass="nav-icon-container">
+                                    <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" scaleX="1.2" scaleY="1.2" styleClass="svg-icon" />
+                                </StackPane>
+                                <Label text="Cycle menstruel" styleClass="nav-text"/>
+                            </VBox>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <!-- Spacer -->
+                <Region HBox.hgrow="ALWAYS" />
+
+                <!-- Search and Profile (Right) -->
+                <HBox alignment="CENTER_RIGHT" spacing="20.0">
+                    <HBox styleClass="search-box">
+                        <Label text="🔍" styleClass="search-icon-small" />
+                        <TextField promptText="Rechercher..." styleClass="search-input" />
+                    </HBox>
+                    
+                    <Button styleClass="icon-button-circle">
+                        <graphic><Label text="🔔" styleClass="btn-icon"/></graphic>
+                    </Button>
+
+                    <HBox alignment="CENTER" spacing="12.0" styleClass="user-profile-widget">
+                        <VBox alignment="CENTER_RIGHT" spacing="0">
+                            <Label fx:id="userNameLabel" text="John Doe" styleClass="user-name" />
+                            <Label fx:id="userRoleLabel" text="Patient" styleClass="user-role" />
+                        </VBox>
+                        <StackPane styleClass="user-avatar">
+                            <Label fx:id="avatarLabel" text="JD" styleClass="avatar-initials" />
+                        </StackPane>
+                        <Button onAction="#handleLogout" styleClass="btn-logout" text="↩" />
+                    </HBox>
+                </HBox>
+            </HBox>
+        </StackPane>
+    </top>
+
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #f4f7fa;">
+            <VBox fx:id="dashboardView" alignment="CENTER" spacing="30.0">
+                <Label text="Bonjour, bienvenue !" styleClass="hero-title" />
+                <VBox alignment="CENTER" maxWidth="500" styleClass="premium-card">
+                     <padding><Insets top="50" bottom="50" left="50" right="50"/></padding>
+                     <Label text="Votre tableau de bord personnalisé est en cours de préparation." styleClass="hero-subtitle" textAlignment="CENTER" wrapText="true"/>
+                     <Button text="Commencer" styleClass="hero-button" />
+                </VBox>
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>

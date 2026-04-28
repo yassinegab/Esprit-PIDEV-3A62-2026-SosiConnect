@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  dossierMedical.fxml — Affichage clair des dossiers médicaux
+  ✅ Colonne gauche : liste des dossiers avec aperçu
+  ✅ Colonne droite : détail complet avec icônes + boutons IA
+  ✅ Formulaire inline (panneau glissant)
+-->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.servicesociaux.frontoffice.controller.controllers.DossierMedicalController"
+      spacing="0"
+      style="-fx-background-color:#f0edf7;">
+
+    <!-- ══ HEADER ══ -->
+    <HBox alignment="CENTER_LEFT" spacing="14"
+          style="-fx-background-color:white;
+                 -fx-border-color:#e0d6f5;-fx-border-width:0 0 1 0;
+                 -fx-padding:14 22;
+                 -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.06),6,0,0,2);">
+
+        <Button text="← Accueil" onAction="#retourAccueil"
+                style="-fx-background-color:#ede7f6;-fx-text-fill:#6a1b9a;
+                       -fx-background-radius:20;-fx-font-size:12;
+                       -fx-font-weight:bold;-fx-padding:6 16;
+                       -fx-border-color:transparent;-fx-cursor:hand;"/>
+
+        <Label text="🗂"
+               style="-fx-font-size:18;"/>
+        <Label text="Dossiers Médicaux"
+               style="-fx-font-size:16;-fx-font-weight:bold;-fx-text-fill:#4a148c;"
+               HBox.hgrow="ALWAYS"/>
+
+        <Label fx:id="statusLabel" text=""
+               style="-fx-font-size:11;-fx-text-fill:#9c27b0;
+                      -fx-background-color:#f3e5f5;
+                      -fx-padding:4 10;-fx-background-radius:12;"/>
+    </HBox>
+
+    <!-- ══ BODY ══ -->
+    <HBox VBox.vgrow="ALWAYS" spacing="0">
+
+        <!-- ═════════════════════════════════════════
+             COLONNE GAUCHE : Liste / Formulaire
+        ═════════════════════════════════════════ -->
+        <VBox prefWidth="400" minWidth="350"
+              style="-fx-background-color:white;
+                     -fx-border-color:#e0d6f5;-fx-border-width:0 1 0 0;">
+
+            <!-- ── PANEL LISTE ── -->
+            <VBox fx:id="listPanel" VBox.vgrow="ALWAYS">
+
+                <!-- En-tête liste -->
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-padding:12 16;-fx-background-color:#faf7ff;
+                             -fx-border-color:#e0d6f5;-fx-border-width:0 0 1 0;">
+                    <Label text="📋 Mes dossiers"
+                           style="-fx-font-size:12;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"
+                           HBox.hgrow="ALWAYS"/>
+                    <Button text="＋ Nouveau dossier"
+                            onAction="#afficherFormulaireNouveauDossier"
+                            style="-fx-background-color:#7b1fa2;-fx-text-fill:white;
+                                   -fx-background-radius:8;-fx-font-size:11;
+                                   -fx-font-weight:bold;-fx-padding:7 14;
+                                   -fx-cursor:hand;-fx-border-color:transparent;
+                                   -fx-effect:dropshadow(gaussian,rgba(123,31,162,0.3),6,0,0,2);"/>
+                </HBox>
+
+                <!-- Message d'erreur / succès -->
+                <Label fx:id="errorLabel" wrapText="true" maxWidth="380"
+                       style="-fx-font-size:11;-fx-padding:6 16;-fx-min-height:20;"/>
+
+                <!-- Liste des dossiers -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background:transparent;-fx-background-color:transparent;
+                                   -fx-border-color:transparent;">
+                    <VBox fx:id="dossiersListBox" spacing="10"
+                          style="-fx-padding:14;"/>
+                </ScrollPane>
+            </VBox>
+
+            <!-- ── PANEL FORMULAIRE ── -->
+            <VBox fx:id="formPanel" VBox.vgrow="ALWAYS" managed="false" visible="false">
+
+                <!-- En-tête formulaire -->
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      style="-fx-padding:12 16;-fx-background-color:#faf7ff;
+                             -fx-border-color:#e0d6f5;-fx-border-width:0 0 1 0;">
+                    <Button text="← Liste" onAction="#fermerFormulaire"
+                            style="-fx-background-color:#ede7f6;-fx-text-fill:#6a1b9a;
+                                   -fx-background-radius:8;-fx-font-size:11;
+                                   -fx-padding:5 12;-fx-cursor:hand;
+                                   -fx-border-color:transparent;"/>
+                    <Label fx:id="formTitleLabel" text="Nouveau dossier"
+                           style="-fx-font-size:12;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"
+                           HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <!-- Champs du formulaire -->
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background:transparent;-fx-background-color:transparent;
+                                   -fx-border-color:transparent;">
+                    <VBox spacing="10" style="-fx-padding:16;">
+
+                        <!-- Antécédents -->
+                        <VBox spacing="3">
+                            <Label text="🏥 Antécédents médicaux"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"/>
+                            <TextArea fx:id="antecedentsArea" prefRowCount="2"
+                                      promptText="ex: Appendicectomie 2016, fracture tibia 2018…"
+                                      style="-fx-background-color:#faf7ff;-fx-border-color:#d1c4e9;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Maladies -->
+                        <VBox spacing="3">
+                            <Label text="🦠 Maladies chroniques"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#c62828;"/>
+                            <TextArea fx:id="maladiesArea" prefRowCount="2"
+                                      promptText="ex: Diabète type 2, hypertension…"
+                                      style="-fx-background-color:#fff5f5;-fx-border-color:#ffcdd2;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Allergies -->
+                        <VBox spacing="3">
+                            <Label text="⚗ Allergies"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#e65100;"/>
+                            <TextArea fx:id="allergiesArea" prefRowCount="2"
+                                      promptText="ex: Pénicilline, arachides, latex…"
+                                      style="-fx-background-color:#fff8f5;-fx-border-color:#ffccbc;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Traitements -->
+                        <VBox spacing="3">
+                            <Label text="💊 Traitements en cours"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#1565c0;"/>
+                            <TextArea fx:id="traitementsArea" prefRowCount="2"
+                                      promptText="ex: Metformine 850mg, Lisinopril 5mg…"
+                                      style="-fx-background-color:#f5f9ff;-fx-border-color:#bbdefb;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Diagnostics -->
+                        <VBox spacing="3">
+                            <Label text="🩺 Diagnostics"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#2e7d32;"/>
+                            <TextArea fx:id="diagnosticsArea" prefRowCount="2"
+                                      promptText="ex: Diabète type 2 (E11.9), HTA (I10)…"
+                                      style="-fx-background-color:#f5fff5;-fx-border-color:#c8e6c9;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Notes médecin -->
+                        <VBox spacing="3">
+                            <Label text="📝 Notes du médecin"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#37474f;"/>
+                            <TextArea fx:id="notesArea" prefRowCount="2"
+                                      promptText="Notes cliniques…"
+                                      style="-fx-background-color:#f5f5f5;-fx-border-color:#cfd8dc;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Objectif santé -->
+                        <VBox spacing="3">
+                            <Label text="🎯 Objectif santé"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"/>
+                            <TextArea fx:id="objectifArea" prefRowCount="2"
+                                      promptText="ex: Perdre 5kg, réduire HbA1c sous 7%…"
+                                      style="-fx-background-color:#faf7ff;-fx-border-color:#d1c4e9;
+                                             -fx-border-radius:6;-fx-background-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <!-- Niveau d'activité -->
+                        <VBox spacing="3">
+                            <Label text="🏃 Niveau d'activité physique"
+                                   style="-fx-font-size:10;-fx-font-weight:bold;-fx-text-fill:#6a1b9a;"/>
+                            <ComboBox fx:id="activiteCombo" maxWidth="Infinity"
+                                      style="-fx-background-color:#faf7ff;-fx-border-color:#d1c4e9;
+                                             -fx-border-radius:6;-fx-font-size:11;"/>
+                        </VBox>
+
+                        <Region prefHeight="8"/>
+
+                        <!-- Boutons sauvegarde -->
+                        <HBox spacing="10">
+                            <Button text="💾 Enregistrer" onAction="#sauvegarder"
+                                    HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                                    style="-fx-background-color:#7b1fa2;-fx-text-fill:white;
+                                           -fx-background-radius:8;-fx-font-size:12;
+                                           -fx-font-weight:bold;-fx-padding:10;
+                                           -fx-cursor:hand;-fx-border-color:transparent;
+                                           -fx-effect:dropshadow(gaussian,rgba(123,31,162,0.3),6,0,0,2);"/>
+                            <Button text="🗑 Vider" onAction="#vider"
+                                    style="-fx-background-color:#ede7f6;-fx-text-fill:#6a1b9a;
+                                           -fx-background-radius:8;-fx-font-size:12;
+                                           -fx-font-weight:bold;-fx-padding:10 16;
+                                           -fx-cursor:hand;-fx-border-color:transparent;"/>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </VBox>
+
+        <!-- ═════════════════════════════════════════
+             COLONNE DROITE : Détail du dossier
+        ═════════════════════════════════════════ -->
+        <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" spacing="0">
+
+            <!-- En-tête détail -->
+            <HBox alignment="CENTER_LEFT" spacing="12"
+                  style="-fx-padding:14 20;-fx-background-color:#faf7ff;
+                         -fx-border-color:#e0d6f5;-fx-border-width:0 0 1 0;">
+                <Label fx:id="detailTitleLabel"
+                       text="Sélectionnez un dossier pour voir son détail"
+                       style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#4a148c;"
+                       HBox.hgrow="ALWAYS"/>
+
+                <!-- Boutons IA — masqués jusqu'à la sélection d'un dossier -->
+                <Button fx:id="btnGroq"
+                        text="🧠 Analyser Groq"
+                        onAction="#ouvrirAnalyseGroq"
+                        visible="false" managed="false"
+                        style="-fx-background-color:#1a237e;-fx-text-fill:white;
+                               -fx-background-radius:8;-fx-font-size:11;
+                               -fx-font-weight:bold;-fx-padding:7 14;
+                               -fx-cursor:hand;-fx-border-color:transparent;
+                               -fx-effect:dropshadow(gaussian,rgba(26,35,126,0.3),6,0,0,2);"/>
+
+                <Button fx:id="btnHF"
+                        text="🤗 HuggingFace"
+                        onAction="#ouvrirAnalyseHF"
+                        visible="false" managed="false"
+                        style="-fx-background-color:#e65100;-fx-text-fill:white;
+                               -fx-background-radius:8;-fx-font-size:11;
+                               -fx-font-weight:bold;-fx-padding:7 14;
+                               -fx-cursor:hand;-fx-border-color:transparent;
+                               -fx-effect:dropshadow(gaussian,rgba(230,81,0,0.3),6,0,0,2);"/>
+            </HBox>
+
+            <!-- Contenu détail scrollable -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:transparent;-fx-background-color:#f0edf7;
+                               -fx-border-color:transparent;">
+                <VBox fx:id="detailPanel" spacing="14" style="-fx-padding:20;">
+
+                    <!-- Placeholder initial -->
+                    <VBox alignment="CENTER" spacing="16" style="-fx-padding:80 0;">
+                        <Label text="📂"
+                               style="-fx-font-size:48;-fx-text-fill:#ddd;"/>
+                        <Label text="Aucun dossier sélectionné"
+                               style="-fx-font-size:14;-fx-text-fill:#bbb;-fx-font-weight:bold;"/>
+                        <Label text="Cliquez sur un dossier dans la liste à gauche pour voir son détail complet"
+                               style="-fx-font-size:11;-fx-text-fill:#ccc;" wrapText="true"
+                               maxWidth="300"/>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </HBox>
+</VBox>
