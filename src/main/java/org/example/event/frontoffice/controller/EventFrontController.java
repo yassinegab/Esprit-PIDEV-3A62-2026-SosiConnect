@@ -10,14 +10,21 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.util.Duration;
 import org.example.event.model.Event;
 import org.example.event.service.EventService;
 import org.example.event.service.ExternalMailService;
+import org.example.event.service.LocationService;
 import org.example.home.controller.HomeController;
 import org.example.utils.SessionManager;
 import org.example.user.model.User;
 import javafx.application.Platform;
+import javafx.scene.control.Tooltip;
 
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
@@ -134,9 +141,64 @@ public class EventFrontController {
             }).start();
         });
 
-        card.getChildren().addAll(header, titleLabel, descLabel, btnParticipate);
+        HBox actionsContainer = new HBox(10);
+        actionsContainer.setAlignment(Pos.CENTER);
+        
+        // Bouton Localisation
+        if (event.getLocalisation() != null && !event.getLocalisation().trim().isEmpty()) {
+            Button btnLocation = new Button("📍 Localisation");
+            btnLocation.setStyle("-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand;");
+            btnLocation.setTooltip(new Tooltip("Voir sur la carte"));
+            
+            btnLocation.setOnAction(e -> {
+                btnLocation.setDisable(true);
+                btnLocation.setText("Recherche...");
+                
+                new Thread(() -> {
+                    double[] coords = LocationService.getCoordinates(event.getLocalisation());
+                    
+                    Platform.runLater(() -> {
+                        btnLocation.setDisable(false);
+                        btnLocation.setText("📍 Localisation");
+                        
+                        if (coords != null) {
+                            showMapModal(event.getLocalisation(), coords[0], coords[1]);
+                        } else {
+                            showSuccessMessage("Impossible de trouver cette adresse.");
+                            lblStatus.setStyle("-fx-text-fill: #ef4444;");
+                        }
+                    });
+                }).start();
+            });
+            
+            HBox.setHgrow(btnParticipate, javafx.scene.layout.Priority.ALWAYS);
+            actionsContainer.getChildren().addAll(btnParticipate, btnLocation);
+        } else {
+            actionsContainer.getChildren().add(btnParticipate);
+        }
+
+        card.getChildren().addAll(header, titleLabel, descLabel, actionsContainer);
 
         return card;
+    }
+    
+    private void showMapModal(String address, double lat, double lng) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/event/frontoffice/MapDialog.fxml"));
+            Parent root = loader.load();
+            
+            MapController controller = loader.getController();
+            controller.initMap(address, lat, lng);
+            
+            Stage stage = new Stage();
+            stage.setTitle("Localisation de l'événement");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Impossible d'ouvrir la fenêtre de la carte.");
+        }
     }
 
     private void showSuccessMessage(String msg) {

@@ -8,6 +8,7 @@ public class Event {
     private String description;
     private LocalDate date;
     private String type;
+    private String localisation;
 
     public Event() {
     }
@@ -18,6 +19,16 @@ public class Event {
         this.description = description;
         this.date = date;
         this.type = type;
+        this.localisation = null;
+    }
+
+    public Event(int id, String title, String description, LocalDate date, String type, String localisation) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.type = type;
+        this.localisation = localisation;
     }
 
     public Event(String title, String description, LocalDate date, String type) {
@@ -25,6 +36,15 @@ public class Event {
         this.description = description;
         this.date = date;
         this.type = type;
+        this.localisation = null;
+    }
+
+    public Event(String title, String description, LocalDate date, String type, String localisation) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.type = type;
+        this.localisation = localisation;
     }
 
     public int getId() {
@@ -67,6 +87,14 @@ public class Event {
         this.type = type;
     }
 
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -75,6 +103,7 @@ public class Event {
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 ", type='" + type + '\'' +
+                ", localisation='" + localisation + '\'' +
                 '}';
     }
 }

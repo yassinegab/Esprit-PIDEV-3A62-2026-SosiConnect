@@ -25,6 +25,8 @@ public class EventAdminController {
     @FXML
     private TextArea txtDescription;
     @FXML
+    private TextField txtLocalisation;
+    @FXML
     private Button btnSave;
     @FXML
     private Button btnDelete;
@@ -42,6 +44,8 @@ public class EventAdminController {
     private TableColumn<Event, LocalDate> colDate;
     @FXML
     private TableColumn<Event, String> colDescription;
+    @FXML
+    private TableColumn<Event, String> colLocalisation;
 
     private final EventService eventService = new EventService();
     private ObservableList<Event> eventList = FXCollections.observableArrayList();
@@ -59,6 +63,7 @@ public class EventAdminController {
         colType.setCellValueFactory(new PropertyValueFactory<>("type"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colLocalisation.setCellValueFactory(new PropertyValueFactory<>("localisation"));
 
         eventTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -67,6 +72,7 @@ public class EventAdminController {
                 cbType.setValue(selectedEvent.getType());
                 dpDate.setValue(selectedEvent.getDate());
                 txtDescription.setText(selectedEvent.getDescription());
+                txtLocalisation.setText(selectedEvent.getLocalisation() != null ? selectedEvent.getLocalisation() : "");
                 btnDelete.setDisable(false);
             }
         });
@@ -94,7 +100,8 @@ public class EventAdminController {
                     txtTitle.getText(),
                     txtDescription.getText(),
                     dpDate.getValue(),
-                    cbType.getValue()
+                    cbType.getValue(),
+                    txtLocalisation.getText()
             );
 
             if (selectedEvent == null) {
@@ -141,6 +148,7 @@ public class EventAdminController {
         cbType.setValue(null);
         dpDate.setValue(null);
         txtDescription.clear();
+        txtLocalisation.clear();
         btnDelete.setDisable(true);
         eventTable.getSelectionModel().clearSelection();
     }

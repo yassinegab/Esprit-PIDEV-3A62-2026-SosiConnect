@@ -38,6 +38,9 @@
               
               <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
               <TextArea fx:id="txtDescription" promptText="Description complète (min 10 caractères)" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-pref-width: 300;" wrapText="true" />
+              
+              <Label text="Localisation (Opt):" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;" />
+              <TextField fx:id="txtLocalisation" promptText="Ex: Tunis, Tunisie (Optionnel)" GridPane.columnIndex="1" GridPane.rowIndex="4" style="-fx-pref-width: 300;" />
           </GridPane>
 
           <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
@@ -61,8 +64,9 @@
        <TableView fx:id="eventTable" VBox.vgrow="ALWAYS" styleClass="table-view">
            <columns>
                <TableColumn fx:id="colTitle" prefWidth="250.0" text="Titre" />
-               <TableColumn fx:id="colType" prefWidth="200.0" text="Type" />
-               <TableColumn fx:id="colDate" prefWidth="150.0" text="Date" />
+               <TableColumn fx:id="colType" prefWidth="150.0" text="Type" />
+               <TableColumn fx:id="colDate" prefWidth="100.0" text="Date" />
+               <TableColumn fx:id="colLocalisation" prefWidth="150.0" text="Localisation" />
                <TableColumn fx:id="colDescription" prefWidth="250.0" text="Description" />
            </columns>
        </TableView>

@@ -23,11 +23,19 @@ public class EventService {
                 "title VARCHAR(255) NOT NULL, " +
                 "description TEXT NOT NULL, " +
                 "date DATE NOT NULL, " +
-                "type VARCHAR(100) NOT NULL" +
+                "type VARCHAR(100) NOT NULL, " +
+                "localisation VARCHAR(255)" +
                 ")";
         try (Connection conn = MyConnection.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(query);
+            
+            // Try to add column if table already existed without it
+            try {
+                stmt.execute("ALTER TABLE event ADD COLUMN localisation VARCHAR(255)");
+            } catch (SQLException ignore) {
+                // Ignore if column already exists
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,27 +58,41 @@ public class EventService {
 
     public void addEvent(Event event) throws SQLException, IllegalArgumentException {
         validateEvent(event);
-        String query = "INSERT INTO event (title, description, date, type) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO event (title, description, date, type, localisation) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = MyConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, event.getTitle().trim());
             pstmt.setString(2, event.getDescription().trim());
             pstmt.setDate(3, Date.valueOf(event.getDate()));
             pstmt.setString(4, event.getType());
+            
+            if (event.getLocalisation() != null && !event.getLocalisation().trim().isEmpty()) {
+                pstmt.setString(5, event.getLocalisation().trim());
+            } else {
+                pstmt.setNull(5, Types.VARCHAR);
+            }
+            
             pstmt.executeUpdate();
         }
     }
 
     public void updateEvent(Event event) throws SQLException, IllegalArgumentException {
         validateEvent(event);
-        String query = "UPDATE event SET title=?, description=?, date=?, type=? WHERE id=?";
+        String query = "UPDATE event SET title=?, description=?, date=?, type=?, localisation=? WHERE id=?";
         try (Connection conn = MyConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, event.getTitle().trim());
             pstmt.setString(2, event.getDescription().trim());
             pstmt.setDate(3, Date.valueOf(event.getDate()));
             pstmt.setString(4, event.getType());
-            pstmt.setInt(5, event.getId());
+            
+            if (event.getLocalisation() != null && !event.getLocalisation().trim().isEmpty()) {
+                pstmt.setString(5, event.getLocalisation().trim());
+            } else {
+                pstmt.setNull(5, Types.VARCHAR);
+            }
+            
+            pstmt.setInt(6, event.getId());
             pstmt.executeUpdate();
         }
     }
@@ -96,7 +118,8 @@ public class EventService {
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getDate("date").toLocalDate(),
-                        rs.getString("type")
+                        rs.getString("type"),
+                        rs.getString("localisation")
                 ));
             }
         }
@@ -116,7 +139,8 @@ public class EventService {
                             rs.getString("title"),
                             rs.getString("description"),
                             rs.getDate("date").toLocalDate(),
-                            rs.getString("type")
+                            rs.getString("type"),
+                            rs.getString("localisation")
                     ));
                 }
             }
