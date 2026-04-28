@@ -41,9 +41,79 @@ public class DisplaySymptomeController {
     }
 
     @FXML
+    private Label lblPhase;
+    @FXML
+    private Label lblAlimentation;
+    @FXML
+    private Label lblSport;
+    @FXML
+    private Label lblBienEtre;
+    @FXML
+    private Label lblResume;
+    @FXML
+    private VBox adviceContainer;
+
+    private static org.json.JSONObject cachedAdvice = null;
+    private static java.time.LocalDate cacheDate = null;
+
+    @FXML
     public void initialize() {
         if (currentCycleId == -1) {
              loadSymptomes();
+             loadSmartAdvice();
+        }
+    }
+
+    private void loadSmartAdvice() {
+        if (cacheDate != null && cacheDate.isEqual(java.time.LocalDate.now()) && cachedAdvice != null) {
+            updateAdviceUI(cachedAdvice);
+            return;
+        }
+
+        lblPhase.setText("Phase : Chargement de l'analyse IA...");
+        
+        new Thread(() -> {
+            try {
+                java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+                java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                        .uri(java.net.URI.create("http://localhost:8082/cycle/advice"))
+                        .GET()
+                        .build();
+
+                java.net.http.HttpResponse<String> response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+                
+                if (response.statusCode() == 200) {
+                    org.json.JSONObject jsonResponse = new org.json.JSONObject(response.body());
+                    cachedAdvice = jsonResponse;
+                    cacheDate = java.time.LocalDate.now();
+                    javafx.application.Platform.runLater(() -> updateAdviceUI(jsonResponse));
+                } else {
+                    javafx.application.Platform.runLater(() -> lblPhase.setText("Erreur lors de la génération des conseils."));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                javafx.application.Platform.runLater(() -> lblPhase.setText("Service IA indisponible."));
+            }
+        }).start();
+    }
+
+    private void updateAdviceUI(org.json.JSONObject jsonResponse) {
+        if (jsonResponse.has("error")) {
+            lblPhase.setText("Erreur IA : " + jsonResponse.getString("error"));
+            return;
+        }
+        
+        String phase = jsonResponse.optString("phase", "Inconnue");
+        int jourCycle = jsonResponse.optInt("jourCycle", 0);
+        
+        lblPhase.setText("Phase actuelle : " + phase + " (Jour " + jourCycle + ")");
+        
+        org.json.JSONObject advice = jsonResponse.optJSONObject("advice");
+        if (advice != null) {
+            lblAlimentation.setText(advice.optString("alimentation", "N/A"));
+            lblSport.setText(advice.optString("sport", "N/A"));
+            lblBienEtre.setText(advice.optString("bienEtre", "N/A"));
+            lblResume.setText(advice.optString("resume", "N/A"));
         }
     }
 

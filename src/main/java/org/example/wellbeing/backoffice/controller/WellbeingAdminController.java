@@ -45,15 +45,15 @@ public class WellbeingAdminController {
     private void setupTable() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colWork.setCellValueFactory(new PropertyValueFactory<>("workEnvironment"));
-        colSleep.setCellValueFactory(new PropertyValueFactory<>("sleepProblems"));
-        colHeadaches.setCellValueFactory(new PropertyValueFactory<>("headaches"));
-        colRestless.setCellValueFactory(new PropertyValueFactory<>("restlessness"));
-        colHeart.setCellValueFactory(new PropertyValueFactory<>("heartbeatPalpitations"));
-        colAcademic.setCellValueFactory(new PropertyValueFactory<>("lowAcademicConfidence"));
-        colAttendance.setCellValueFactory(new PropertyValueFactory<>("classAttendance"));
+        // colSleep.setCellValueFactory(new PropertyValueFactory<>("sleepProblems"));
+        // colHeadaches.setCellValueFactory(new PropertyValueFactory<>("headaches"));
+        // colRestless.setCellValueFactory(new PropertyValueFactory<>("restlessness"));
+        // colHeart.setCellValueFactory(new PropertyValueFactory<>("heartbeatPalpitations"));
+        // colAcademic.setCellValueFactory(new PropertyValueFactory<>("lowAcademicConfidence"));
+        // colAttendance.setCellValueFactory(new PropertyValueFactory<>("classAttendance"));
         colAnxiety.setCellValueFactory(new PropertyValueFactory<>("anxietyTension"));
-        colIrritable.setCellValueFactory(new PropertyValueFactory<>("irritability"));
-        colSubject.setCellValueFactory(new PropertyValueFactory<>("subjectConfidence"));
+        // colIrritable.setCellValueFactory(new PropertyValueFactory<>("irritability"));
+        // colSubject.setCellValueFactory(new PropertyValueFactory<>("subjectConfidence"));
         colCreated.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         
         setupActionsColumn();

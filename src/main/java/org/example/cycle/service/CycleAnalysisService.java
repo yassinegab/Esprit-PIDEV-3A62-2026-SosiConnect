@@ -156,4 +156,48 @@ public class CycleAnalysisService {
         }
         return "NORMAL";
     }
+
+    public String determinePhase(LocalDate dateDebutRegles, LocalDate currentDate, int dureeCycle, int dureeRegles) {
+        if (dateDebutRegles == null || currentDate == null) {
+            return "Inconnue";
+        }
+
+        long jourCycle = ChronoUnit.DAYS.between(dateDebutRegles, currentDate) + 1; // Jour 1 = premier jour des règles
+
+        if (jourCycle <= 0 || jourCycle > dureeCycle + 10) { // Tolérance pour les retards
+            return "Inconnue";
+        }
+
+        // 1. Menstruation
+        if (jourCycle <= dureeRegles) {
+            return "Menstruation";
+        }
+
+        // Calculs basés sur l'ovulation (en moyenne 14 jours avant la fin du cycle)
+        long ovulationDay = Math.max(1, dureeCycle - 14);
+        long fertileStart = Math.max(1, ovulationDay - 5);
+        long fertileEnd = ovulationDay + 1;
+
+        // 2. Ovulation (le jour même ou la veille)
+        if (jourCycle == ovulationDay) {
+            return "Ovulation";
+        }
+
+        // 3. Période fertile
+        if (jourCycle >= fertileStart && jourCycle <= fertileEnd) {
+            return "Fertile";
+        }
+
+        // 4. Folliculaire (entre les règles et la période fertile)
+        if (jourCycle > dureeRegles && jourCycle < fertileStart) {
+            return "Folliculaire";
+        }
+
+        // 5. Lutéale (après l'ovulation jusqu'à la fin)
+        if (jourCycle > fertileEnd) {
+            return "Lutéale";
+        }
+
+        return "Inconnue";
+    }
 }

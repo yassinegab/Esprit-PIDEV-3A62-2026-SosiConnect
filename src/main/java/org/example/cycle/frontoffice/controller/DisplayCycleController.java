@@ -140,6 +140,9 @@ public class DisplayCycleController {
     @FXML private void goToSymptomes() {
         navigate("/cycle/frontoffice/display_symptome.fxml");
     }
+    @FXML private void goToEvents() {
+        navigate("/event/frontoffice/EventFrontView.fxml");
+    }
 
     private void navigate(String fxmlPath) {
         try {
@@ -160,6 +163,8 @@ public class DisplayCycleController {
                 ((CycleCalendarController) controller).setHomeController(homeController);
             } else if (controller instanceof DisplaySymptomeController) {
                 ((DisplaySymptomeController) controller).setHomeController(homeController);
+            } else if (controller instanceof org.example.event.frontoffice.controller.EventFrontController) {
+                ((org.example.event.frontoffice.controller.EventFrontController) controller).setHomeController(homeController);
             }
 
             if (homeController != null) {

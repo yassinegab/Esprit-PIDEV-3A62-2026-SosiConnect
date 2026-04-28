@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="800.0" prefWidth="900.0" spacing="20.0" styleClass="admin-content-area" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.event.backoffice.controller.EventAdminController">
+
+   <stylesheets>
+      <URL value="@../../backoffice/admin_style.css" />
+   </stylesheets>
+
+   <!-- Header -->
+   <VBox spacing="5">
+      <Label styleClass="admin-card-title" style="-fx-font-size: 24;" text="Gestion des Événements" />
+      <Label styleClass="admin-card-subtitle" style="-fx-font-size: 14;" text="Ajouter, modifier ou supprimer les campagnes et recommandations" />
+   </VBox>
+
+   <!-- Form Container -->
+   <HBox spacing="20">
+      <VBox styleClass="admin-card" spacing="15" HBox.hgrow="ALWAYS">
+          <Label styleClass="admin-card-title" text="Détails de l'événement" />
+          
+          <GridPane hgap="15" vgap="15">
+              <columnConstraints>
+                  <ColumnConstraints percentWidth="30" />
+                  <ColumnConstraints percentWidth="70" />
+              </columnConstraints>
+              
+              <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+              <TextField fx:id="txtTitle" promptText="Ex: Campagne Octobre Rose" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-pref-width: 300;" />
+              
+              <Label text="Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+              <ComboBox fx:id="cbType" promptText="Sélectionner un type" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-pref-width: 300;" />
+              
+              <Label text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+              <DatePicker fx:id="dpDate" promptText="Sélectionner une date" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-pref-width: 300;" />
+              
+              <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+              <TextArea fx:id="txtDescription" promptText="Description complète (min 10 caractères)" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-pref-width: 300;" wrapText="true" />
+          </GridPane>
+
+          <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+              <Button fx:id="btnClear" text="Vider" onAction="#clearForm" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5;" />
+              <Button fx:id="btnDelete" text="Supprimer" onAction="#deleteEvent" style="-fx-background-color: #fee2e2; -fx-text-fill: #ef4444; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5;" disable="true" />
+              <Button fx:id="btnSave" text="Enregistrer" onAction="#saveEvent" style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5;" />
+          </HBox>
+      </VBox>
+   </HBox>
+
+   <!-- Table Container -->
+   <VBox styleClass="admin-card" VBox.vgrow="ALWAYS" spacing="15">
+      <HBox alignment="CENTER_LEFT" spacing="15">
+          <Label styleClass="admin-card-title" text="Liste des Événements" />
+          <Pane HBox.hgrow="ALWAYS" />
+          <Label text="🔍" style="-fx-text-fill: #94a3b8;" />
+          <TextField fx:id="txtSearch" promptText="Rechercher par titre ou type..." style="-fx-pref-width: 250;" />
+          <Button text="Trier par Date" onAction="#sortByDate" style="-fx-background-color: #e2e8f0; -fx-text-fill: #475569; -fx-padding: 5 10; -fx-background-radius: 4;" />
+      </HBox>
+
+       <TableView fx:id="eventTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+           <columns>
+               <TableColumn fx:id="colTitle" prefWidth="250.0" text="Titre" />
+               <TableColumn fx:id="colType" prefWidth="200.0" text="Type" />
+               <TableColumn fx:id="colDate" prefWidth="150.0" text="Date" />
+               <TableColumn fx:id="colDescription" prefWidth="250.0" text="Description" />
+           </columns>
+       </TableView>
+   </VBox>
+
+</VBox>

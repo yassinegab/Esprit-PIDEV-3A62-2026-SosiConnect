@@ -73,4 +73,86 @@ public class AiService {
             return "Une erreur s'est produite lors de la connexion à l'IA.";
         }
     }
+
+    public String getCycleAdvice(String phase, int jourCycle, String symptomes, String historique) {
+        if (apiKey == null || apiKey.equals("YOUR_GEMINI_API_KEY_HERE") || apiKey.isEmpty()) {
+            return "{\"error\":\"Configuration API manquante\"}";
+        }
+
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            String systemPrompt = "Tu es un assistant spécialisé en santé féminine et cycle menstruel.\n" +
+                    "\n" +
+                    "Phase actuelle : " + phase + "\n" +
+                    "Jour du cycle : " + jourCycle + "\n" +
+                    "Symptômes : " + symptomes + "\n\n" +
+                    "Donne des conseils personnalisés adaptés à la phase :\n" +
+                    "- alimentation\n" +
+                    "- activité physique\n" +
+                    "- bien-être mental\n" +
+                    "- recommandations générales\n\n" +
+                    "Règles :\n" +
+                    "- pas de diagnostic médical\n" +
+                    "- réponses courtes et claires\n" +
+                    "- adaptées à la phase du cycle\n" +
+                    "Retourne EXCLUSIVEMENT un objet JSON valide avec cette structure exacte (sans markdown, sans backticks) :\n" +
+                    "{\n" +
+                    "  \"phase\": \"" + phase + "\",\n" +
+                    "  \"jourCycle\": " + jourCycle + ",\n" +
+                    "  \"advice\": {\n" +
+                    "     \"alimentation\": \"...\",\n" +
+                    "     \"sport\": \"...\",\n" +
+                    "     \"bienEtre\": \"...\",\n" +
+                    "     \"resume\": \"...\"\n" +
+                    "  }\n" +
+                    "}";
+
+            JSONObject requestBody = new JSONObject();
+
+            JSONObject contents = new JSONObject();
+            JSONObject parts = new JSONObject();
+            parts.put("text", systemPrompt);
+            contents.put("parts", new JSONArray().put(parts));
+
+            requestBody.put("contents", new JSONArray().put(contents));
+            
+            JSONObject generationConfig = new JSONObject();
+            generationConfig.put("responseMimeType", "application/json");
+            requestBody.put("generationConfig", generationConfig);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(GEMINI_API_URL + apiKey))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                JSONObject jsonResponse = new JSONObject(response.body());
+                String textResponse = jsonResponse.getJSONArray("candidates")
+                        .getJSONObject(0)
+                        .getJSONObject("content")
+                        .getJSONArray("parts")
+                        .getJSONObject(0)
+                        .getString("text");
+                        
+                // Nettoyer les backticks markdown si Gemini les ajoute quand même
+                if (textResponse.startsWith("```json")) {
+                    textResponse = textResponse.substring(7);
+                    if (textResponse.endsWith("```")) {
+                        textResponse = textResponse.substring(0, textResponse.length() - 3);
+                    }
+                }
+                return textResponse.trim();
+            } else {
+                return "{\"error\":\"API Error " + response.statusCode() + "\"}";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"error\":\"Exception lors de l'appel API\"}";
+        }
+    }
 }

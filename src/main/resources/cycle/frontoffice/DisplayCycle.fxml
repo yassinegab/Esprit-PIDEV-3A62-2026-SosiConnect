@@ -36,6 +36,7 @@
         <Button fx:id="btnHistory" onAction="#goToHistory" styleClass="btn-tab" text="⏳ Historique" />
         <Button fx:id="btnSymptomes" onAction="#goToSymptomes" styleClass="btn-tab" text="🤒 Symptômes" />
         <Button fx:id="btnCalendar" onAction="#goToCalendar" styleClass="btn-tab" text="📅 Calendrier Interactif" />
+        <Button fx:id="btnEvents" onAction="#goToEvents" styleClass="btn-tab" text="🎉 Événements" />
     </HBox>
 
     <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #fcfbfd;" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">

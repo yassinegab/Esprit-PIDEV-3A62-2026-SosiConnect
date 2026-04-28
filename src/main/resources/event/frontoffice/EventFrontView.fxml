@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.FlowPane?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" styleClass="main-container" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.event.frontoffice.controller.EventFrontController">
+
+    <stylesheets>
+        <URL value="@../../cycle/frontoffice/DisplayCss.css" />
+    </stylesheets>
+
+    <!-- HEADER SECTION -->
+    <HBox styleClass="header-container" alignment="CENTER_LEFT">
+        <Label styleClass="header-title" text="🎉 Événements &amp; Campagnes" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Label fx:id="lblStatus" text="" style="-fx-text-fill: #10b981; -fx-font-weight: bold;" />
+    </HBox>
+
+    <!-- CONTENT SECTION -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="custom-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+        <content>
+            <VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 20;">
+                
+                <Label text="Événements à venir" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                <Label text="Découvrez nos recommandations et participez à nos campagnes de sensibilisation !" style="-fx-text-fill: #64748b;" />
+                
+                <!-- 🔥 EVENTS CONTAINER -->
+                <FlowPane fx:id="eventsContainer" hgap="25" prefWrapLength="850" styleClass="cycle-container" vgap="25" alignment="TOP_CENTER" />
+            </VBox>
+        </content>
+    </ScrollPane>
+
+</VBox>

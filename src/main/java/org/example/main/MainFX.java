@@ -23,7 +23,8 @@ public class MainFX extends Application {
 
     public static void main(String[] args) {
         // Démarrer Spring Boot en arrière-plan
-        org.springframework.boot.SpringApplication.run(org.example.SosiApplication.class, args);
+        org.springframework.context.ApplicationContext context = org.springframework.boot.SpringApplication.run(org.example.SosiApplication.class, args);
+        org.example.SosiApplication.setContext(context);
         // Lancer l'interface JavaFX
         launch(args);
     }

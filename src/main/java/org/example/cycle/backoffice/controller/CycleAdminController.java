@@ -39,6 +39,24 @@ public class CycleAdminController {
         loadAnalytics();
     }
 
+    @FXML
+    private void goToEvents(javafx.event.ActionEvent event) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/event/backoffice/EventAdminView.fxml"));
+            javafx.scene.Parent view = loader.load();
+            
+            javafx.scene.Node source = (javafx.scene.Node) event.getSource();
+            javafx.scene.layout.StackPane parent = (javafx.scene.layout.StackPane) source.getScene().lookup(".admin-content-area");
+            
+            if (parent != null) {
+                parent.getChildren().setAll(view);
+            }
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            org.example.utils.AlertHelper.showErrorAlert("Erreur", "Impossible de charger la vue des événements.");
+        }
+    }
+
     private void loadAnalytics() {
 
         List<Cycle> cycles = cycleService.getAllCycles();

@@ -4,7 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="800.0" prefWidth="900.0" spacing="30.0" styleClass="admin-content-area" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.cycle.backoffice.controller.CycleAdminController">
@@ -15,7 +17,11 @@
 
    <!-- Header -->
    <VBox spacing="10">
-      <Label styleClass="admin-card-title" style="-fx-font-size: 24;" text="Cycle Tracking Analytics" />
+      <HBox alignment="CENTER_LEFT" spacing="20">
+          <Label styleClass="admin-card-title" style="-fx-font-size: 24;" text="Cycle Tracking Analytics" />
+          <Pane HBox.hgrow="ALWAYS" />
+          <Button text="📅 Gérer les Événements" onAction="#goToEvents" style="-fx-background-color: #4f46e5; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;" />
+      </HBox>
       <Label styleClass="admin-card-subtitle" style="-fx-font-size: 14;" text="Overview of system-wide menstrual cycle tracking usage by users" />
    </VBox>
 
