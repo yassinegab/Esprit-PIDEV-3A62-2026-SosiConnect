@@ -24,3 +24,20 @@ CREATE TABLE IF NOT EXISTS video (
     title VARCHAR(255) NOT NULL,
     youtube_url VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS map_location (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    latitude DOUBLE NOT NULL,
+    longitude DOUBLE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS alerte_urgence (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type_besoin VARCHAR(255) NOT NULL,
+    latitude DOUBLE,
+    longitude DOUBLE,
+    date_alerte DATETIME DEFAULT CURRENT_TIMESTAMP,
+    statut VARCHAR(50) DEFAULT 'En Attente'
+);

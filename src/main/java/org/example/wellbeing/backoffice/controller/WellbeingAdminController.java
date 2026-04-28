@@ -1,9 +1,5 @@
 package org.example.wellbeing.backoffice.controller;
-<<<<<<< HEAD
-
-=======
 import javafx.scene.layout.HBox;
->>>>>>> afab8be (Initial commit - aide et don module)
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

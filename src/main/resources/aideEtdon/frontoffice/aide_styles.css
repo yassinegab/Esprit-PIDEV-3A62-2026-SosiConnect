@@ -1,0 +1,231 @@
+/* --- Aide Module Styles --- */
+
+/* ScrollPane transparent */
+.transparent-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.transparent-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Page Titles */
+.page-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.page-subtitle {
+    -fx-font-size: 18px;
+    -fx-text-fill: #64748b;
+}
+
+/* Top Navigation (AideEtdonClientView) */
+.top-nav-container {
+    -fx-background-color: #ffffff;
+    -fx-padding: 15px 30px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);
+}
+
+.top-nav-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 3px 0;
+    -fx-cursor: hand;
+    -fx-padding: 5px 10px;
+}
+.top-nav-button:hover {
+    -fx-text-fill: #3b82f6;
+}
+.top-nav-button-active {
+    -fx-text-fill: #3b82f6;
+    -fx-border-color: #3b82f6;
+}
+
+/* Common Cards */
+.aide-card {
+    -fx-background-color: white;
+    -fx-padding: 30px;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 5);
+}
+
+/* Contact Config Button */
+.config-button {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #475569;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 15px 30px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.config-button:hover {
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #334155;
+}
+
+/* Status Indicator */
+.status-indicator {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #10b981;
+}
+
+/* Peril Toggle Buttons */
+.peril-toggle {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 20px 25px;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+    -fx-text-fill: #334155;
+    -fx-background-color: #f1f5f9;
+}
+.peril-toggle:hover {
+    -fx-background-color: #e2e8f0;
+}
+.peril-toggle:selected {
+    -fx-background-color: #f59e0b;
+    -fx-text-fill: white;
+}
+
+/* Checkbox */
+.location-checkbox {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+    -fx-cursor: hand;
+}
+
+/* Emergency Alert Button */
+.emergency-button {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+    -fx-padding: 40px 60px;
+    -fx-background-radius: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.4), 20, 0, 0, 10);
+    -fx-cursor: hand;
+}
+.emergency-button:hover {
+    -fx-background-color: #dc2626;
+    -fx-effect: dropshadow(three-pass-box, rgba(220, 38, 38, 0.6), 25, 0, 0, 12);
+}
+
+/* Cancel Action Alert */
+.cancel-box {
+    -fx-background-color: #fee2e2;
+    -fx-padding: 30px;
+    -fx-background-radius: 20px;
+}
+.cancel-countdown {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #991b1b;
+}
+
+.cancel-button {
+    -fx-background-color: #b91c1c;
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 20px 40px;
+    -fx-background-radius: 15px;
+    -fx-cursor: hand;
+}
+.cancel-button:hover {
+    -fx-background-color: #991b1b;
+}
+
+/* History List */
+.history-list {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+}
+.history-list .list-cell:filled {
+    -fx-padding: 10px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1px 0;
+    -fx-text-fill: #475569;
+}
+.history-list .list-cell:filled:selected {
+    -fx-background-color: #f1f5f9;
+}
+
+/* --- Contact Form Styles --- */
+.section-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2563eb;
+}
+
+.success-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #10b981;
+}
+
+.form-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #475569;
+}
+
+.modern-input {
+    -fx-font-size: 18px;
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+}
+.modern-input:focused {
+    -fx-border-color: #3b82f6;
+    -fx-background-color: white;
+}
+
+.primary-action-button {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 15px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.primary-action-button:hover {
+    -fx-background-color: #2563eb;
+}
+
+.secondary-action-button {
+    -fx-background-color: #94a3b8;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 15px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.secondary-action-button:hover {
+    -fx-background-color: #64748b;
+}
+
+.go-back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.go-back-button:hover {
+    -fx-text-fill: #475569;
+}

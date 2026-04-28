@@ -5,48 +5,51 @@
 
 <ScrollPane fitToWidth="true" fitToHeight="true" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
             fx:controller="org.example.aideEtdon.frontoffice.controller.AideHomeController" 
-            style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
+            stylesheets="@aide_styles.css"
+            styleClass="transparent-scroll">
 
     <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: transparent;">
 
         <HBox alignment="CENTER_LEFT" spacing="20">
             <VBox>
-                <Label text="Statut Actuel" style="-fx-font-size: 18px; -fx-text-fill: #64748b;"/>
-                <Label fx:id="statusIndicator" text="NORMAL" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                <Label text="Statut Actuel" styleClass="page-subtitle"/>
+                <Label fx:id="statusIndicator" text="NORMAL" styleClass="status-indicator" />
             </VBox>
             <Region HBox.hgrow="ALWAYS" />
-            <Button text="Configurer Contact(s)" onAction="#goToContactForm" style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15 30; -fx-background-radius: 8; -fx-cursor: hand;" />
+            <Button text="Configurer Contact(s)" onAction="#goToContactForm" styleClass="config-button" />
         </HBox>
 
         <HBox spacing="30" VBox.vgrow="ALWAYS">
-            <VBox spacing="30" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-background-color: white; -fx-padding: 40; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 5);">
+            <VBox spacing="30" HBox.hgrow="ALWAYS" alignment="CENTER" styleClass="aide-card">
                 
-                <Label text="Que se passe-t-il ?" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                <Label text="De quoi avez-vous besoin ?" styleClass="page-title" />
                 
                 <HBox spacing="15" alignment="CENTER">
-                    <ToggleButton fx:id="btnMed" text="Péril Médical" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 20 25; -fx-background-radius: 12; -fx-cursor: hand; -fx-text-fill: #334155; -fx-background-color: #f1f5f9;" />
-                    <ToggleButton fx:id="btnDanger" text="Danger" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 20 25; -fx-background-radius: 12; -fx-cursor: hand; -fx-text-fill: #334155; -fx-background-color: #f1f5f9;" />
-                    <ToggleButton fx:id="btnOther" text="Autre" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 20 25; -fx-background-radius: 12; -fx-cursor: hand; -fx-text-fill: #334155; -fx-background-color: #f1f5f9;" />
+                    <ToggleButton fx:id="btnMed" text="💊 Médicaments" styleClass="peril-toggle" />
+                    <ToggleButton fx:id="btnDanger" text="🛒 Courses / Quotidien" styleClass="peril-toggle" />
+                    <ToggleButton fx:id="btnOther" text="🩺 Assistance Médicale" styleClass="peril-toggle" />
                 </HBox>
                 
-                <CheckBox fx:id="chkLocation" text="Inclure ma position (GPS / Domicile)" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #475569; -fx-cursor: hand;" />
+                <CheckBox fx:id="chkLocation" text="Inclure ma position (GPS / Domicile)" styleClass="location-checkbox" />
 
                 <Region prefHeight="20" />
 
                 <StackPane>
-                    <Button fx:id="btnEmergency" text="🚨 ALERTER MES PROCHES" onAction="#handleEmergencyAction" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-size: 32px; -fx-font-weight: 900; -fx-padding: 40 60; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.4), 20, 0, 0, 10); -fx-cursor: hand;" />
-                    
-                    <VBox fx:id="cancelBox" alignment="CENTER" spacing="15" visible="false" style="-fx-background-color: #fee2e2; -fx-padding: 30; -fx-background-radius: 20;">
-                        <Label fx:id="lblCountdown" text="Annulation possible : 10s" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #991b1b;" />
-                        <Button text="❌ ANNULER L'ALERTE" onAction="#cancelAlert" style="-fx-background-color: #b91c1c; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20 40; -fx-background-radius: 15; -fx-cursor: hand;" />
-                    </VBox>
+                    <Button fx:id="btnEmergency" text="🚨 DEMANDER L'AIDE MAINTENANT" onAction="#handleEmergencyAction" styleClass="emergency-button" />
                 </StackPane>
+
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                    <Label text="Rechercher à proximité :" style="-fx-font-weight: bold; -fx-text-fill: #475569;" />
+                    <ComboBox fx:id="mapFilterCombo" prefWidth="250" style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-background-radius: 6;" />
+                </HBox>
+
+                <VBox fx:id="mapContainer" prefHeight="300.0" VBox.vgrow="ALWAYS" />
 
             </VBox>
 
-            <VBox spacing="15" prefWidth="350" style="-fx-background-color: white; -fx-padding: 25; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 15, 0, 0, 5);">
-                <Label text="Historique des Alertes" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
-                <ListView fx:id="historyList" VBox.vgrow="ALWAYS" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+            <VBox spacing="15" prefWidth="350" styleClass="aide-card">
+                <Label text="Historique des Alertes" styleClass="section-title" />
+                <ListView fx:id="historyList" VBox.vgrow="ALWAYS" styleClass="history-list" />
             </VBox>
         </HBox>
 

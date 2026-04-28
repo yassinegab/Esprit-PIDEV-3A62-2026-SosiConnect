@@ -10,6 +10,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+
 import org.example.aideEtdon.model.Video;
 import org.example.aideEtdon.service.VideoService;
 

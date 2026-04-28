@@ -22,12 +22,64 @@
 
     <!-- MASTER CENTER STACK -->
     <center>
-        <StackPane fx:id="masterContentArea" style="-fx-padding: 0 20 20 20;">
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <StackPane fx:id="masterContentArea" style="-fx-padding: 0 20 20 20;">
             
-            <!-- MASTER: AIDE PANE (MOCK) -->
-            <VBox fx:id="masterAidePane" alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4); -fx-padding: 40; -fx-max-width: 600; -fx-max-height: 400;" visible="false">
-                <Label text="Panneau Administrateur: Aide" style="-fx-font-size: 28px; -fx-font-weight: 800; -fx-text-fill: #1e293b;" />
-                <Label text="Module en cours de construction par l'équipe." style="-fx-font-size: 16px; -fx-text-fill: #64748b;" />
+            <!-- MASTER: AIDE PANE (REAL) -->
+            <VBox fx:id="masterAidePane" spacing="25.0" visible="false">
+                
+                <!-- Inner Nav Bar for Aide -->
+                <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-padding: 10 30; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 2); -fx-max-width: 500;">
+                    <Button text="🗺️ Gestion Cartographie" styleClass="admin-nav-button, active" />
+                </HBox>
+
+                <VBox spacing="20.0" style="-fx-padding: 10 0;" VBox.vgrow="ALWAYS">
+                    <Label text="Cliquez sur la carte pour définir les coordonnées GPS :" style="-fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                    <VBox fx:id="adminMapContainer" prefHeight="350.0" VBox.vgrow="ALWAYS" />
+                    
+                    <HBox spacing="30.0" VBox.vgrow="ALWAYS">
+                        <!-- Left side: List -->
+                        <VBox spacing="15.0" HBox.hgrow="ALWAYS">
+                            <Label text="Aide: Points de service configurés (Pharmacies/Urgences)" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                                <VBox fx:id="mapLocationsContainer" spacing="15.0" style="-fx-padding: 10;" />
+                            </ScrollPane>
+                        </VBox>
+                        
+                        <Separator orientation="VERTICAL" />
+
+                        <!-- Right side: Add Form -->
+                        <VBox spacing="20.0" prefWidth="350" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 12; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 20, 0, 0, 8);">
+                            <Label text="Nouveau Point" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" />
+                            
+                            <VBox spacing="8.0">
+                                <Label text="Nom / Titre *" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 13px;" />
+                                <TextField fx:id="locNameField" promptText="Pharmacie de Garde..." style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                            </VBox>
+                            
+                            <VBox spacing="8.0">
+                                <Label text="Type *" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 13px;" />
+                                <ComboBox fx:id="locTypeBox" maxWidth="Infinity" style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-background-radius: 8;" />
+                            </VBox>
+
+                            <HBox spacing="10.0">
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <Label text="Latitude *" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 13px;" />
+                                    <TextField fx:id="locLatField" promptText="36.8..." style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                </VBox>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <Label text="Longitude *" style="-fx-font-weight: bold; -fx-text-fill: #475569; -fx-font-size: 13px;" />
+                                    <TextField fx:id="locLngField" promptText="10.1..." style="-fx-background-color: #f8fafc; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;" />
+                                </VBox>
+                            </HBox>
+                            
+                            <Label fx:id="locErrorLabel" visible="false" text="Champs invalides!" style="-fx-text-fill: #ef4444; -fx-font-weight: bold;" />
+
+                            <Region prefHeight="10" />
+                            <Button text="+ Ajouter au Map" onAction="#handleAddMapLocation" maxWidth="Infinity" style="-fx-background-color: linear-gradient(to right, #ef4444, #dc2626); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+                        </VBox>
+                    </HBox>
+                </VBox>
             </VBox>
 
             <!-- MASTER: DON PANE -->
@@ -89,5 +141,6 @@
             </VBox>
             
         </StackPane>
+        </ScrollPane>
     </center>
 </BorderPane>

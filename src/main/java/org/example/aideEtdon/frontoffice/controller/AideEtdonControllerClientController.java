@@ -1,8 +1,5 @@
 package org.example.aideEtdon.frontoffice.controller;
 
-<<<<<<< HEAD
-public class AideEtdonControllerClientController {
-=======
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -111,5 +108,4 @@ public class AideEtdonControllerClientController {
             e.printStackTrace();
         }
     }
->>>>>>> afab8be (Initial commit - aide et don module)
 }

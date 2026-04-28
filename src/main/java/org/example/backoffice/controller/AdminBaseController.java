@@ -20,13 +20,14 @@ public class AdminBaseController {
     @FXML private Button btnWellbeing;
     @FXML private Button btnMedical;
     @FXML private Button btnAide;
+    @FXML private Button btnAlertes;
     @FXML private Button btnCycle;
 
     private List<Button> navButtons;
 
     @FXML
     public void initialize() {
-        navButtons = Arrays.asList(btnDashboard, btnUsers, btnWellbeing, btnMedical, btnAide, btnCycle);
+        navButtons = Arrays.asList(btnDashboard, btnUsers, btnWellbeing, btnMedical, btnAide, btnAlertes, btnCycle);
         // Load default view
         showWellbeingAdmin(); 
     }
@@ -54,11 +55,12 @@ public class AdminBaseController {
 
     @FXML
     private void showAideAdmin() {
-<<<<<<< HEAD
-        loadView("/aideEtdon/backoffice/AideEtdonAdminView.fxml", btnAide);
-=======
         loadView("/aideEtdon/backoffice/AidesEtDonsAdminView.fxml", btnAide);
->>>>>>> afab8be (Initial commit - aide et don module)
+    }
+    
+    @FXML
+    private void showAlertesAdmin() {
+        loadView("/aideEtdon/backoffice/AideEtdonAlertesAdminView.fxml", btnAlertes);
     }
 
     @FXML

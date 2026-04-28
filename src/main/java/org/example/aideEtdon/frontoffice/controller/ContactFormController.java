@@ -118,6 +118,19 @@ public class ContactFormController {
         String tel = fldTel.getText().trim();
 
         if (nom.isEmpty() || email.isEmpty()) {
+            lblError.setText("Veuillez remplir le Nom et l'Email.");
+            lblError.setVisible(true);
+            return;
+        }
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            lblError.setText("Format d'email invalide.");
+            lblError.setVisible(true);
+            return;
+        }
+
+        if (!tel.isEmpty() && !tel.matches("\\\\d{8,15}")) {
+            lblError.setText("Le téléphone doit contenir entre 8 et 15 chiffres.");
             lblError.setVisible(true);
             return;
         }

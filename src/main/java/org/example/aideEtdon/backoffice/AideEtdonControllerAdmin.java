@@ -1,8 +1,5 @@
 package org.example.aideEtdon.backoffice;
 
-<<<<<<< HEAD
-public class AideEtdonControllerAdmin {
-=======
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -12,10 +9,15 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.example.aideEtdon.model.Demande;
 import org.example.aideEtdon.model.Video;
+import org.example.aideEtdon.model.MapLocation;
 import org.example.aideEtdon.service.DemandeService;
 import org.example.aideEtdon.service.VideoService;
+import org.example.aideEtdon.service.MapLocationService;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
 
 import java.util.List;
+import javafx.collections.FXCollections;
 
 public class AideEtdonControllerAdmin {
 
@@ -25,6 +27,16 @@ public class AideEtdonControllerAdmin {
     @FXML private TextField videoTitleField;
     @FXML private TextField videoUrlField;
     @FXML private Label videoErrorLabel;
+
+    @FXML private VBox adminMapContainer;
+    @FXML private VBox mapLocationsContainer;
+    @FXML private TextField locNameField;
+    @FXML private TextField locLatField;
+    @FXML private TextField locLngField;
+    @FXML private ComboBox<String> locTypeBox;
+    @FXML private Label locErrorLabel;
+    
+    private JavaAdminConnector mapConnector = new JavaAdminConnector();
 
     // Master Navigation
     @FXML private Button btnMasterAide;
@@ -40,11 +52,20 @@ public class AideEtdonControllerAdmin {
 
     private DemandeService demandeService;
     private VideoService videoService;
+    private MapLocationService mapLocationService;
 
     @FXML
     public void initialize() {
         demandeService = new DemandeService();
         videoService = new VideoService();
+        mapLocationService = new MapLocationService();
+        
+        if (locTypeBox != null) {
+            locTypeBox.setItems(FXCollections.observableArrayList("Pharmacie", "Urgence", "Hôpital"));
+        }
+        
+        loadMapLocations();
+        initAdminMap();
         
         // Setup initial default views
         showMasterDon();
@@ -216,5 +237,168 @@ public class AideEtdonControllerAdmin {
             e.printStackTrace();
         }
     }
->>>>>>> afab8be (Initial commit - aide et don module)
+
+    private void loadMapLocations() {
+        if (mapLocationsContainer == null) return;
+        try {
+            List<MapLocation> locs = mapLocationService.afficher();
+            mapLocationsContainer.getChildren().clear();
+            for (MapLocation m : locs) {
+                HBox row = new HBox(15);
+                row.getStyleClass().add("admin-row");
+                row.setAlignment(Pos.CENTER_LEFT);
+
+                VBox infoBox = new VBox(5);
+                Label nameLbl = new Label(m.getName());
+                nameLbl.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
+                Label coords = new Label("Lat: " + m.getLatitude() + " | Lng: " + m.getLongitude());
+                coords.setStyle("-fx-text-fill: #64748b; -fx-font-size: 13px;");
+                infoBox.getChildren().addAll(nameLbl, coords);
+
+                Label typeLbl = new Label(m.getType());
+                typeLbl.getStyleClass().add("Urgence".equals(m.getType()) ? "urgent-badge" : "modern-badge");
+
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
+
+                Button btnDel = new Button("Supprimer");
+                btnDel.getStyleClass().add("danger-button");
+                btnDel.setOnAction(e -> {
+                    mapLocationService.supprimer(m.getId());
+                    loadMapLocations();
+                });
+
+                row.getChildren().addAll(infoBox, typeLbl, spacer, btnDel);
+                mapLocationsContainer.getChildren().add(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleAddMapLocation() {
+        if (locErrorLabel == null) return;
+        locErrorLabel.setVisible(false);
+        String name = locNameField.getText().trim();
+        String latStr = locLatField.getText().trim();
+        String lngStr = locLngField.getText().trim();
+        String type = locTypeBox.getValue();
+
+        if (name.isEmpty() || latStr.isEmpty() || lngStr.isEmpty() || type == null) {
+            locErrorLabel.setText("Tous les champs sont requis!");
+            locErrorLabel.setVisible(true);
+            return;
+        }
+
+        try {
+            double lat = Double.parseDouble(latStr);
+            double lng = Double.parseDouble(lngStr);
+            MapLocation m = new MapLocation(name, type, lat, lng);
+            mapLocationService.ajouter(m);
+
+            locNameField.clear();
+            locLatField.clear();
+            locLngField.clear();
+            locTypeBox.getSelectionModel().clearSelection();
+            loadMapLocations();
+        } catch (NumberFormatException e) {
+            locErrorLabel.setText("Lat/Lng invalides!");
+            locErrorLabel.setVisible(true);
+        }
+    }
+
+    public class JavaAdminConnector {
+        public void setCoordinates(double lat, double lng) {
+            javafx.application.Platform.runLater(() -> {
+                if (locLatField != null && locLngField != null) {
+                    locLatField.setText(String.format(java.util.Locale.US, "%.6f", lat));
+                    locLngField.setText(String.format(java.util.Locale.US, "%.6f", lng));
+                }
+            });
+        }
+    }
+
+    private void initAdminMap() {
+        if (adminMapContainer != null) {
+            adminMapContainer.getChildren().clear();
+            WebView mapWebView = new WebView();
+            mapWebView.setMinHeight(350);
+            javafx.scene.layout.VBox.setVgrow(mapWebView, Priority.ALWAYS);
+            adminMapContainer.getChildren().add(mapWebView);
+            
+            WebEngine webEngine = mapWebView.getEngine();
+            webEngine.setJavaScriptEnabled(true);
+            
+            webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+                if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                    netscape.javascript.JSObject window = (netscape.javascript.JSObject) webEngine.executeScript("window");
+                    window.setMember("javaConnector", mapConnector);
+                }
+            });
+            
+            StringBuilder jsonBuilder = new StringBuilder("[");
+            List<org.example.aideEtdon.model.MapLocation> locations = mapLocationService.afficher();
+            for (int i = 0; i < locations.size(); i++) {
+                org.example.aideEtdon.model.MapLocation loc = locations.get(i);
+                jsonBuilder.append("{")
+                        .append("\"lat\":").append(loc.getLatitude()).append(",")
+                        .append("\"lng\":").append(loc.getLongitude()).append(",")
+                        .append("\"name\":\"").append(loc.getName().replace("\"", "\\\"")).append("\",")
+                        .append("\"type\":\"").append(loc.getType().replace("\"", "\\\"")).append("\"")
+                        .append("}");
+                if (i < locations.size() - 1) jsonBuilder.append(",");
+            }
+            jsonBuilder.append("]");
+
+            String htmlContent = """
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Admin Map Picker</title>
+                        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                        <script>window.L_DISABLE_3D = true;</script>
+                        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+                        <style>
+                            body, html { margin: 0; padding: 0; width: 100%%; height: 100%%; overflow: hidden; }
+                            #map { position: absolute; top: 0; bottom: 0; left: 0; right: 0; border-radius: 8px; }
+                        </style>
+                    </head>
+                    <body>
+                    <div id="map"></div>
+                    <script>
+                        try {
+                            var map = L.map('map', {
+                                zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false,
+                                minZoom: 5, maxZoom: 19
+                            }).setView([36.8065, 10.1815], 13);
+                            
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; OpenStreetMap', noWrap: true
+                            }).addTo(map);
+                            
+                            var dbLocations = %s;
+                            dbLocations.forEach(function(loc) {
+                                L.marker([loc.lat, loc.lng]).addTo(map)
+                                    .bindPopup("<b>" + loc.name + "</b><br>" + loc.type);
+                            });
+                            
+                            var currentMarker = null;
+                            map.on('click', function(e) {
+                                if(currentMarker) { map.removeLayer(currentMarker); }
+                                currentMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+                                if (window.javaConnector) { window.javaConnector.setCoordinates(e.latlng.lat, e.latlng.lng); }
+                            });
+                            
+                            setTimeout(function() { map.invalidateSize({pan: false}); }, 450);
+                        } catch(e) { console.error(e); }
+                    </script>
+                    </body>
+                    </html>
+                    """.formatted(jsonBuilder.toString());
+            webEngine.loadContent(htmlContent);
+        }
+    }
 }
+
