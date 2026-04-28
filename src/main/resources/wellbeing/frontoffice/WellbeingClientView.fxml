@@ -321,25 +321,47 @@
     </VBox>
     
     <!-- Chatbot Floating Action Area -->
-    <StackPane AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
+    <VBox AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" spacing="15" alignment="BOTTOM_RIGHT">
         <children>
-            <!-- Floating Bubble Button -->
-            <Button fx:id="chatbotButton" onAction="#toggleChatbot" styleClass="floating-chat-bubble">
-                <graphic>
-                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../../assets/images/chatboticon.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
-            
-            <!-- Notification Badge -->
-            <Circle fx:id="chatbotBadge" fill="#ff4757" radius="8.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" visible="false" StackPane.alignment="TOP_RIGHT">
-                <StackPane.margin>
-                    <Insets right="5.0" top="5.0" />
-                </StackPane.margin>
-            </Circle>
+            <!-- ChatWell AI Button (Premium) -->
+            <StackPane>
+                <Button onAction="#launchChatWell" style="-fx-background-color: linear-gradient(to bottom, #6366f1, #4f46e5); -fx-background-radius: 50%; -fx-min-width: 65; -fx-min-height: 65; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(99, 102, 241, 0.4), 15, 0, 0, 5);">
+                    <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../assets/images/chatboticon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="ChatWell AI Assistant (Voice &amp; Empathy)" />
+                    </tooltip>
+                </Button>
+                <!-- Premium Label -->
+                <Label text="AI" style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-size: 9px; -fx-font-weight: bold; -fx-padding: 2 5; -fx-background-radius: 5;" StackPane.alignment="TOP_RIGHT">
+                    <StackPane.margin><Insets top="5" right="5"/></StackPane.margin>
+                </Label>
+            </StackPane>
+
+            <!-- Standard Chatbot Button -->
+            <StackPane>
+                <children>
+                    <Button fx:id="chatbotButton" onAction="#toggleChatbot" styleClass="floating-chat-bubble">
+                        <graphic>
+                            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../assets/images/chatboticon.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Circle fx:id="chatbotBadge" fill="#ff4757" radius="8.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" visible="false" StackPane.alignment="TOP_RIGHT">
+                        <StackPane.margin>
+                            <Insets right="5.0" top="5.0" />
+                        </StackPane.margin>
+                    </Circle>
+                </children>
+            </StackPane>
         </children>
-    </StackPane>
+    </VBox>
 </AnchorPane>

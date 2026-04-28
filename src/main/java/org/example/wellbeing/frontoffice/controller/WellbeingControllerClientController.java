@@ -200,6 +200,30 @@ public class WellbeingControllerClientController {
         }
     }
 
+    @FXML
+    private void launchChatWell() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/wellbeing/chatwell_view.fxml"));
+            Parent root = loader.load();
+            
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("ChatWell AI - Wellness Assistant");
+            
+            // Premium window style
+            stage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+            javafx.scene.Scene scene = new javafx.scene.Scene(root);
+            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            
+            stage.setScene(scene);
+            stage.show();
+            
+            // Dynamic entry animation could be added here
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Could not start ChatWell Assistant.");
+        }
+    }
+
     public void showMealDetails(Meal meal) {
         hideAllViews();
         try {

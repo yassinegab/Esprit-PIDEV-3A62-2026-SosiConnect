@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.wellbeing.frontoffice.controller.ChatwellAssistantController"
+      prefHeight="700.0" prefWidth="450.0"
+      spacing="0" style="-fx-background-color: #f8fafc; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #e2e8f0; -fx-border-width: 1;">
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: linear-gradient(to right, #6366f1, #4f46e5); -fx-padding: 20; -fx-background-radius: 20 20 0 0;">
+        <Circle fx:id="statusCircle" radius="6" fill="#10b981"/>
+        <VBox>
+            <Label text="ChatWell AI" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <Label text="Your Wellness Companion" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 12px;"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="btnClose" onAction="#handleClose" style="-fx-background-color: rgba(255,255,255,0.1); -fx-text-fill: white; -fx-background-radius: 10; -fx-cursor: hand;" text="✕" />
+    </HBox>
+
+    <!-- Avatar Area (WebView) -->
+    <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white;">
+        <WebView fx:id="webView" prefHeight="350" />
+        
+        <!-- Emotion Display (Floating) -->
+        <VBox alignment="TOP_RIGHT" pickOnBounds="false">
+            <padding>
+                <Insets top="20" right="20"/>
+            </padding>
+            <HBox fx:id="emotionBox" spacing="10" alignment="CENTER" visible="false"
+                  style="-fx-background-color: rgba(255,255,255,0.9); -fx-padding: 10 15; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+                <Label fx:id="lblMood" text="Happy" style="-fx-font-weight: bold; -fx-text-fill: #6366f1;"/>
+                <Separator orientation="VERTICAL" prefHeight="15"/>
+                <Label text="Stress:" style="-fx-text-fill: #64748b;"/>
+                <Label fx:id="lblStress" text="15%" style="-fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </StackPane>
+
+    <!-- Chat Messages Preview -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" prefHeight="150">
+        <VBox fx:id="messageContainer" spacing="10" style="-fx-padding: 15;">
+            <!-- Messages will be added here -->
+        </VBox>
+    </ScrollPane>
+
+    <!-- Bottom Controls -->
+    <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 0 0 20 20;">
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="inputField" HBox.hgrow="ALWAYS" promptText="Type your message..."
+                       style="-fx-background-radius: 20; -fx-padding: 12 20; -fx-background-color: #f1f5f9; -fx-border-color: transparent;"/>
+            <Button onAction="#handleSend" style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 45; -fx-min-height: 45; -fx-cursor: hand;">
+                <text>➤</text>
+            </Button>
+        </HBox>
+        
+        <HBox alignment="CENTER" spacing="20">
+            <Button fx:id="btnRecord" onAction="#handleRecord"
+                    style="-fx-background-color: linear-gradient(to bottom, #ef4444, #dc2626); -fx-text-fill: white; -fx-background-radius: 50%; -fx-min-width: 60; -fx-min-height: 60; -fx-font-size: 20px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.4), 15, 0, 0, 5);">
+                <text>🎙</text>
+            </Button>
+        </HBox>
+    </VBox>
+
+</VBox>

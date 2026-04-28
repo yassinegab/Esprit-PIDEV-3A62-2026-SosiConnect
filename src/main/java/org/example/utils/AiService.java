@@ -26,6 +26,20 @@ public class AiService {
                 .build();
     }
 
+    private final JSONArray chatHistory = new JSONArray();
+
+    private void addToHistory(String role, String content) {
+        JSONObject msg = new JSONObject();
+        msg.put("role", role);
+        msg.put("content", content);
+        chatHistory.put(msg);
+        
+        // Keep only last 10 messages for context
+        if (chatHistory.length() > 10) {
+            chatHistory.remove(0);
+        }
+    }
+
     public String analyzeText(String prompt) {
         return analyzeText(prompt, null);
     }
@@ -37,14 +51,17 @@ public class AiService {
             
             JSONArray messages = new JSONArray();
             
-            // System prompt with context if available
-            StringBuilder systemContent = new StringBuilder("You are SosiApp's Wellbeing Assistant. " +
-                    "You must ONLY talk about user wellbeing, health, mental health, diet, stress management, and physical activity. " +
-                    "If a user asks about anything unrelated, politely explain that you are specialized in wellbeing.\n\n");
+            // System prompt
+            StringBuilder systemContent = new StringBuilder("You are ChatWell, SosiApp's intelligent Mental Health and Wellbeing Assistant.\n" +
+                    "Your personality: Extremely empathetic, professional, calm, and encouraging.\n" +
+                    "Your rules:\n" +
+                    "1. ONLY discuss wellbeing, mental health, stress, diet, and physical health.\n" +
+                    "2. If the user is stressed or sad, offer validation and small, actionable wellness tips.\n" +
+                    "3. KEEP RESPONSES CONCISE (max 3-4 sentences) so they are easy to hear via voice synthesis.\n" +
+                    "4. If a user is in crisis, recommend professional medical help immediately.\n\n");
             
             if (context != null && !context.isEmpty()) {
-                systemContent.append("USER DATA CONTEXT:\n").append(context).append("\n\n");
-                systemContent.append("Use this data to provide personalized and accurate advice. Reference specific facts from this context when relevant.");
+                systemContent.append("CURRENT USER WELLBEING DATA:\n").append(context).append("\n\n");
             }
 
             JSONObject systemMessage = new JSONObject();
@@ -52,6 +69,12 @@ public class AiService {
             systemMessage.put("content", systemContent.toString());
             messages.put(systemMessage);
 
+            // Add history
+            for (int i = 0; i < chatHistory.length(); i++) {
+                messages.put(chatHistory.get(i));
+            }
+
+            // Add current prompt
             JSONObject userMessage = new JSONObject();
             userMessage.put("role", "user");
             userMessage.put("content", prompt);
@@ -59,38 +82,42 @@ public class AiService {
             
             body.put("messages", messages);
 
-            System.out.println("[AI Service] Sending request to: " + API_URL);
-            System.out.println("[AI Service] API Key present: " + (API_KEY != null && !API_KEY.isEmpty()));
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_URL))
                     .header("Authorization", "Bearer " + API_KEY)
                     .header("HTTP-Referer", "http://localhost")
-                    .header("X-Title", "SosiApp")
+                    .header("X-Title", "SosiApp ChatWell")
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
                     .timeout(Duration.ofSeconds(30))
                     .build();
 
-            System.out.println("[AI Service] Request Body: " + body.toString());
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("[AI Service] Response Code: " + response.statusCode());
-            System.out.println("[AI Service] Response Body: " + response.body());
 
             if (response.statusCode() == 200) {
                 JSONObject jsonResponse = new JSONObject(response.body());
-                return jsonResponse.getJSONArray("choices")
+                String aiResponse = jsonResponse.getJSONArray("choices")
                         .getJSONObject(0)
                         .getJSONObject("message")
                         .getString("content");
+                
+                // Save to history
+                addToHistory("user", prompt);
+                addToHistory("assistant", aiResponse);
+                
+                return aiResponse;
             } else {
-                return "Erreur AI: Code " + response.statusCode() + " - " + response.body();
+                return "Je suis désolé, je rencontre une difficulté technique. Pouvez-vous répéter ?";
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Erreur AI: " + e.getMessage();
+            return "Une erreur est survenue lors de notre échange.";
         }
+    }
+
+    public void clearHistory() {
+        while (chatHistory.length() > 0) chatHistory.remove(0);
     }
 
     public String analyzeMeal(String imagePath, String description) {
